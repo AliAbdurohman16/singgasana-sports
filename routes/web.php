@@ -32,7 +32,6 @@ Route::post('membership/triple', [App\Http\Controllers\Frontend\MembershipContro
 Route::post('membership/family', [App\Http\Controllers\Frontend\MembershipController::class, 'storeFamily'])->name('membership.family');
 Route::post('membership/student', [App\Http\Controllers\Frontend\MembershipController::class, 'storeStudent'])->name('membership.student');
 Route::post('membership/community', [App\Http\Controllers\Frontend\MembershipController::class, 'storeCommunity'])->name('membership.community');
-Route::get('cek', [App\Http\Controllers\Frontend\PageController::class, 'cek'])->name('cek');
 
 Auth::routes(['register' => false]);
 
