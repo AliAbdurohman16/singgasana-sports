@@ -33,9 +33,9 @@ Route::post('membership/family', [App\Http\Controllers\Frontend\MembershipContro
 Route::post('membership/student', [App\Http\Controllers\Frontend\MembershipController::class, 'storeStudent'])->name('membership.student');
 Route::post('membership/community', [App\Http\Controllers\Frontend\MembershipController::class, 'storeCommunity'])->name('membership.community');
 
-Auth::routes(['register' => false]);
+Auth::routes(['verify' => true]);
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('dashboard');
     Route::resources([
         'category' => App\Http\Controllers\Backend\CategoryController::class,

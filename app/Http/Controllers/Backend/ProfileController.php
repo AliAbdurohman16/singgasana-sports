@@ -30,6 +30,9 @@ class ProfileController extends Controller
             'image' => 'mimes:jpg,png,jpeg|image|max:2048',
             'name' => 'required',
             'email' => $rules,
+            'telephone' => 'required|min:10|max:13',
+            'address' => 'required|max:255',
+
         ]);
 
         if ($request->hasFile('image')) {
@@ -49,6 +52,8 @@ class ProfileController extends Controller
             'image' => $imageName,
             'name' => $request->name,
             'email' => $request->email,
+            'telephone' => $request->telephone,
+            'address' => $request->address,
         ]);
 
         return redirect()->back()->with('message', 'Data berhasil diubah!');

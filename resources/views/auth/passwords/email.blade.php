@@ -33,7 +33,7 @@
     </form>
     <div class="text-center mt-5 text-lg fs-4">
         <p class="text-gray-600">
-          Sudah Punya Akun?
+          Sudah punya akun?
           <a href="{{ route('login') }}" class="font-bold">Masuk</a>.
         </p>
     </div>

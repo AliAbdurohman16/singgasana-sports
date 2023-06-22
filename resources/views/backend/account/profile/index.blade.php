@@ -90,6 +90,24 @@
                                             </div>
                                         @enderror
                                     </div>
+                                    <div class="form-group">
+                                        <label for="first-name-column">No Telepon</label>
+                                        <input type="number" name="telephone" class="form-control @error('telephone') is-invalid @enderror" value="{{ $profile->telephone }}" placeholder="No Telepone" />
+                                        @error('telephone')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="first-name-column">Alamat</label>
+                                        <textarea name="address" class="form-control @error('address') is-invalid @enderror" placeholder="Alamat">{{ $profile->address }}</textarea>
+                                        @error('address')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
                                     <input type="submit" class="btn btn-primary me-1 mb-1" value="Simpan">
