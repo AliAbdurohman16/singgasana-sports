@@ -14,15 +14,13 @@ return new class extends Migration {
     {
         Schema::create('memberships', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_lengkap');
-            $table->string('nama_penanggung')->nullable();
-            $table->string('tipe_membership');
-            $table->string('email');
-            $table->string('notelp');
-            $table->string('booking_until');
-            $table->string('alamat');
-            $table->string('csv')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('type');
+            $table->datetime('datetime');
+            $table->string('duration');
+            $table->datetime('expired');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

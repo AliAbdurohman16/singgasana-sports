@@ -31,6 +31,7 @@
     <link href="{{ asset('frontend') }}/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="{{ asset('frontend') }}/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="{{ asset('frontend') }}/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    @yield('css')
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('frontend') }}/assets/css/style.css" rel="stylesheet">
@@ -94,7 +95,7 @@
                     </ul>
                 </li>
                 <li><a class="nav-link scrollto" href="{{ route('blog.index') }}">Blog</a></li>
-                <li><a class="nav-link scrollto" href="#members">Keanggotaan</a></li>
+                <li><a class="nav-link scrollto" href="{{ route('memberships') }}">Keanggotaan</a></li>
                 <li><a class="nav-link scrollto" href="{{ route('contact.index') }}">Kontak Kami</a></li>
                 <li><a class="getstarted scrollto" href="{{ route('login') }}">Masuk</a></li>
             </ul>
@@ -184,6 +185,7 @@
 <script src="{{ asset('frontend') }}/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 <script src="{{ asset('frontend') }}/assets/vendor/swiper/swiper-bundle.min.js"></script>
 <script src="{{ asset('frontend') }}/assets/vendor/php-email-form/validate.js"></script>
+@yield('script')
 
 <!-- Template Main JS File -->
 <script src="{{ asset('frontend') }}/assets/js/main.js"></script>
@@ -195,7 +197,6 @@
         crossorigin="anonymous"></script>
 
 <!-- Using this while rendering some javascript on some page -->
-@stack('script')
 
 </body>
 
