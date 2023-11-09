@@ -127,7 +127,7 @@
                 <div class="row gy-4" data-aos="fade-left">
                     <div class="col-lg-6 col-md-6" data-aos="zoom-in" data-aos-delay="100" style="display: flex; justify-content: center; align-items: center;">
                         <div class="box">
-                            <h3 style="color: #07d5c0;">Personal</h3>
+                            <h3 style="color: #07d5c0;">Harian</h3>
                             <img src="{{ asset('frontend') }}/assets/img/pricing/personal.webp" class="img-fluid" alt="membership">
                             <a href="{{ route('memberships') }}" class="btn-buy">Pilih Sekarang</a>
                         </div>

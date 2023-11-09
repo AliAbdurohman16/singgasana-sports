@@ -44,12 +44,13 @@
                                 <div class="col-md-12">
                                     <select class="form-control" name="type" id="type" required>
                                         <option value="">-- Pilih Tipe --</option>
-                                        <option value="Personal">Personal</option>
+                                        <option value="Harian">Harian</option>
                                         <option value="Member">Member</option>
                                     </select>
                                 </div>
                                 <div class="col-md-12">
                                     <select name="sports[]" id="sports" placeholder="Olahraga" data-search="true" data-silent-initial-value-set="true" multiple>
+                                        <option value="Personal">Personal</option>
                                         <option value="Swimming Pool">Swimming Pool</option>
                                         <option value="Basket">Basket</option>
                                         <option value="Badminton">Badminton</option>
