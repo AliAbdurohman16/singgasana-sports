@@ -26,13 +26,8 @@ Route::get('facilities/{slug}', [App\Http\Controllers\Frontend\FacilityControlle
 Route::get('pages/{slug}', [App\Http\Controllers\Frontend\PageController::class, 'index'])->name('pages.index');
 Route::get('gallery', [App\Http\Controllers\Frontend\GalleryController::class, 'index'])->name('gallery.index');
 Route::get('contact', [App\Http\Controllers\Frontend\ContactController::class, 'index'])->name('contact.index');
-Route::get('memberships', [App\Http\Controllers\Frontend\MembershipController::class, 'index'])->name('memberships');
-Route::post('membership/personal', [App\Http\Controllers\Frontend\MembershipController::class, 'storePersonal'])->name('membership.personal');
-Route::post('membership/couple', [App\Http\Controllers\Frontend\MembershipController::class, 'storeCouple'])->name('membership.couple');
-Route::post('membership/triple', [App\Http\Controllers\Frontend\MembershipController::class, 'storeTriple'])->name('membership.triple');
-Route::post('membership/family', [App\Http\Controllers\Frontend\MembershipController::class, 'storeFamily'])->name('membership.family');
-Route::post('membership/student', [App\Http\Controllers\Frontend\MembershipController::class, 'storeStudent'])->name('membership.student');
-Route::post('membership/community', [App\Http\Controllers\Frontend\MembershipController::class, 'storeCommunity'])->name('membership.community');
+Route::get('booking', [App\Http\Controllers\Frontend\BookingController::class, 'index'])->name('booking');
+Route::post('booking', [App\Http\Controllers\Frontend\BookingController::class, 'store'])->name('booking.store');
 
 Auth::routes(['verify' => true]);
 
