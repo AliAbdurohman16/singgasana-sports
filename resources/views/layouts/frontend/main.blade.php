@@ -35,14 +35,6 @@
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('frontend') }}/assets/css/style.css" rel="stylesheet">
-
-    <!-- =======================================================
-    * Template Name: FlexStart
-    * Updated: Mar 10 2023 with Bootstrap v5.2.3
-    * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
-    * Author: BootstrapMade.com
-    * License: https://bootstrapmade.com/license/
-    ======================================================== -->
 </head>
 
 <body>
@@ -50,9 +42,8 @@
 <header id="header" class="header fixed-top">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-        <a href="index.html" class="logo d-flex align-items-center">
-            <img src="{{ asset('frontend') }}/assets/img/Logo-SSRC-cut.webp" alt="">
-            {{--            <span>Singgasana Sports</span>--}}
+        <a href="{{ route('/') }}" class="logo d-flex align-items-center">
+            <img src="{{ asset('frontend') }}/assets/img/Logo-SSRC-cut.webp" alt="logo">
         </a>
 
         <nav id="navbar" class="navbar">
@@ -112,7 +103,7 @@
         <div class="container">
             <div class="row gy-4">
                 <div class="col-lg-5 col-md-12 footer-info">
-                    <a href="index.html" class="logo d-flex align-items-center">
+                    <a href="{{ route('/') }}" class="logo d-flex align-items-center">
                         <img src="{{ asset('storage/setting/' . $setting->logo) }}" alt="logo">
 
                     </a>
