@@ -251,17 +251,33 @@ section {
   color: #4154f1;
 }
 
-.navbar .getstarted,
-.navbar .getstarted:focus {
-  background: #4154f1;
+.navbar .getlogin,
+.navbar .getlogin:focus {
+  border: 2px solid #4154f1;
+  background: #fff;
   padding: 8px 20px;
   margin-left: 30px;
+  border-radius: 4px;
+  color: #4154f1;
+}
+
+.navbar .getlogin:hover,
+.navbar .getlogin:focus:hover {
+  color: #fff;
+  background: #5969f3;
+}
+
+.navbar .getregister,
+.navbar .getregister:focus {
+  background: #4154f1;
+  padding: 10px 22px;
+  margin-left: 10px;
   border-radius: 4px;
   color: #fff;
 }
 
-.navbar .getstarted:hover,
-.navbar .getstarted:focus:hover {
+.navbar .getregister:hover,
+.navbar .getregister:focus:hover {
   color: #fff;
   background: #5969f3;
 }
@@ -402,9 +418,16 @@ section {
   color: #4154f1;
 }
 
-.navbar-mobile .getstarted,
-.navbar-mobile .getstarted:focus {
+.navbar-mobile .getlogin,
+.navbar-mobile .getlogin:focus {
   margin: 15px;
+  justify-content: center;
+}
+
+.navbar-mobile .getregister,
+.navbar-mobile .getregister:focus {
+  margin: 15px;
+  justify-content: center;
 }
 
 .navbar-mobile .dropdown ul {
