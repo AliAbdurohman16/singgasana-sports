@@ -83,9 +83,10 @@
                     </ul>
                 </li>
                 <li><a class="nav-link scrollto {{ request()->is('blog') ? 'active' : '' }}" href="{{ route('blog.index') }}">Blog</a></li>
-                <li><a class="nav-link scrollto {{ request()->is('memberships') ? 'active' : '' }}" href="{{ route('memberships') }}">Keanggotaan</a></li>
+                <li><a class="nav-link scrollto {{ request()->is('booking') ? 'active' : '' }}" href="{{ route('booking') }}">Booking</a></li>
                 <li><a class="nav-link scrollto {{ request()->is('contact') ? 'active' : '' }}" href="{{ route('contact.index') }}">Kontak Kami</a></li>
-                <li><a class="getstarted scrollto" href="{{ route('login') }}">Masuk</a></li>
+                <li><a class="getlogin scrollto" href="{{ route('login') }}">Masuk</a></li>
+                <li><a class="getregister scrollto" href="{{ route('register') }}">Daftar</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
@@ -172,7 +173,6 @@
 <script src="{{ asset('frontend') }}/assets/vendor/glightbox/js/glightbox.min.js"></script>
 <script src="{{ asset('frontend') }}/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 <script src="{{ asset('frontend') }}/assets/vendor/swiper/swiper-bundle.min.js"></script>
-<script src="{{ asset('frontend') }}/assets/vendor/php-email-form/validate.js"></script>
 @yield('script')
 
 <!-- Template Main JS File -->
