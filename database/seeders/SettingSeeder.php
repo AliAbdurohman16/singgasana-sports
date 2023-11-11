@@ -20,7 +20,7 @@ class SettingSeeder extends Seeder
             'logo' => 'Logo-SSRC-cut.webp',
             'favicon' => 'favicon.png',
             'hero' => 'hero-img.png',
-            'slogan' => 'Tempat olahraga dan rekreasi terpopuler di Kota Bandung dengan banyak pilihan venue',
+            'slogan' => 'Sarana olah raga dan rekreasi keluarga terletak di kawasan exclusive Permukiman Singgasana Pradana – Bandung. Terdapat fasilitas olahraga dan sarana rekreasi untuk warga sekitar & masyarakat luas',
             'visitors' => '232',
             'event' => '521',
             'venue' => '1463',
