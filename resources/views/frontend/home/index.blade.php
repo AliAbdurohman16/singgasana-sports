@@ -13,7 +13,7 @@
                         <div class="text-center text-lg-start">
                             <a href="#pricing"
                                class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
-                                <span>Get Started</span>
+                                <span>Daftar Sekarang</span>
                                 <i class="bi bi-arrow-right"></i>
                             </a>
                         </div>
@@ -129,7 +129,7 @@
                         <div class="box">
                             <h3 style="color: #07d5c0;">Harian</h3>
                             <img src="{{ asset('frontend') }}/assets/img/pricing/personal.webp" class="img-fluid" alt="membership">
-                            <a href="{{ route('memberships') }}" class="btn-buy">Pilih Sekarang</a>
+                            <a href="{{ route('booking') }}" class="btn-buy">Pilih Sekarang</a>
                         </div>
                     </div>
 
@@ -137,7 +137,7 @@
                         <div class="box">
                             <h3 style="color: #ff901c;">Member</h3>
                             <img src="{{ asset('frontend') }}/assets/img/pricing/triple.webp" class="img-fluid" alt="membership">
-                            <a href="{{ route('memberships') }}" class="btn-buy">Pilih Sekarang</a>
+                            <a href="{{ route('booking') }}" class="btn-buy">Pilih Sekarang</a>
                         </div>
                     </div>
                 </div>
@@ -165,7 +165,7 @@
                                 <span class="post-date"><i class="bi bi-clock"></i> {{ date('d-M-Y', strtotime($row->created_at)) }}</span>
                                 <h3 class="post-title">{{ $row->title }}</h3>
                                 <a href="{{ route('blog.single', $row->slug) }}"
-                                   class="readmore stretched-link mt-auto"><span>Read More</span><i
+                                   class="readmore stretched-link mt-auto"><span>Selengkapnya</span><i
                                         class="bi bi-arrow-right"></i></a>
                             </div>
                         </div>
