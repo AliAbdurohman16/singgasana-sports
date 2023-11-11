@@ -13,12 +13,25 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
         <div class="form-group position-relative has-icon-left mb-4">
-            <input type="text" name="name" class="form-control form-control-xl @error('name')is-invalid @enderror"
-                value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="{{ __('Nama Lengkap') }}">
+            <input type="text" name="first_name" class="form-control form-control-xl @error('first_name')is-invalid @enderror"
+                value="{{ old('first_name') }}" required autocomplete="first_name" autofocus placeholder="{{ __('Nama Depan') }}">
             <div class="form-control-icon">
                 <i class="bi bi-people"></i>
             </div>
-            @error('name')
+            @error('first_name')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+
+        <div class="form-group position-relative has-icon-left mb-4">
+            <input type="text" name="last_name" class="form-control form-control-xl @error('last_name')is-invalid @enderror"
+                value="{{ old('last_name') }}" required autocomplete="last_name" autofocus placeholder="{{ __('Nama Belakang') }}">
+            <div class="form-control-icon">
+                <i class="bi bi-people"></i>
+            </div>
+            @error('last_name')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
@@ -72,19 +85,6 @@
             <div class="form-control-icon">
                 <i class="bi bi-shield-lock"></i>
             </div>
-        </div>
-
-        <div class="form-group position-relative has-icon-left mb-4">
-            <input type="text" name="address" class="form-control form-control-xl @error('address')is-invalid @enderror"
-                value="{{ old('address') }}" required autocomplete="address" placeholder="{{ __('Alamat') }}">
-            <div class="form-control-icon">
-                <i class="bi bi-geo-alt"></i>
-            </div>
-            @error('address')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
         </div>
 
         <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" type="submit">

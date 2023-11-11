@@ -11,9 +11,9 @@
                     <h2 data-aos="fade-up" data-aos-delay="400">{{ $setting->slogan }}</h2>
                     <div data-aos="fade-up" data-aos-delay="600">
                         <div class="text-center text-lg-start">
-                            <a href="#pricing"
+                            <a href="#booking"
                                class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
-                                <span>Daftar Sekarang</span>
+                                <span>Join Sekarang</span>
                                 <i class="bi bi-arrow-right"></i>
                             </a>
                         </div>
@@ -116,12 +116,12 @@
         </section><!-- End Counts Section -->
 
         <!-- ======= Pricing Section ======= -->
-        <section id="members" class="pricing">
+        <section id="booking" class="pricing">
 
             <div class="container" data-aos="fade-up">
 
                 <header class="section-header">
-                    <h2>Keanggotaan</h2>
+                    <h2>Booking</h2>
                     <p>Ada dua jenis keanggotaan yang kami tawarkan yaitu Personal dan Member.</p>
                 </header>
                 <div class="row gy-4" data-aos="fade-left">
