@@ -2120,13 +2120,13 @@ section {
   margin-bottom: 0;
 }
 
-.contact .php-email-form {
+.contact .form-booking {
   background: #fafbff;
   padding: 30px;
   height: 100%;
 }
 
-.contact .php-email-form .error-message {
+.contact .form-booking .error-message {
   display: none;
   color: #fff;
   background: #ed3c0d;
@@ -2136,7 +2136,7 @@ section {
   font-weight: 600;
 }
 
-.contact .php-email-form .sent-message {
+.contact .form-booking .sent-message {
   display: none;
   color: #fff;
   background: #18d26e;
@@ -2146,7 +2146,7 @@ section {
   font-weight: 600;
 }
 
-.contact .php-email-form .loading {
+.contact .form-booking .loading {
   display: none;
   background: #fff;
   text-align: center;
@@ -2154,7 +2154,7 @@ section {
   margin-bottom: 24px;
 }
 
-.contact .php-email-form .loading:before {
+.contact .form-booking .loading:before {
   content: "";
   display: inline-block;
   border-radius: 50%;
@@ -2166,28 +2166,28 @@ section {
   animation: animate-loading 1s linear infinite;
 }
 
-.contact .php-email-form input,
-.contact .php-email-form textarea {
+.contact .form-booking input,
+.contact .form-booking textarea {
   border-radius: 0;
   box-shadow: none;
   font-size: 14px;
   border-radius: 5px;
 }
 
-.contact .php-email-form input:focus,
-.contact .php-email-form textarea:focus {
+.contact .form-booking input:focus,
+.contact .form-booking textarea:focus {
   border-color: #4154f1;
 }
 
-.contact .php-email-form input {
+.contact .form-booking input {
   padding: 10px 15px;
 }
 
-.contact .php-email-form textarea {
+.contact .form-booking textarea {
   padding: 12px 15px;
 }
 
-.contact .php-email-form button[type=submit] {
+.contact .form-booking button[type=submit] {
   background: #4154f1;
   border: 0;
   padding: 10px 30px;
@@ -2196,7 +2196,7 @@ section {
   border-radius: 4px;
 }
 
-.contact .php-email-form button[type=submit]:hover {
+.contact .form-booking button[type=submit]:hover {
   background: #5969f3;
 }
 
