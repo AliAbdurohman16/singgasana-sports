@@ -10,6 +10,8 @@
     <?php $setting = App\Models\Setting::first(); ?>
     <link href="{{ asset('storage/setting/' . $setting->favicon) }}" rel="icon">
     <link href="{{ asset('storage/setting/' . $setting->favicon) }}" rel="apple-touch-icon">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/main/app.css" />
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/main/app-dark.css" />
