@@ -26,8 +26,11 @@ Route::get('facilities/{slug}', [App\Http\Controllers\Frontend\FacilityControlle
 Route::get('pages/{slug}', [App\Http\Controllers\Frontend\PageController::class, 'index'])->name('pages.index');
 Route::get('gallery', [App\Http\Controllers\Frontend\GalleryController::class, 'index'])->name('gallery.index');
 Route::get('contact', [App\Http\Controllers\Frontend\ContactController::class, 'index'])->name('contact.index');
-Route::get('booking', [App\Http\Controllers\Frontend\BookingController::class, 'index'])->name('booking');
-Route::post('booking', [App\Http\Controllers\Frontend\BookingController::class, 'store'])->name('booking.store');
+Route::get('booking/daily', [App\Http\Controllers\Frontend\BookingController::class, 'index'])->name('booking.daily');
+Route::post('booking/daily', [App\Http\Controllers\Frontend\BookingController::class, 'store'])->name('booking.store');
+Route::get('booking/member', [App\Http\Controllers\Frontend\BookingController::class, 'member'])->name('booking.member');
+Route::post('booking/member', [App\Http\Controllers\Frontend\BookingController::class, 'storeMember'])->name('booking.storeMember');
+Route::get('booking/schedule', [App\Http\Controllers\Frontend\BookingController::class, 'schedule'])->name('booking.schedule');
 
 Auth::routes(['verify' => true]);
 
