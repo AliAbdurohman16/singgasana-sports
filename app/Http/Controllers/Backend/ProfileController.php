@@ -28,7 +28,8 @@ class ProfileController extends Controller
 
         $request->validate([
             'image' => 'mimes:jpg,png,jpeg|image|max:2048',
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => $rules,
             'telephone' => 'required|min:10|max:13',
             'address' => 'required|max:255',
@@ -50,7 +51,8 @@ class ProfileController extends Controller
 
         $profile->update([
             'image' => $imageName,
-            'name' => $request->name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
             'telephone' => $request->telephone,
             'address' => $request->address,
