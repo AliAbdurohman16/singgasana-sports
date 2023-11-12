@@ -83,7 +83,13 @@
                     </ul>
                 </li>
                 <li><a class="nav-link scrollto {{ request()->is('blog') ? 'active' : '' }}" href="{{ route('blog.index') }}">Blog</a></li>
-                <li><a class="nav-link scrollto {{ request()->is('booking') ? 'active' : '' }}" href="{{ route('booking') }}">Booking</a></li>
+                <li class="dropdown"><a class="{{ request()->is('booking/*') ? 'active' : '' }}" href=""><span>Booking</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li><a class="{{ request()->is('booking/daily') ? 'active' : '' }}" href="{{ route('booking.daily') }}">Harian</a></li>
+                        <li><a class="{{ request()->is('booking/member') ? 'active' : '' }}" href="{{ route('booking.member') }}">Member</a></li>
+                        <li><a class="{{ request()->is('booking/schedule') ? 'active' : '' }}" href="{{ route('booking.schedule') }}">Cek Jadwal</a></li>
+                    </ul>
+                </li>
                 <li><a class="nav-link scrollto {{ request()->is('contact') ? 'active' : '' }}" href="{{ route('contact.index') }}">Kontak Kami</a></li>
                 <li><a class="getlogin scrollto" href="{{ route('login') }}">Masuk</a></li>
                 <li><a class="getregister scrollto" href="{{ route('register') }}">Daftar</a></li>
