@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sports', function (Blueprint $table) {
+        Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('membership_id')->nullable();
             $table->string('name');
+            $table->decimal('price_daily', 10, 2);
+            $table->decimal('price_member', 10, 2);
             $table->timestamps();
-            $table->foreign('membership_id')->references('id')->on('memberships')->onDelete('cascade');
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sports');
+        Schema::dropIfExists('services');
     }
 };

@@ -12,15 +12,20 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('memberships', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('type');
+        Schema::create('booking_members', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('service_id');
             $table->datetime('datetime');
             $table->string('duration');
             $table->datetime('expired');
+            $table->decimal('total', 15, 2);
+            $table->string('pin')->nullable();
+            $table->string('qr')->nullable();
+            $table->enum('status', ['pending', 'success', 'expired'])->default('pending');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
         });
     }
 
@@ -31,6 +36,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('memberships');
+        Schema::dropIfExists('booking_members');
     }
 };
