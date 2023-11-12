@@ -73,9 +73,18 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="first-name-column">Nama Lengkap</label>
-                                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ $profile->name }}" placeholder="Nama Lengkap" />
-                                        @error('name')
+                                        <label for="first-name-column">Nama Depan</label>
+                                        <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror" value="{{ $profile->first_name }}" placeholder="Nama Depan" />
+                                        @error('first_name')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="first-name-column">Nama Belakang</label>
+                                        <input type="text" name="last_name" class="form-control @error('last_name') is-invalid @enderror" value="{{ $profile->last_name }}" placeholder="Nama Belakang" />
+                                        @error('last_name')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -94,15 +103,6 @@
                                         <label for="first-name-column">No Telepon</label>
                                         <input type="number" name="telephone" class="form-control @error('telephone') is-invalid @enderror" value="{{ $profile->telephone }}" placeholder="No Telepone" />
                                         @error('telephone')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="first-name-column">Alamat</label>
-                                        <textarea name="address" class="form-control @error('address') is-invalid @enderror" placeholder="Alamat">{{ $profile->address }}</textarea>
-                                        @error('address')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>

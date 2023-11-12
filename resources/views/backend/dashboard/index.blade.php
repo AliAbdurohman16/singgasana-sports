@@ -101,7 +101,7 @@
                     @endif
                   </div>
                   <div class="ms-3 name">
-                    <h5 class="font-bold">{{ $profile->name }}</h5>
+                    <h5 class="font-bold">{{ $profile->first_name }}</h5>
                     <h6 class="text-muted mb-0">{{ $profile->email }}</h6>
                   </div>
                 </div>
