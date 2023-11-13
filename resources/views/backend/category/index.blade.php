@@ -4,8 +4,8 @@
 
 @section('content')
 <!-- Css -->
-<link rel="stylesheet" href="{{ asset('backend') }}/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css"/>
-<link rel="stylesheet" href="{{ asset('backend') }}/assets/css/pages/datatables.css"/>
+<link rel="stylesheet" href="{{ asset('backend') }}/assets/extensions/simple-datatables/style.css"/>
+<link rel="stylesheet" href="{{ asset('backend') }}/assets/css/pages/simple-datatables.css" />
 <link rel="stylesheet" href="{{ asset('backend') }}/assets/extensions/toastify-js/src/toastify.css"/>
 <link rel="stylesheet" href="{{ asset('backend') }}/assets/extensions/sweetalert2/sweetalert2.min.css"/>
 
@@ -150,8 +150,8 @@
 
 <!-- Js -->
 <script src="{{ asset('backend') }}/assets/extensions/jquery/jquery.min.js"></script>
-<script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
-<script src="{{ asset('backend') }}/assets/js/pages/datatables.js"></script>
+<script src="{{ asset('backend') }}/assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
+<script src="{{ asset('backend') }}/assets/js/pages/simple-datatables.js"></script>
 <script src="{{ asset('backend') }}/assets/extensions/toastify-js/src/toastify.js"></script>
 <script src="{{ asset('backend') }}/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
 @if (Session::has('message'))
@@ -168,14 +168,14 @@
 </script>
 @endif
 <script>
-    $(".btn-delete").click(function() {
+    $(document).on('click', '.btn-delete', function() {
         var id = $(this).data("id");
         Swal.fire({
             title: 'Hapus',
             text: "Apakah anda yakin ingin menghapus?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#435ebe',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Ya, Hapus!',
             cancelButtonText: 'Batal',
