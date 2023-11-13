@@ -45,7 +45,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="first-name-column">Nama</label>
-                                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ $facility->name }}" placeholder="Nama" />
+                                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ $facility->name }}" placeholder="Nama" readonly>
                                         @error('name')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
