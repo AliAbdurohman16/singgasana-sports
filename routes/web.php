@@ -36,6 +36,10 @@ Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('booking/dailies', [App\Http\Controllers\Frontend\BookingController::class, 'index'])->name('booking.dailies');
+    // Route::post('booking/dailies', [App\Http\Controllers\Frontend\BookingController::class, 'store'])->name('booking.store');
+    Route::get('booking/members', [App\Http\Controllers\Frontend\BookingController::class, 'member'])->name('booking.members');
+    // Route::post('booking/members', [App\Http\Controllers\Frontend\BookingController::class, 'storeMember'])->name('booking.storeMember');
     Route::resources([
         'category' => App\Http\Controllers\Backend\CategoryController::class,
         'write_articles' => App\Http\Controllers\Backend\WriteArticlesController::class,
@@ -47,6 +51,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'profile' => App\Http\Controllers\Backend\ProfileController::class,
         'change_password' => App\Http\Controllers\Backend\ChangePasswordController::class,
         'setting' => App\Http\Controllers\Backend\SettingController::class,
-        'membership' => App\Http\Controllers\Backend\MembershipController::class,
+        'services' => App\Http\Controllers\Backend\ServiceController::class,
     ]);
 });
