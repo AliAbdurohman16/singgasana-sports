@@ -33,9 +33,9 @@
     <!-- Basic Tables start -->
     <section class="section">
       <div class="card">
-        <div class="card-header">
+        {{-- <div class="card-header">
             <button class="btn btn-primary btn-sm" onclick="window.location='/facility/create'"><i class="fas fa-plus"></i> Tambah Data</button>
-        </div>
+        </div> --}}
         <div class="card-body">
           <table class="table categories-table" id="table1">
             <thead>
@@ -64,7 +64,7 @@
                 <td>
                   <button class="btn btn-info btn-sm mb-2" onclick="window.location='{{ route('facilities.index', $row->slug) }}'"><i class="fas fa-eye"></i> Detail</button>
                   <button class="btn btn-warning btn-sm mb-2" onclick="window.location='/facility/{{ $row->id }}/edit'"><i class="fas fa-edit"></i> Edit</button>
-                  <button class="btn btn-danger btn-delete btn-sm mb-2" data-id="{{ $row->id }}"><i class="fas fa-trash"></i> Hapus</button>
+                  {{-- <button class="btn btn-danger btn-delete btn-sm mb-2" data-id="{{ $row->id }}"><i class="fas fa-trash"></i> Hapus</button> --}}
                 </td>
               </tr>
             @endforeach
@@ -96,14 +96,14 @@
 </script>
 @endif
 <script>
-    $(".btn-delete").click(function() {
+    $(document).on('click', '.btn-delete', function() {
         var id = $(this).data("id");
         Swal.fire({
             title: 'Hapus',
             text: "Apakah anda yakin ingin menghapus?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#435ebe',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Ya, Hapus!',
             cancelButtonText: 'Batal',
