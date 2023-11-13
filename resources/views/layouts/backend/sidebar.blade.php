@@ -50,11 +50,26 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item {{ Request::is('membership*') ? 'active' : '' }}">
-                    <a href="{{  route('membership.index') }}" class="sidebar-link">
+                <li class="sidebar-item {{ Request::is('services*') ? 'active' : '' }}">
+                    <a href="{{ route('services.index') }}" class="sidebar-link">
+                        <i class="bi bi-list-check"></i>
+                        <span>Layanan</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item has-sub {{ Request::is('booking*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
                         <i class="bi bi-ticket-detailed-fill"></i>
                         <span>Data Booking</span>
                     </a>
+                    <ul class="submenu {{ Request::is('booking*') ? 'active' : '' }}">
+                        <li class="submenu-item {{ Request::is('booking/dailies*') ? 'active' : '' }}">
+                            <a href="{{ route('booking.dailies') }}">Harian</a>
+                        </li>
+                        <li class="submenu-item {{ Request::is('booking/members*') ? 'active' : '' }}">
+                            <a href="{{ route('booking.members') }}">Member</a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li class="sidebar-item has-sub {{ Request::is(['gallery_categories*', 'gallery_images*']) ? 'active' : '' }}">
