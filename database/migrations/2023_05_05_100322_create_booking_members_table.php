@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->datetime('expired');
             $table->decimal('total', 15, 2);
             $table->string('pin')->nullable();
-            $table->string('qr')->nullable();
+            $table->text('qr')->nullable();
             $table->enum('status', ['pending', 'success', 'expired'])->default('pending');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

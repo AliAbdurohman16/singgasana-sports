@@ -1,39 +1,15 @@
 @component('mail::message')
-
-<img src="{{ asset('icon/checked.png') }}" alt="Circle Check" style="display:block;margin:auto;margin-bottom:20px;text-align:center;width:100px;">
-<h1 class="text-center mb-4">Invoice Booking Harian</h1>
-<div class="row">
-    <div class="col-12">
-        <h2 class="mt-4 mb-2">Booking ID : <b>{{ $data['id'] }}</b></h2>
-        <div class="dashed mb-2"></div>
-        <div class="row mb-2">
-            <div class="col-4"><b>Nama Lengkap</b></div>
-            <div class="col-8">{{ $data['first_name'] }} {{ $data['last_name'] }}</div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-4"><b>Layanan</b></div>
-            <div class="col-8">{{ $data['service'] }}</div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-4"><b>Tanggal Dibooking</b></div>
-            <div class="col-8">{{ date('d-m-Y H:i:s', strtotime($data['datetime'])) }}</div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-4"><b>Durasi</b></div>
-            <div class="col-8">{{ $data['duration'] }}</div>
-        </div>
-        <div class="dashed mb-2"></div>
-        <div class="row mb-2">
-            <div class="col-4"><b>Pembayaran :</b></div>
-            <div class="col-8"><b>Cash</b></div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-4"><b>Total Payment :</b></div>
-            <div class="col-8 total">Rp 160.000</div>
-        </div>
-        <div class="dashed mb-2 mt-2"></div>
-        <div class="foot">1. Silahkan lakukan pembayaran ke kasir</div>
-        <div class="foot">2. Serahkan invoice ini ke kasir untuk divalidasi pembayarannya</div>
-    </div>
-</div>
+<img src="https://compro.justnear.my.id/icon/checked.png" alt="Circle Check" class="img-fluid" style="display:block;margin:auto;margin-bottom:20px;text-align:center;width:50px;">
+<h1 class="text-center mb-4">Validasi Berhsasil</h1>
+<div class="row mb-2"><div class="col-12">Halo {{ $data->first_name }},</div></div>
+<div class="row mb-2"><div class="col-12">Kami senang memberitahu Anda bahwa proses validasi Anda baru-baru ini berhasil. Berikut adalah kode PIN Anda:</div></div>
+<h1>{{ $data->pin }}</h1>
+<div class="row mb-2"><div class="col-12">Harap simpan PIN ini dengan kerahasiaan dan gunakan untuk proses masuk Anda ke dalam ruangan.</div></div>
+<div class="row mb-2"><div class="col-12">Harap diingat bahwa kode PIN ini akan berlaku hingga <b>{{ $data->expired }}</b>. Setelah waktu tersebut, kode ini akan tidak berlaku dan Anda perlu melakukan proses booking kembali.</div></div>
+<div class="row mb-2"><div class="col-12">Selain itu, kami telah membuatkan kode QR untuk kenyamanan Anda:</div></div>
+<div class="row mb-2"><div class="col-12">{!! $data->qr !!}</div></div>
+<div class="row mb-2"><div class="col-12">Jika Anda memiliki pertanyaan atau kekhawatiran, jangan ragu untuk menghubungi tim dukungan kami.</div></div>
+<div class="row mb-4"><div class="col-12">Terima kasih telah memilih layanan kami!</div></div>
+<div class="row mb-2"><div class="col-12">Salam Hangat,</div></div>
+<div class="row mb-2"><div class="col-12">Singgasana Sports and Recreation Centre</div></div>
 @endcomponent

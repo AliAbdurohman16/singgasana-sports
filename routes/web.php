@@ -36,10 +36,13 @@ Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('dashboard');
-    Route::get('booking/dailies', [App\Http\Controllers\Frontend\BookingController::class, 'index'])->name('booking.dailies');
-    // Route::post('booking/dailies', [App\Http\Controllers\Frontend\BookingController::class, 'store'])->name('booking.store');
-    Route::get('booking/members', [App\Http\Controllers\Frontend\BookingController::class, 'member'])->name('booking.members');
-    // Route::post('booking/members', [App\Http\Controllers\Frontend\BookingController::class, 'storeMember'])->name('booking.storeMember');
+    Route::get('booking/histories', [App\Http\Controllers\Backend\BookingController::class, 'index'])->name('booking.histories');
+    Route::get('booking/dailies', [App\Http\Controllers\Backend\BookingController::class, 'daily'])->name('booking.dailies');
+    Route::get('booking/dailies/{id}', [App\Http\Controllers\Backend\BookingController::class, 'showDaily'])->name('booking.showDaily');
+    Route::put('booking/dailies/{id}', [App\Http\Controllers\Backend\BookingController::class, 'validationDaily'])->name('booking.validationDaily');
+    Route::get('booking/members', [App\Http\Controllers\Backend\BookingController::class, 'member'])->name('booking.members');
+    Route::post('booking/members', [App\Http\Controllers\Backend\BookingController::class, 'memberStore'])->name('booking.memberStore');
+    Route::put('booking/members/{id}', [App\Http\Controllers\Backend\BookingController::class, 'validationMember'])->name('booking.validationMember');
     Route::resources([
         'category' => App\Http\Controllers\Backend\CategoryController::class,
         'write_articles' => App\Http\Controllers\Backend\WriteArticlesController::class,

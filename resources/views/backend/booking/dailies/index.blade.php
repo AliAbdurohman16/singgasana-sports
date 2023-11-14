@@ -1,6 +1,6 @@
 @extends('layouts.backend.main')
 
-@section('title', 'Membership')
+@section('title', 'Booking Harian')
 
 @section('content')
     <!-- Css -->
@@ -13,13 +13,13 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last mb-3">
-                    <h3>Data Booking</h3>
+                    <h3>Data Booking Harian</h3>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('membership.index') }}">Membership</a>
+                                <a href="{{ route('booking.dailies') }}">Booking Harian</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 List
@@ -34,9 +34,7 @@
         <section class="section">
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-primary btn-sm" onclick="window.location='/membership/create'"><i
-                            class="fas fa-plus"></i> Tambah Data
-                    </button>
+                    <button class="btn btn-primary btn-validation btn-sm mb-2"><i class="fas fa-qrcode"></i> Scan QR</button>
                 </div>
                 <div class="card-body">
                     <table class="table categories-table" id="table1">
@@ -44,47 +42,45 @@
                         <tr>
                             <th width="5%">No</th>
                             <th>Nama Lengkap</th>
-                            <th>Nama Penanggung Jawab</th>
                             <th>Email</th>
                             <th>No Telp</th>
-                            <th>Tipe Membership</th>
-                            <th>Durasi Membership</th>
-                            <th>Alamat</th>
+                            <th>Layanan</th>
+                            <th>Durasi</th>
+                            <th>Tanggal Mulai</th>
+                            <th>Tanggal Selesai</th>
+                            <th>Total</th>
+                            <th>Status</th>
                             <th width="20%">Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($memberships as $membership)
+                        @foreach ($dailies as $row)
                             <tr>
-                                <input type="hidden" class="delete_id" value="{{ $membership->id }}">
+                                <input type="hidden" class="delete_id" value="{{ $row->id }}">
                                 <td>{{ $loop->iteration }}</td>
 
-                                <td>{{ $membership->nama_lengkap }}</td>
-                                @if($membership->nama_penanggung == '')
-                                    <td>-</td>
-                                @else
-                                    <td>{{ $membership->nama_penanggung }}</td>
-                                @endif
-                                <td>{{ $membership->email }}</td>
-                                <td>{{ $membership->notelp }}</td>
-                                <td>{{ $membership->tipe_membership }}</td>
-                                <td>{{ $membership->booking_until }}</td>
-                                <td>{{ $membership->alamat }}</td>
+                                <td>{{ $row->first_name }} {{ $row->last_name }}</td>
+                                <td>{{ $row->email }}</td>
+                                <td>{{ $row->telephone }}</td>
+                                <td>{{ $row->service }}</td>
+                                <td>{{ $row->duration }}</td>
+                                <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
+                                <td>{{ date('d-m-Y H:i:s', strtotime($row->expired)) }}</td>
+                                <td>Rp {{ number_format($row->total, 0, ',', '.') }}</td>
                                 <td>
-                                    <button class="btn btn-info btn-sm mb-2"
-                                            data-id="{{$membership->id}}">
-                                        <i
-                                            class="fas fa-eye"></i> Detail
-                                    </button>
-                                    <button class="btn btn-warning btn-sm mb-2"
-                                            onclick="window.location='membership/{{ $membership->id }}/edit'">
-                                        <i
-                                            class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button class="btn btn-danger btn-delete btn-sm mb-2"
-                                            data-id="{{ $membership->id }}"><i
-                                            class="fas fa-trash"></i> Hapus
-                                    </button>
+                                    @if ($row->status == 'pending')
+                                        <span class="badge bg-secondary">Pending</span>
+                                    @elseif ($row->status == 'success')
+                                        <span class="badge bg-success">Success</span>
+                                    @else
+                                        <span class="badge bg-danger">Expired</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm mb-2" onclick="window.location='dailies/{{ $row->id }}'"><i class="fas fa-eye"></i> Detail</button>
+                                    @if ($row->status == 'pending')
+                                        <button class="btn btn-success btn-validation btn-sm mb-2" data-id="{{ $row->id }}"><i class="fas fa-check"></i> Validasi</button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -116,22 +112,22 @@
         </script>
     @endif
     <script>
-        $(document).on('click', '.btn-delete', function() {
+        $(document).on('click', '.btn-validation', function() {
             var id = $(this).data("id");
             Swal.fire({
                 title: 'Hapus',
-                text: "Apakah anda yakin ingin menghapus?",
+                text: "Apakah anda yakin ingin memvalidasi data ini?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#435ebe',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Hapus!',
+                confirmButtonText: 'Ya, Validasi!',
                 cancelButtonText: 'Batal',
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "page/" + id,
-                        type: 'DELETE',
+                        url: "dailies/" + id,
+                        type: 'PUT',
                         data: {
                             "id": id,
                             "_token": $('meta[name="csrf-token"]').attr('content'),
@@ -147,6 +143,9 @@
                                 }
                             });
                         },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
                     });
                 }
             })
