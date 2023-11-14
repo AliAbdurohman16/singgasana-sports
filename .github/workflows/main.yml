@@ -1,5 +1,10 @@
 name: 🚀 Deploy website on push to hosting
-on: push
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
 
 jobs:
   web-deploy:
