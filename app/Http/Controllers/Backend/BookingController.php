@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use App\Mail\ValidationBookingDailyMail;
 use App\Mail\ValidationBookingMemberMail;
 
@@ -37,11 +38,15 @@ class BookingController extends Controller
         $pin = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 
         // Generate QR Code
-        $qr = QrCode::size(100)->generate($pin);
+        $qrCode = QrCode::size(100)->generate($pin);
+        $qrCodePath = 'qr_codes/' . $daily->id . '_qr.png'; // Path to save the QR code
+
+        // Save QR code image to the public directory
+        Storage::disk('public')->put($qrCodePath, $qrCode);
 
         $daily->update([
             'pin' => $pin,
-            'qr' => $qr,
+            'qr' => asset($qrCodePath),
             'status' => 'success',
         ]);
 
