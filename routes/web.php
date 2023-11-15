@@ -42,6 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('booking/dailies/{id}', [App\Http\Controllers\Backend\BookingController::class, 'validationDaily'])->name('booking.validationDaily');
     Route::get('booking/members', [App\Http\Controllers\Backend\BookingController::class, 'member'])->name('booking.members');
     Route::post('booking/members', [App\Http\Controllers\Backend\BookingController::class, 'memberStore'])->name('booking.memberStore');
+    Route::get('booking/members/{id}', [App\Http\Controllers\Backend\BookingController::class, 'showMember'])->name('booking.showMembers');
     Route::put('booking/members/{id}', [App\Http\Controllers\Backend\BookingController::class, 'validationMember'])->name('booking.validationMember');
     Route::resources([
         'category' => App\Http\Controllers\Backend\CategoryController::class,

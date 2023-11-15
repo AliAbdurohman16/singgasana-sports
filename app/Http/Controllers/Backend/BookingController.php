@@ -66,7 +66,30 @@ class BookingController extends Controller
 
     public function validationMember(Request $request, $id)
     {
-        //
+        $member = BookingMember::where('id', $id)->first();
+
+        // Generate a 6-Digit PIN
+        $pin = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+
+        // Generate QR Code
+        $qr = QrCode::size(100)->generate($pin);
+
+        $member->update([
+            'pin' => $pin,
+            'qr' => $qr,
+            'status' => 'success',
+        ]);
+
+        Mail::to($member->user->email)->send(new ValidationBookingMemberMail($member));
+
+        return response()->json(['message' => 'Data berhasil divalidasi!']);
+    }
+
+    public function showMember($id)
+    {
+        $member = BookingMember::where('id', $id)->first();
+
+        return view('backend.booking.members.detail', compact('member'));
     }
 
     public function memberStore(Request $request)
