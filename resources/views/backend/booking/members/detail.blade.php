@@ -73,7 +73,7 @@
                             <td>{{ number_format($member->total, 0, ',', '.') }}</td>
                         </tr>
                         @if ($member->status == 'success')
-                            @if ($member->service == 'Swimming Pool')
+                            @if ($member->service->name == 'Swimming Pool')
                                 <tr>
                                     <td class="fw-bold">QR Code</td>
                                     <td>:</td>
