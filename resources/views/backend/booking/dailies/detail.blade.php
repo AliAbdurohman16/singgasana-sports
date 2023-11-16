@@ -78,7 +78,7 @@
                                     <td class="fw-bold">QR Code</td>
                                     <td>:</td>
                                     <td>
-                                        {!! $daily->qr !!}
+                                        <img src="{{ asset('qr_codes/' . $daily->qr) }}" width="20%" alt="QR Code">
                                     </td>
                                 </tr>
                             @else

@@ -39,9 +39,16 @@ class BookingController extends Controller
         // Generate QR Code
         $qr = QrCode::size(100)->generate($pin);
 
+        // Save QR Code as PNG
+        $qrPath = public_path('qr_codes/'); // Folder to save QR codes
+        $qrFileName = 'qr_' . time() . '.png'; // Generate a unique file name
+
+        // Save QR code as PNG
+        QrCode::size(300)->format('png')->generate($pin, $qrPath . $qrFileName);
+
         $daily->update([
             'pin' => $pin,
-            'qr' => $qr,
+            'qr' => $qrFileName,
             'status' => 'success',
         ]);
 
@@ -74,9 +81,16 @@ class BookingController extends Controller
         // Generate QR Code
         $qr = QrCode::size(100)->generate($pin);
 
+        // Save QR Code as PNG
+        $qrPath = public_path('qr_codes/'); // Folder to save QR codes
+        $qrFileName = 'qr_' . time() . '.png'; // Generate a unique file name
+
+        // Save QR code as PNG
+        QrCode::size(300)->format('png')->generate($pin, $qrPath . $qrFileName);
+
         $member->update([
             'pin' => $pin,
-            'qr' => $qr,
+            'qr' => $qrFileName,
             'status' => 'success',
         ]);
 
