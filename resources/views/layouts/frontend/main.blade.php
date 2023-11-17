@@ -91,8 +91,12 @@
                     </ul>
                 </li>
                 <li><a class="nav-link scrollto {{ request()->is('contact') ? 'active' : '' }}" href="{{ route('contact.index') }}">Kontak Kami</a></li>
+                @if (Auth::user())
+                <li><a class="getlogin scrollto" href="{{ route('dashboard') }}">Dashboard</a></li>
+                @else
                 <li><a class="getlogin scrollto" href="{{ route('login') }}">Masuk</a></li>
                 <li><a class="getregister scrollto" href="{{ route('register') }}">Daftar</a></li>
+                @endif
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
