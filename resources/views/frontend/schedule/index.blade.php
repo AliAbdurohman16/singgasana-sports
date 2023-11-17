@@ -46,160 +46,24 @@
 <script src="{{ asset('frontend') }}/assets/vendor/jquery/jquery.min.js"></script>
 <script src="{{ asset('frontend') }}/assets/vendor/fullcalendar/index.global.min.js"></script>
 <script>
+    var schedules = {!! json_encode($schedules) !!};
+
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'listWeek',
-          timeZone: 'Asia/Jakarta',
-          locale: 'id',
-          slotMinTime: '8:00:00',
-          slotMaxTime: '24:00:00',
-          events: [
-            {
-                title: 'Badminton',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'blue',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-            {
-                title: 'Tennis',
-                start: '2023-11-11 08:00:00',
-                end: '2023-11-11 09:00:00',
-                eventColor: 'red',
-            },
-          ],
+            initialView: 'listWeek',
+            timeZone: 'Asia/Jakarta',
+            locale: 'id',
+            slotMinTime: '6:00:00',
+            slotMaxTime: '24:00:00',
+            events: schedules.map(function(schedule) {
+                return {
+                    title: schedule.service,
+                    start: schedule.datetime,
+                    end: schedule.expired,
+                    eventColor: 'blue',
+                };
+            }),
         });
         calendar.render();
     });

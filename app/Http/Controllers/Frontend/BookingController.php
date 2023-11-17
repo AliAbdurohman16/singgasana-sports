@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service;
-use App\Models\Schedule;
 use App\Models\BookingDaily;
 use App\Models\BookingMember;
 use Illuminate\Http\Request;
@@ -99,6 +98,8 @@ class BookingController extends Controller
 
     public function schedule()
     {
-        return view('frontend.schedule.index');
+        $schedules = BookingDaily::all();
+
+        return view('frontend.schedule.index', compact('schedules'));
     }
 }
