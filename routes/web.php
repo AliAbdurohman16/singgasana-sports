@@ -56,5 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'change_password' => App\Http\Controllers\Backend\ChangePasswordController::class,
         'setting' => App\Http\Controllers\Backend\SettingController::class,
         'services' => App\Http\Controllers\Backend\ServiceController::class,
+        'officers' => App\Http\Controllers\Backend\OfficerController::class,
+        'users' => App\Http\Controllers\Backend\UserController::class,
     ]);
 });
