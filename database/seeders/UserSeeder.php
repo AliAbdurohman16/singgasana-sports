@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('1234567890'),
         ]);
 
-        $cashier->assignRole('user');
+        $cashier->assignRole('cashier');
 
         $user = User::create([
             'first_name' => 'User',
