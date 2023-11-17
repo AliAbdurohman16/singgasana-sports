@@ -49,7 +49,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'timeGridDay',
+          initialView: 'listWeek',
           timeZone: 'Asia/Jakarta',
           locale: 'id',
           slotMinTime: '8:00:00',
