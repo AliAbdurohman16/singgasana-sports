@@ -1,5 +1,5 @@
-name: 🚀 Deploy website on push to hosting
-on: 
+name: 🚀 Deployment
+on:
   workflow_dispatch:
   push:
     branches:
@@ -11,18 +11,25 @@ jobs:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v2
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
 
-    - name: Install composer dependencies
-      run: composer install
+      - name: Install composer dependencies
+        uses: php-actions/composer@v6
+        with:
+          php_version: "8.2"
+          progress: yes
 
-    - name: Install npm modules
-      run: npm install
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+      - run: npm install
+      - run: npm run build
 
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.2
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USER }}
-        password: ${{ secrets.FTP_PASSWORD }}
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.2
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
