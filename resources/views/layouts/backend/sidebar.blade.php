@@ -18,6 +18,7 @@
                     </a>
                 </li>
 
+                @if (Auth::user()->hasRole('admin'))
                 <li class="sidebar-item has-sub {{ Request::is(['write_articles*', 'article*', 'category*']) ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-pen-fill"></i>
@@ -56,7 +57,9 @@
                         <span>Layanan</span>
                     </a>
                 </li>
+                @endif
 
+                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('cashier'))
                 <li class="sidebar-item has-sub {{ Request::is('booking*') ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-ticket-detailed-fill"></i>
@@ -71,7 +74,9 @@
                         </li>
                     </ul>
                 </li>
+                @endif
 
+                @if (Auth::user()->hasRole('admin'))
                 <li class="sidebar-item has-sub {{ Request::is(['gallery_categories*', 'gallery_images*']) ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-image-fill"></i>
@@ -87,7 +92,29 @@
                     </ul>
                 </li>
 
-                <li class="sidebar-title">Akun &amp; Pengaturan</li>
+                <li class="sidebar-title">Petugas &amp; Pengguna</li>
+
+                <li class="sidebar-item {{ Request::is('officers*') ? 'active' : '' }}">
+                    <a href="{{ route('officers.index') }}" class="sidebar-link">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Data Petugas</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item {{ Request::is('users*') ? 'active' : '' }}">
+                    <a href="{{ route('users.index') }}" class="sidebar-link">
+                        <i class="fas fa-user"></i>
+                        <span>Data Pengguna</span>
+                    </a>
+                </li>
+                @endif
+
+                <li class="sidebar-title">
+                    Akun
+                    @if (Auth::user()->hasRole('admin'))
+                    &amp; Pengaturan
+                    @endif
+                </li>
 
                 <li class="sidebar-item has-sub {{ Request::is(['profile*', 'change_password*']) ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
@@ -104,12 +131,14 @@
                     </ul>
                 </li>
 
+                @if (Auth::user()->hasRole('admin'))
                 <li class="sidebar-item {{ Request::is('setting*') ? 'active' : '' }}">
                     <a href="{{ route('setting.index') }}" class="sidebar-link">
                         <i class="bi bi-gear-fill"></i>
                         <span>Pengaturan</span>
                     </a>
                 </li>
+                @endif
 
                 <li class="sidebar-item">
                     <a href="{{ route('logout') }}" class="sidebar-link"
