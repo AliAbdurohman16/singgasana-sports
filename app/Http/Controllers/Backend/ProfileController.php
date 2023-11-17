@@ -29,10 +29,8 @@ class ProfileController extends Controller
         $request->validate([
             'image' => 'mimes:jpg,png,jpeg|image|max:2048',
             'first_name' => 'required',
-            'last_name' => 'required',
             'email' => $rules,
             'telephone' => 'required|min:10|max:13',
-            'address' => 'required|max:255',
 
         ]);
 
@@ -55,7 +53,6 @@ class ProfileController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'telephone' => $request->telephone,
-            'address' => $request->address,
         ]);
 
         return redirect()->back()->with('message', 'Data berhasil diubah!');
