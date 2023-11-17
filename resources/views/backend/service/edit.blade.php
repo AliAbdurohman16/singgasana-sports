@@ -11,7 +11,7 @@
     <div class="page-title">
       <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last mb-3">
-          <h3>Tambah Data</h3>
+          <h3>Edit Data</h3>
           <a href="{{ route('services.index') }}" class="btn btn-warning btn-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
@@ -21,7 +21,7 @@
                 <a href="{{ route('services.index') }}">Layanan</a>
               </li>
               <li class="breadcrumb-item active" aria-current="page">
-                Tambah Data
+                Edit Data
               </li>
             </ol>
           </nav>
@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="first-name-column">Harga Member (/bulan)</label>
-                                        <input type="text" id="price_member" name="price_member" id="#price_member" class="form-control @error('price_member') is-invalid @enderror" value="{{ old('price_member', intval($service->price_member)) }}" placeholder="Harga Member (/bulan)" />
+                                        <input type="text" name="price_member" id="price_member" class="form-control @error('price_member') is-invalid @enderror" value="{{ old('price_member', intval($service->price_member)) }}" placeholder="Harga Member (/bulan)" />
                                         @error('price_member')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -70,7 +70,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-center">
-                                    <input type="submit" class="btn btn-primary me-1 mb-1" value="Simpan">
+                                    <input type="submit" class="btn btn-primary me-1 mb-1 btn-block" value="Simpan">
                                 </div>
 
                             </div>
