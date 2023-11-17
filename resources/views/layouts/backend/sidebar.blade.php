@@ -18,6 +18,22 @@
                     </a>
                 </li>
 
+                @if (Auth::user()->hasRole('user'))
+                <li class="sidebar-item {{ Request::is('booking/members/create*') ? 'active' : '' }}">
+                    <a href="{{ route('booking.createMembers') }}" class="sidebar-link">
+                        <i class="bi bi-ticket-detailed-fill"></i>
+                        <span>Daftar Booking</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item {{ Request::is('booking/histories*') ? 'active' : '' }}">
+                    <a href="{{ route('booking.histories') }}" class="sidebar-link">
+                        <i class="bi bi-list-check"></i>
+                        <span>Riwayat Booking</span>
+                    </a>
+                </li>
+                @endif
+
                 @if (Auth::user()->hasRole('admin'))
                 <li class="sidebar-item has-sub {{ Request::is(['write_articles*', 'article*', 'category*']) ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">

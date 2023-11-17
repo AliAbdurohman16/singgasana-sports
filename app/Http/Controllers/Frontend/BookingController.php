@@ -94,7 +94,7 @@ class BookingController extends Controller
         ]);
 
         Mail::to($user->email)->send(new InvoiceBookingMemberMail($data));
-        return redirect('booking/member')->with('message', 'Booking berhasil! Mohon periksa email yang telah Anda daftarkan pada formulir yang tadi diisi.');
+        return redirect('booking/member')->with('message', 'Booking berhasil! Mohon periksa email yang telah terdaftar.');
     }
 
     public function schedule()

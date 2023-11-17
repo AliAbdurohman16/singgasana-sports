@@ -36,27 +36,36 @@ Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [App\Http\Controllers\Backend\DashboardController::class, 'index'])->name('dashboard');
-    Route::get('booking/histories', [App\Http\Controllers\Backend\BookingController::class, 'index'])->name('booking.histories');
-    Route::get('booking/dailies', [App\Http\Controllers\Backend\BookingController::class, 'daily'])->name('booking.dailies');
-    Route::get('booking/dailies/{id}', [App\Http\Controllers\Backend\BookingController::class, 'showDaily'])->name('booking.showDaily');
-    Route::put('booking/dailies/{id}', [App\Http\Controllers\Backend\BookingController::class, 'validationDaily'])->name('booking.validationDaily');
-    Route::get('booking/members', [App\Http\Controllers\Backend\BookingController::class, 'member'])->name('booking.members');
-    Route::post('booking/members', [App\Http\Controllers\Backend\BookingController::class, 'memberStore'])->name('booking.memberStore');
-    Route::get('booking/members/{id}', [App\Http\Controllers\Backend\BookingController::class, 'showMember'])->name('booking.showMembers');
-    Route::put('booking/members/{id}', [App\Http\Controllers\Backend\BookingController::class, 'validationMember'])->name('booking.validationMember');
     Route::resources([
-        'category' => App\Http\Controllers\Backend\CategoryController::class,
-        'write_articles' => App\Http\Controllers\Backend\WriteArticlesController::class,
-        'article' => App\Http\Controllers\Backend\ArticleController::class,
-        'page' => App\Http\Controllers\Backend\PageController::class,
-        'facility' => App\Http\Controllers\Backend\FacilityController::class,
-        'gallery_categories' => App\Http\Controllers\Backend\GalleryCategoriesController::class,
-        'gallery_images' => App\Http\Controllers\Backend\GalleryController::class,
         'profile' => App\Http\Controllers\Backend\ProfileController::class,
         'change_password' => App\Http\Controllers\Backend\ChangePasswordController::class,
-        'setting' => App\Http\Controllers\Backend\SettingController::class,
-        'services' => App\Http\Controllers\Backend\ServiceController::class,
-        'officers' => App\Http\Controllers\Backend\OfficerController::class,
-        'users' => App\Http\Controllers\Backend\UserController::class,
     ]);
+
+    Route::middleware('checkUserRole:user')->group(function () {
+        Route::get('booking/histories', [App\Http\Controllers\Backend\BookingController::class, 'index'])->name('booking.histories');
+        Route::get('booking/create', [App\Http\Controllers\Backend\BookingController::class, 'create'])->name('booking.createMembers');
+        Route::post('booking/store', [App\Http\Controllers\Backend\BookingController::class, 'store'])->name('booking.storeMembers');
+    });
+
+    Route::middleware('checkUserRole:admin,cashier')->group(function () {
+        Route::get('booking/dailies', [App\Http\Controllers\Backend\BookingController::class, 'daily'])->name('booking.dailies');
+        Route::get('booking/dailies/{id}', [App\Http\Controllers\Backend\BookingController::class, 'showDaily'])->name('booking.showDaily');
+        Route::put('booking/dailies/{id}', [App\Http\Controllers\Backend\BookingController::class, 'validationDaily'])->name('booking.validationDaily');
+        Route::get('booking/members', [App\Http\Controllers\Backend\BookingController::class, 'member'])->name('booking.members');
+        Route::get('booking/members/{id}', [App\Http\Controllers\Backend\BookingController::class, 'showMember'])->name('booking.showMembers');
+        Route::put('booking/members/{id}', [App\Http\Controllers\Backend\BookingController::class, 'validationMember'])->name('booking.validationMember');
+        Route::resources([
+            'category' => App\Http\Controllers\Backend\CategoryController::class,
+            'write_articles' => App\Http\Controllers\Backend\WriteArticlesController::class,
+            'article' => App\Http\Controllers\Backend\ArticleController::class,
+            'page' => App\Http\Controllers\Backend\PageController::class,
+            'facility' => App\Http\Controllers\Backend\FacilityController::class,
+            'gallery_categories' => App\Http\Controllers\Backend\GalleryCategoriesController::class,
+            'gallery_images' => App\Http\Controllers\Backend\GalleryController::class,
+            'setting' => App\Http\Controllers\Backend\SettingController::class,
+            'services' => App\Http\Controllers\Backend\ServiceController::class,
+            'officers' => App\Http\Controllers\Backend\OfficerController::class,
+            'users' => App\Http\Controllers\Backend\UserController::class,
+        ]);
+    });
 });

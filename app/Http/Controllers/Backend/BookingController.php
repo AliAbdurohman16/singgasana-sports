@@ -5,21 +5,61 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\BookingDaily;
 use App\Models\BookingMember;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use App\Mail\ValidationBookingDailyMail;
 use App\Mail\ValidationBookingMemberMail;
+use App\Mail\InvoiceBookingMemberMail;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 {
     public function index()
     {
-        $histories = BookingMember::orderBy('status', 'asc')->get();
+        $histories = BookingMember::where('user_id', Auth::user()->id)
+                        ->orderBy('status', 'asc')
+                        ->get();
 
         return view('backend.booking.histories.index', compact('histories'));
+    }
+
+    public function create()
+    {
+        $services = Service::all();
+
+        return view('backend.booking.create', compact('services'));
+    }
+
+    public function store(Request $request)
+    {
+        // get the currently logged in user
+        $user = Auth::user();
+
+        // if the user is not logged in, redirect to the login page
+        if (!$user) {
+            return redirect('login');
+        }
+
+        $datetime = $request->datetime;
+
+        $expired = Carbon::parse($datetime)->addHours(intval($request->duration));
+
+        $data = BookingMember::create([
+            'user_id' => $user->id,
+            'service_id' => $request->service,
+            'datetime' => $datetime,
+            'duration' => $request->duration,
+            'total' => $request->total,
+            'expired' => $expired,
+        ]);
+
+        Mail::to($user->email)->send(new InvoiceBookingMemberMail($data));
+        return redirect('booking/create')->with('message', 'Booking berhasil! Mohon periksa email yang telah terdaftar.');
     }
 
     public function daily()
@@ -104,10 +144,5 @@ class BookingController extends Controller
         $member = BookingMember::where('id', $id)->first();
 
         return view('backend.booking.members.detail', compact('member'));
-    }
-
-    public function memberStore(Request $request)
-    {
-        //
     }
 }
