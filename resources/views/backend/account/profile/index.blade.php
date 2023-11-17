@@ -50,11 +50,13 @@
                                         <div class="ms-3 name">
                                           <h5 class="font-bold">{{ $profile->name }}</h5>
                                           <h6 class="text-muted mb-2">{{ $profile->email }}</h6>
+                                          @if (!Auth::user()->hasRole('cashier'))
                                           <form action="{{ route('profile.destroy', $profile->id) }}" method="POST">
                                               @csrf
                                               @method('DELETE')
                                               <button type="submit" class="btn btn-danger btn-sm">Hapus Foto</button>
                                           </form>
+                                          @endif
                                         </div>
                                       </div>
                                     </div>
@@ -63,6 +65,7 @@
                             <form action="{{ route('profile.store') }}" method="POST" class="form" enctype="multipart/form-data" data-parsley-validate>
                                 @csrf
                                 <div class="col-12">
+                                    @if (!Auth::user()->hasRole('cashier'))
                                     <div class="form-group">
                                         <label for="city-column">Foto</label>
                                         <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror" accept="image/*" onchange="previewImg()"/>
@@ -72,6 +75,7 @@
                                             </div>
                                         @enderror
                                     </div>
+                                    @endif
                                     <div class="form-group">
                                         <label for="first-name-column">Nama Depan</label>
                                         <input type="text" name="first_name" class="form-control @error('first_name') is-invalid @enderror" value="{{ $profile->first_name }}" placeholder="Nama Depan" />
@@ -109,8 +113,8 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="d-flex justify-content-end">
-                                    <input type="submit" class="btn btn-primary me-1 mb-1" value="Simpan">
+                                <div class="d-flex justify-content-center">
+                                    <input type="submit" class="btn btn-primary me-1 mb-1 btn-block" value="Simpan">
                                 </div>
                             </form>
                         </div>
