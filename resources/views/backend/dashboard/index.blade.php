@@ -163,8 +163,8 @@
             initialView: 'listWeek',
             timeZone: 'Asia/Jakarta',
             locale: 'id',
-            slotMinTime: '6:00:00',
-            slotMaxTime: '24:00:00',
+            slotMinTime: '00:00:00',
+            slotMaxTime: '00:00:00',
             events: schedules.map(function(schedule) {
                 return {
                     title: schedule.service,
