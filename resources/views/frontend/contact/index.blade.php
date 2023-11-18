@@ -64,6 +64,10 @@
 
                 </div>
 
+                <p>
+                    <iframe style="border: 0;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15841.625519395582!2d107.5972868!3d-6.9612954!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x5309b909297374ae!2sSinggasana+Sport+%26+Recreation+Centre!5e0!3m2!1sen!2sid!4v1499333387988" width="100%" height="450" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+                </p>
+
             </div>
 
         </div>
