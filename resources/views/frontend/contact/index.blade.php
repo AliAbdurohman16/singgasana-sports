@@ -35,29 +35,29 @@
                             <div class="info-box">
                                 <i class="bi bi-geo-alt"></i>
                                 <h3>Alamat Kami</h3>
-                                <p>Bandung <br>
-                                    Jawa Barat</p>
+                                <p>{{ $setting->address1 }}</p>
+                                <p>{{ $setting->address2 }}</p>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="info-box">
                                 <i class="bi bi-envelope"></i>
                                 <h3>Email</h3>
-                                <p>singgasanasnr@gmail.com</p>
+                                <p>{{ $setting->email }}</p>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="info-box">
                                 <i class="bi bi-telephone"></i>
                                 <h3>Hubungi Kami</h3>
-                                <p>P : +62 22 543 6458<br>F : +62 22 543 5868</p>
+                                <p>Telepon 1 : {{ $setting->telephone1 }} <br>Telepon 2 : {{ $setting->telephone2 }}</p>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="info-box">
                                 <i class="bi bi-clock"></i>
                                 <h3>Jam buka</h3>
-                                <p>Setiap Hari<br>06:00 - 23:00</p>
+                                <p>{{ $setting->open_hours }}</p>
                             </div>
                         </div>
                     </div>

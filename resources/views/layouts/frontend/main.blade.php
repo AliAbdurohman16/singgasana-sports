@@ -159,8 +159,8 @@
 
                 <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
                     <h4>Kontak Kami</h4>
-                    <p>
-                        {{ $setting->address1 }}</p>
+                    <p>{{ $setting->address1 }}</p>
+                    <p>{{ $setting->address2 }}</p>
                     <p><strong>Phone:</strong> <br> Telepon 1 : {{ $setting->telephone1 }} <br>Telepon 2 : {{ $setting->telephone2 }}</p>
                     <p><strong>Email:</strong> {{ $setting->email }}</p>
                 </div>
