@@ -81,7 +81,7 @@ class BookingController extends Controller
 
         $datetime = $request->datetime;
 
-        $expired = Carbon::parse($datetime)->addHours(intval($request->duration));
+        $expired = Carbon::parse($datetime)->addMonths(intval($request->duration));
 
         $data = BookingMember::create([
             'user_id' => $user->id,
