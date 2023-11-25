@@ -15,4 +15,14 @@ class Service extends Model
     {
         return $this->hasMany(BookingMember::class);
     }
+
+    public function priceDailies()
+    {
+        return $this->hasMany(PriceDaily::class);
+    }
+
+    public function priceMembers()
+    {
+        return $this->hasMany(PriceMember::class);
+    }
 }

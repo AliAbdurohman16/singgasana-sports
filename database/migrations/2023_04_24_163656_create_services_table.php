@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->decimal('price_daily', 10, 2);
-            $table->decimal('price_member', 10, 2);
+            $table->string('slug');
             $table->timestamps();
         });
     }
