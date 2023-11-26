@@ -4,7 +4,7 @@
 <div class="row mb-2"><div class="col-12">Halo {{ $data->first_name }},</div></div>
 @if ($data->service == 'Swimming Pool')
 <div class="row mb-2"><div class="col-12">Kami senang memberitahu Anda bahwa proses validasi Anda baru-baru ini berhasil. Berikut adalah kode QR Anda:</div></div>
-<div class="row mb-2"><div class="col-12"><img src="{{ asset('qr_codes/' . $data->qr) }}" style="display:block;margin:auto;margin-bottom:20px;text-align:center;width:100px;"alt="QR Code"></div></div>
+<div class="row mb-2"><div class="col-12"><img src="{{ asset('qr_codes/' . $data->qr) }}" style="display:block;margin:auto;margin-bottom:20px;text-align:center;width:200px;"alt="QR Code"></div></div>
 <div class="row mb-2"><div class="col-12">Harap simpan PIN ini dengan kerahasiaan dan gunakan untuk tiket Anda.</div></div>
 <div class="row mb-2"><div class="col-12">Harap diingat bahwa kode QR ini akan berlaku hingga <b>{{ date('d-m-Y H:i:s', strtotime($data->expired)) }}</b>. Setelah waktu tersebut, kode ini akan tidak berlaku dan Anda perlu melakukan proses booking kembali.</div></div>
 @else
