@@ -173,7 +173,7 @@ class PriceMemberSeeder extends Seeder
 
         PriceMember::create([
             'service_id' => 1,
-            'member' => 'student',
+            'member' => 'Student',
             'category' => 'Pelajar',
             'two_months' => 525000.00,
             'six_months' => 1410000.00,
@@ -211,8 +211,8 @@ class PriceMemberSeeder extends Seeder
 
         PriceMember::create([
             'service_id' => 1,
-            'member' => 'Corporate',
-            'category' => 'Ikawarna',
+            'member' => 'Ikawarna',
+            'category' => 'Perusahaan',
             'two_months' => 1750000.00,
             'two_months_ten_people' => 3500000.00,
             'six_months' => 4500000.00,

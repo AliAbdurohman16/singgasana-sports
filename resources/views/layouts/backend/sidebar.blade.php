@@ -67,11 +67,31 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item {{ Request::is('services*') ? 'active' : '' }}">
-                    <a href="{{ route('services.index') }}" class="sidebar-link">
+                <li class="sidebar-item has-sub {{ Request::is('service*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
                         <i class="bi bi-list-check"></i>
                         <span>Layanan</span>
                     </a>
+                    <ul class="submenu {{ Request::is('service*') ? 'active' : '' }}">
+                        <li class="submenu-item {{ Request::is('service/swimming-pool*') ? 'active' : '' }}">
+                            <a href="{{ route('swimmingPool') }}">Swimming Pool</a>
+                        </li>
+                        <li class="submenu-item {{ Request::is('service/basket*') ? 'active' : '' }}">
+                            <a href="{{ route('basket') }}">Basket</a>
+                        </li>
+                        <li class="submenu-item {{ Request::is('service/badminton*') ? 'active' : '' }}">
+                            <a href="{{ route('badminton') }}">Badminton</a>
+                        </li>
+                        <li class="submenu-item {{ Request::is('service/tennis*') ? 'active' : '' }}">
+                            <a href="{{ route('tennis') }}">Tenis</a>
+                        </li>
+                        <li class="submenu-item {{ Request::is('service/table-tennis*') ? 'active' : '' }}">
+                            <a href="{{ route('tableTennis') }}">Tenis Meja</a>
+                        </li>
+                        <li class="submenu-item {{ Request::is('service/squash*') ? 'active' : '' }}">
+                            <a href="{{ route('squash') }}">Squash</a>
+                        </li>
+                    </ul>
                 </li>
                 @endif
 

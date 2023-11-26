@@ -1,6 +1,6 @@
 @extends('layouts.backend.main')
 
-@section('title', 'Tambah Data Layanan')
+@section('title', 'Edit Data Swimming Pool Harian')
 
 @section('content')
 <!-- CSS -->
@@ -11,17 +11,17 @@
     <div class="page-title">
       <div class="row">
         <div class="col-12 col-md-6 order-md-1 order-last mb-3">
-          <h3>Tambah Data</h3>
-          <a href="{{ route('services.index') }}" class="btn btn-warning btn-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
+          <h3>Edit Data</h3>
+          <a href="{{ route('swimmingPool') }}" class="btn btn-warning btn-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
         </div>
         <div class="col-12 col-md-6 order-md-2 order-first">
           <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
             <ol class="breadcrumb">
               <li class="breadcrumb-item">
-                <a href="{{ route('services.index') }}">Layanan</a>
+                <a href="{{ route('swimmingPool') }}">Layanan</a>
               </li>
               <li class="breadcrumb-item active" aria-current="page">
-                Tambah Data
+                Edit Data
               </li>
             </ol>
           </nav>
@@ -36,40 +36,39 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form action="{{ route('services.store') }}" method="POST"  class="form" enctype="multipart/form-data" data-parsley-validate>
+                        <form action="{{ route('swimmingPoolDaily.update', $daily->id) }}" method="POST" class="form" data-parsley-validate>
                             @csrf
+                            @method('PUT')
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label for="first-name-column">Nama</label>
-                                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" placeholder="Nama" />
-                                        @error('name')
+                                        <label for="first-name-column">Layanan</label>
+                                        <input type="text" class="form-control" value="{{ $daily->service->name }}" readonly/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="first-name-column">Kategori</label>
+                                        <input type="text" class="form-control" value="{{ $daily->category }}" readonly/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="first-name-column">Paket</label>
+                                        <input type="text" class="form-control" value="{{ $daily->package }}" readonly/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="first-name-column">Harga Weekday</label>
+                                        <input type="text" name="weekday" id="weekday" class="form-control @error('weekday') is-invalid @enderror" value="{{ old('weekday', intval($daily->weekday)) }}" placeholder="Harga Weekday" />
+                                        @error('weekday')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="first-name-column">Harga Harian (/jam)</label>
-                                        <input type="text" name="price_daily" id="price_daily" class="form-control @error('price_daily') is-invalid @enderror" value="{{ old('price_daily') }}" placeholder="Harga Harian (/jam)" />
-                                        @error('price_daily')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="first-name-column">Harga Member (/bulan)</label>
-                                        <input type="text" id="price_member" name="price_member" id="#price_member" class="form-control @error('price_member') is-invalid @enderror" value="{{ old('price_member') }}" placeholder="Harga Member (/bulan)" />
-                                        @error('price_member')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
+                                        <label for="first-name-column">Harga Weekend</label>
+                                        <input type="text" name="weekend" id="weekend" class="form-control @error('weekend') is-invalid @enderror" value="{{ old('weekend', $daily->weekend != NULL ? intval($daily->weekend) : '') }}" placeholder="Harga Weekend" />
                                     </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-center">
-                                    <input type="submit" class="btn btn-primary me-1 mb-1" value="Simpan">
+                                    <input type="submit" class="btn btn-primary me-1 mb-1 btn-block" value="Simpan">
                                 </div>
 
                             </div>
@@ -87,16 +86,14 @@
 <script src="{{ asset('backend') }}/assets/extensions/jquery/jquery.min.js"></script>
 <script src="{{ asset('backend') }}/assets/extensions/autoNumeric/autoNumeric.min.js"></script>
 <script>
-    // show price daily to IDR
-    new AutoNumeric('#price_daily', {
+    new AutoNumeric('#weekday', {
         currencySymbol : 'Rp ',
         decimalCharacter : ',',
         digitGroupSeparator : '.',
         decimalPlaces: 0,
     });
 
-    // show price member to IDR
-    new AutoNumeric('#price_member', {
+    new AutoNumeric('#weekend', {
         currencySymbol : 'Rp ',
         decimalCharacter : ',',
         digitGroupSeparator : '.',
