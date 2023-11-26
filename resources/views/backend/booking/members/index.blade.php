@@ -45,9 +45,8 @@
                             <th>Email</th>
                             <th>No Telp</th>
                             <th>Layanan</th>
-                            <th>Durasi</th>
+                            <th>Paket</th>
                             <th>Tanggal Mulai</th>
-                            <th>Tanggal Selesai</th>
                             <th>Total</th>
                             <th>Status</th>
                             <th width="20%">Aksi</th>
@@ -63,7 +62,7 @@
                                 <td>{{ $row->user->email }}</td>
                                 <td>{{ $row->user->telephone }}</td>
                                 <td>{{ $row->service->name }}</td>
-                                <td>{{ $row->duration }}</td>
+                                <td>{{ $row->package }}</td>
                                 <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
                                 <td>{{ date('d-m-Y H:i:s', strtotime($row->expired)) }}</td>
                                 <td>Rp {{ number_format($row->total, 0, ',', '.') }}</td>

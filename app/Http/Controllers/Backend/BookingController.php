@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\BookingDaily;
 use App\Models\BookingMember;
+use App\Models\PriceMember;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -30,9 +31,12 @@ class BookingController extends Controller
 
     public function create()
     {
-        $services = Service::all();
+        $data = [
+            'services' => Service::all(),
+            'prices' => PriceMember::all(),
+        ];
 
-        return view('backend.booking.create', compact('services'));
+        return view('backend.booking.create', $data);
     }
 
     public function store(Request $request)
@@ -47,13 +51,49 @@ class BookingController extends Controller
 
         $datetime = $request->datetime;
 
-        $expired = Carbon::parse($datetime)->addMonths(intval($request->duration));
+        $package = $request->package;
+
+        // Array asosiasi antara nama paket dan periode kedaluwarsa
+        $packageExpiration = [
+            "Iuran Membership 2 Bulan" => 2,
+            "Iuran Membership 6 Bulan" => 6,
+            "Iuran Membership 12 Bulan" => 12,
+            "Paket A - Pemula" => "week",
+            "Paket B - Prestasi Non Fitness" => "week",
+            "Paket C - Prestasi + Fitness" => "week",
+            "Paket D - Pra Prestasi" => "week",
+            "Iuran Membership 2 Bulan (5 Orang)" => 2,
+            "Iuran Membership 6 Bulan (5 Orang)" => 6,
+            "Iuran Membership Pelatih Club 2 Bulan" => 2,
+            "Iuran Membership Pelatih Club + Fitness 2 Bulan" => 2,
+            "Per 2 Jam 1x Seminggu (PAGI)" => "week",
+            "Per 3 Jam 1x Seminggu (PAGI)" => "week",
+            "Per 2 Jam 1x Seminggu (SIANG)" => "week",
+            "Per 4 Jam 1x Seminggu (SIANG)" => "week",
+            "Per 3 Jam 1x Seminggu (SIANG)" => "week",
+            "Per 1 Jam 1x Seminggu" => "week",
+            "Per 2 Jam 1x Seminggu" => "week",
+            "Per 3 Jam 1x Seminggu" => "week",
+            "Paket Suka - Suka 10 Jam" => 10,
+            "Paket Suka - Suka 12 Jam" => 12,
+            "Paket Suka - Suka 15 Jam" => 15,
+        ];
+
+        $duration = $packageExpiration[$package];
+
+        if (is_numeric($duration)) {
+            $expired = Carbon::parse($datetime)->addMonths($duration);
+        } elseif ($duration === "week") {
+            $expired = Carbon::parse($datetime)->addWeeks();
+        } elseif (is_numeric($duration)) {
+            $expired = Carbon::parse($datetime)->addHours($duration);
+        }
 
         $data = BookingMember::create([
             'user_id' => $user->id,
             'service_id' => $request->service,
             'datetime' => $datetime,
-            'duration' => $request->duration,
+            'package' => $package,
             'total' => $request->total,
             'expired' => $expired,
         ]);
@@ -86,7 +126,12 @@ class BookingController extends Controller
         // Save QR code as PNG
         QrCode::size(300)->format('png')->generate($pin, $qrPath . $qrFileName);
 
+        $expired = ($daily->service_id == 1)
+                    ? Carbon::parse($daily->datetime)->addDay()
+                    : Carbon::parse($daily->datetime)->addHours(intval($daily->duration));
+
         $daily->update([
+            'expired' => $expired,
             'pin' => $pin,
             'qr' => $qrFileName,
             'status' => 'success',

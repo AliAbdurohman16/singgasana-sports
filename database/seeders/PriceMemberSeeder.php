@@ -20,7 +20,7 @@ class PriceMemberSeeder extends Seeder
             'category' => 'Umum',
             'two_hours_morning' => 560000.00,
             'three_hours_morning' => 840000.00,
-            'two_hours_afternoon' => 560000.00,
+            'two_hours_afternoon' => 640000.00,
             'four_hours_afternoon' => 1280000.00,
         ]);
 
@@ -81,7 +81,7 @@ class PriceMemberSeeder extends Seeder
 
         PriceMember::create([
             'service_id' => 5,
-            'category' => 'Penghuni',
+            'category' => 'Umum',
             'two_hours' => 425000.00,
             'three_hours' => 635000.00,
             'ten_hours' => 250000.00,

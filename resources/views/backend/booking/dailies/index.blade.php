@@ -45,9 +45,9 @@
                             <th>Email</th>
                             <th>No Telp</th>
                             <th>Layanan</th>
-                            <th>Durasi</th>
-                            <th>Tanggal Mulai</th>
-                            <th>Tanggal Selesai</th>
+                            <th>Waktu</th>
+                            <th>Tanggal Dibooking</th>
+                            <th>Informasi</th>
                             <th>Total</th>
                             <th>Status</th>
                             <th width="20%">Aksi</th>
@@ -62,10 +62,10 @@
                                 <td>{{ $row->first_name }} {{ $row->last_name }}</td>
                                 <td>{{ $row->email }}</td>
                                 <td>{{ $row->telephone }}</td>
-                                <td>{{ $row->service }}</td>
+                                <td>{{ $row->service->name }}</td>
                                 <td>{{ $row->duration }}</td>
                                 <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
-                                <td>{{ date('d-m-Y H:i:s', strtotime($row->expired)) }}</td>
+                                <td>{{ $row->information }}</td>
                                 <td>Rp {{ number_format($row->total, 0, ',', '.') }}</td>
                                 <td>
                                     @if ($row->status == 'pending')

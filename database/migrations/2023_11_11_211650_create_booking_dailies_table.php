@@ -19,15 +19,17 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('email');
             $table->string('telephone');
-            $table->string('service');
+            $table->unsignedBigInteger('service_id');
             $table->datetime('datetime');
-            $table->string('duration')->nullable();
+            $table->string('duration');
+            $table->string('information');
             $table->datetime('expired');
             $table->decimal('total', 15, 2);
             $table->string('pin')->nullable();
             $table->text('qr')->nullable();
             $table->enum('status', ['pending', 'success', 'expired'])->nullable()->default('pending');
             $table->timestamps();
+            $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
         });
     }
 

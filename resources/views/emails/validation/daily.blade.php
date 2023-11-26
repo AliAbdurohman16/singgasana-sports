@@ -2,7 +2,7 @@
 <img src="{{ asset('icon/checked.png') }}" alt="Circle Check" class="img-fluid" style="display:block;margin:auto;margin-bottom:20px;text-align:center;width:50px;">
 <h1 class="text-center mb-4">Validasi Berhasil</h1>
 <div class="row mb-2"><div class="col-12">Halo {{ $data->first_name }},</div></div>
-@if ($data->service == 'Swimming Pool')
+@if ($data->service->name == 'Swimming Pool')
 <div class="row mb-2"><div class="col-12">Kami senang memberitahu Anda bahwa proses validasi Anda baru-baru ini berhasil. Berikut adalah kode QR Anda:</div></div>
 <div class="row mb-2"><div class="col-12"><img src="{{ asset('qr_codes/' . $data->qr) }}" style="display:block;margin:auto;margin-bottom:20px;text-align:center;width:200px;"alt="QR Code"></div></div>
 <div class="row mb-2"><div class="col-12">Harap simpan PIN ini dengan kerahasiaan dan gunakan untuk tiket Anda.</div></div>

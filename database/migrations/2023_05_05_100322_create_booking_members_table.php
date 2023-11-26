@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('service_id');
             $table->datetime('datetime');
-            $table->string('duration');
+            $table->string('package');
             $table->datetime('expired');
             $table->decimal('total', 15, 2);
             $table->string('pin')->nullable();

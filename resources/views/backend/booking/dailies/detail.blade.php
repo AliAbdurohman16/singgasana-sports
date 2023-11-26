@@ -50,7 +50,7 @@
                         <tr>
                             <td class="fw-bold">Layanan</td>
                             <td>:</td>
-                            <td>{{ $daily->service }}</td>
+                            <td>{{ $daily->service->name }}</td>
                         </tr>
                         <tr>
                             <td class="fw-bold">Durasi</td>
@@ -63,7 +63,12 @@
                             <td>{{ date('d-m-Y H:i:s', strtotime($daily->datetime)) }}</td>
                         </tr>
                         <tr>
-                            <td class="fw-bold">Tanggal Selesai</td>
+                            <td class="fw-bold">Informasi</td>
+                            <td>:</td>
+                            <td>{{ $daily->information }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Expired</td>
                             <td>:</td>
                             <td>{{ date('d-m-Y H:i:s', strtotime($daily->expired)) }}</td>
                         </tr>

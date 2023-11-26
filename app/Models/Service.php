@@ -16,6 +16,11 @@ class Service extends Model
         return $this->hasMany(BookingMember::class);
     }
 
+    public function bookingDailies()
+    {
+        return $this->hasMany(BookingDaily::class);
+    }
+
     public function priceDailies()
     {
         return $this->hasMany(PriceDaily::class);

@@ -53,9 +53,9 @@
                             <td>{{ $member->service->name }}</td>
                         </tr>
                         <tr>
-                            <td class="fw-bold">Durasi</td>
+                            <td class="fw-bold">Paket</td>
                             <td>:</td>
-                            <td>{{ $member->duration }}</td>
+                            <td>{{ $member->package }}</td>
                         </tr>
                         <tr>
                             <td class="fw-bold">Tanggal Mulai</td>

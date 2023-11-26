@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\PriceDaily;
+use App\Models\PriceMember;
 use App\Models\Service;
 use App\Models\BookingDaily;
 use App\Models\BookingMember;
@@ -18,42 +20,42 @@ class BookingController extends Controller
 {
     public function index()
     {
-        $services = Service::all();
+        $data = [
+            'services' => Service::all(),
+            'prices' => PriceDaily::all(),
+        ];
 
-        return view('frontend.booking.daily.index', compact('services'));
+        return view('frontend.booking.daily.index', $data);
     }
 
     public function store(Request $request)
     {
         $service = $request->service;
         $datetime = $request->datetime;
+        $category = $request->category;
 
-        $expired = ($service == 'Swimming Pool')
-                    ? Carbon::parse($datetime)->addDay()
-                    : Carbon::parse($datetime)->addHours(intval($request->duration));
-
-        if ($service != 'Swimming Pool') {
-            // Check if there is an existing booking with the same service and overlapping datetime-expired range
-            $existingBooking = BookingDaily::where('service', $service)
-                ->where(function ($query) use ($datetime, $expired) {
-                    $query->whereBetween('datetime', [$datetime, $expired])
-                        ->orWhereBetween('expired', [$datetime, $expired]);
-                })->count();
-
-            if ($existingBooking >= 4) {
-                // If there are already 4 bookings, return a failure message
-                return redirect('booking/daily')->with('error', 'Maaf, sudah mencapai batas maksimal booking untuk jam tersebut.');
-            }
+        if ($service == 1) {
+            $information = $category."(".$request->package.")";
+            $time = $request->schedule;
+        } else if ($service == 5 || $service == 6) {
+            $information = $category;
+            $time = $request->duration;
+        } else {
+            $information = $category."(".$request->usage.")";
+            $time = $request->duration;
         }
+
+        $expired = Carbon::parse($datetime)->addDay();
 
         $data = BookingDaily::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'telephone' => $request->telephone,
-            'service' => $service,
+            'service_id' => $service,
             'datetime' => $datetime,
-            'duration' => $request->duration,
+            'information' => $information,
+            'duration' => $time,
             'total' => $request->total,
             'expired' => $expired,
         ]);
@@ -64,9 +66,12 @@ class BookingController extends Controller
 
     public function member()
     {
-        $services = Service::all();
+        $data = [
+            'services' => Service::all(),
+            'prices' => PriceMember::all(),
+        ];
 
-        return view('frontend.booking.member.index', compact('services'));
+        return view('frontend.booking.member.index', $data);
     }
 
     public function storeMember(Request $request)
@@ -80,14 +85,48 @@ class BookingController extends Controller
         }
 
         $datetime = $request->datetime;
+        $package = $request->package;
 
-        $expired = Carbon::parse($datetime)->addMonths(intval($request->duration));
+        $packageExpiration = [
+            "Iuran Membership 2 Bulan" => 2,
+            "Iuran Membership 6 Bulan" => 6,
+            "Iuran Membership 12 Bulan" => 12,
+            "Paket A - Pemula" => "week",
+            "Paket B - Prestasi Non Fitness" => "week",
+            "Paket C - Prestasi + Fitness" => "week",
+            "Paket D - Pra Prestasi" => "week",
+            "Iuran Membership 2 Bulan (5 Orang)" => 2,
+            "Iuran Membership 6 Bulan (5 Orang)" => 6,
+            "Iuran Membership Pelatih Club 2 Bulan" => 2,
+            "Iuran Membership Pelatih Club + Fitness 2 Bulan" => 2,
+            "Per 2 Jam 1x Seminggu (PAGI)" => "week",
+            "Per 3 Jam 1x Seminggu (PAGI)" => "week",
+            "Per 2 Jam 1x Seminggu (SIANG)" => "week",
+            "Per 4 Jam 1x Seminggu (SIANG)" => "week",
+            "Per 3 Jam 1x Seminggu (SIANG)" => "week",
+            "Per 1 Jam 1x Seminggu" => "week",
+            "Per 2 Jam 1x Seminggu" => "week",
+            "Per 3 Jam 1x Seminggu" => "week",
+            "Paket Suka - Suka 10 Jam" => 10,
+            "Paket Suka - Suka 12 Jam" => 12,
+            "Paket Suka - Suka 15 Jam" => 15,
+        ];
+
+        $duration = $packageExpiration[$package];
+
+        if (is_numeric($duration)) {
+            $expired = Carbon::parse($datetime)->addMonths($duration);
+        } elseif ($duration === "week") {
+            $expired = Carbon::parse($datetime)->addWeeks();
+        } elseif (is_numeric($duration)) {
+            $expired = Carbon::parse($datetime)->addHours($duration);
+        }
 
         $data = BookingMember::create([
             'user_id' => $user->id,
             'service_id' => $request->service,
             'datetime' => $datetime,
-            'duration' => $request->duration,
+            'package' => $package,
             'total' => $request->total,
             'expired' => $expired,
         ]);

@@ -35,6 +35,7 @@
         <div class="dashed mb-2 mt-2"></div>
         <div class="foot">1. Silahkan lakukan pembayaran ke kasir</div>
         <div class="foot">2. Serahkan invoice ini ke kasir untuk divalidasi pembayarannya</div>
+        <div class="foot">3. Invoice ini akan berakhir pada {{ date('d-m-Y H:i:s', strtotime($data->expired)) }}</div>
     </div>
 </div>
 @endcomponent
