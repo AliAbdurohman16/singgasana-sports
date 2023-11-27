@@ -4,15 +4,8 @@
 <div class="row mb-2"><div class="col-12">Halo {{ $data->first_name }},</div></div>
 @if ($data->service->name == 'Swimming Pool')
 <div class="row mb-2"><div class="col-12">Kami senang memberitahu Anda bahwa proses validasi Anda baru-baru ini berhasil. Berikut adalah kode QR Anda:</div></div>
-<style>
-    @media (prefers-color-scheme: dark) {
-      .qr-code-container {
-        background-color: #dadada !important; /* Ubah warna latar belakang sesuai kebutuhan */
-      }
-    }
-</style>
 <div class="row mb-2">
-    <div class="col-12 qr-code-container" style="background-color: #dadada; padding: 20px;">
+    <div class="col-12 qr-code-container" style="background-color: #ecebeb; padding: 20px;">
         <img src="{{ asset('qr_codes/' . $data->qr) }}" style="display: block; margin: auto; text-align: center; width: 200px;" alt="QR Code">
     </div>
 </div>

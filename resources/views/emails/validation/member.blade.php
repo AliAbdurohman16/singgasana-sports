@@ -5,7 +5,7 @@
 @if ($data->service->name == 'Swimming Pool')
 <div class="row mb-2"><div class="col-12">Kami senang memberitahu Anda bahwa proses validasi Anda baru-baru ini berhasil. Berikut adalah kode QR Anda:</div></div>
 <div class="row mb-2">
-    <div class="col-12" style="background-color: #FFFFFF; padding: 20px;">
+    <div class="col-12" style="background-color: #ecebeb; padding: 20px;">
         <img src="{{ asset('qr_codes/' . $data->qr) }}" style="display:block;margin:auto;margin-bottom:20px;text-align:center;width:200px;"alt="QR Code">
     </div>
 </div>
