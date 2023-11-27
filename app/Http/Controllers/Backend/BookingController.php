@@ -124,7 +124,7 @@ class BookingController extends Controller
         $qrFileName = 'qr_' . time() . '.png'; // Generate a unique file name
 
         // Save QR code as PNG
-        QrCode::size(300)->format('png')->backgroundColor(255, 255, 255)->margin(20)->generate($pin, $qrPath . $qrFileName);
+        QrCode::size(300)->format('png')->backgroundColor(255, 255, 255)->margin(10)->generate($pin, $qrPath . $qrFileName);
 
         $expired = ($daily->service_id == 1)
                     ? Carbon::parse($daily->datetime)->addDay()
@@ -171,7 +171,7 @@ class BookingController extends Controller
         $qrFileName = 'qr_' . time() . '.png'; // Generate a unique file name
 
         // Save QR code as PNG
-        QrCode::size(300)->format('png')->backgroundColor(255, 255, 255)->margin(20)->generate($pin, $qrPath . $qrFileName);
+        QrCode::size(300)->format('png')->backgroundColor(255, 255, 255)->margin(10)->generate($pin, $qrPath . $qrFileName);
 
         $member->update([
             'pin' => $pin,
