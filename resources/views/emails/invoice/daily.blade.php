@@ -11,7 +11,7 @@
         </div>
         <div class="row mb-2">
             <div class="col-4"><b>Layanan</b></div>
-            <div class="col-8">{{ $data->service }}</div>
+            <div class="col-8">{{ $data->service->name }}</div>
         </div>
         <div class="row mb-2">
             <div class="col-4"><b>Tanggal Mulai</b></div>
