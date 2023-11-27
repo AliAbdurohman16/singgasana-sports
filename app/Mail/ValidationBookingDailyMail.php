@@ -32,8 +32,8 @@ class ValidationBookingDailyMail extends Mailable
         return $this->markdown('emails.validation.daily')
                     ->subject('Validasi Booking Harian')
                     ->attach($qrPath, [
-                        'as' => 'QR_Code.png',
-                        'mime' => 'image/png',
+                        'as' => 'QR_Code.pdf',
+                        'mime' => 'image/pdf',
                     ]);
     }
 }
