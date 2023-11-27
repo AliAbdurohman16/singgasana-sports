@@ -119,12 +119,12 @@ class BookingController extends Controller
         // Generate QR Code
         $qr = QrCode::size(100)->generate($pin);
 
-        // Save QR Code as PNG
+        // Save QR Code as pdf
         $qrPath = public_path('qr_codes/'); // Folder to save QR codes
-        $qrFileName = 'qr_' . time() . '.png'; // Generate a unique file name
+        $qrFileName = 'qr_' . time() . '.pdf'; // Generate a unique file name
 
-        // Save QR code as PNG
-        QrCode::size(300)->format('png')->backgroundColor(255, 255, 255)->generate($pin, $qrPath . $qrFileName);
+        // Save QR code as pdf
+        QrCode::size(300)->format('pdf')->backgroundColor(255, 255, 255)->margin(20)->generate($pin, $qrPath . $qrFileName);
 
         $expired = ($daily->service_id == 1)
                     ? Carbon::parse($daily->datetime)->addDay()
@@ -166,12 +166,12 @@ class BookingController extends Controller
         // Generate QR Code
         $qr = QrCode::size(100)->generate($pin);
 
-        // Save QR Code as PNG
+        // Save QR Code as pdf
         $qrPath = public_path('qr_codes/'); // Folder to save QR codes
-        $qrFileName = 'qr_' . time() . '.png'; // Generate a unique file name
+        $qrFileName = 'qr_' . time() . '.pdf'; // Generate a unique file name
 
-        // Save QR code as PNG
-        QrCode::size(300)->format('png')->backgroundColor(255, 255, 255)->generate($pin, $qrPath . $qrFileName);
+        // Save QR code as pdf
+        QrCode::size(300)->format('pdf')->backgroundColor(255, 255, 255)->margin(20)->generate($pin, $qrPath . $qrFileName);
 
         $member->update([
             'pin' => $pin,
