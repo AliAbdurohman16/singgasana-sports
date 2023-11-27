@@ -78,7 +78,7 @@
                             <td>{{ number_format($daily->total, 0, ',', '.') }}</td>
                         </tr>
                         @if ($daily->status == 'success')
-                            @if ($daily->service == 'Swimming Pool')
+                            @if ($daily->service_id == 1)
                                 <tr>
                                     <td class="fw-bold">QR Code</td>
                                     <td>:</td>
