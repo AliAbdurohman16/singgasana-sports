@@ -64,7 +64,6 @@
                                 <td>{{ $row->service->name }}</td>
                                 <td>{{ $row->package }}</td>
                                 <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
-                                <td>{{ date('d-m-Y H:i:s', strtotime($row->expired)) }}</td>
                                 <td>Rp {{ number_format($row->total, 0, ',', '.') }}</td>
                                 <td>
                                     @if ($row->status == 'pending')
