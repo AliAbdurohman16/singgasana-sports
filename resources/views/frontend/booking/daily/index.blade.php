@@ -162,10 +162,8 @@
                 var str = selectedDates.toString();
                 let schedule = document.getElementById('schedule');
                 if (str.substring(0, 3) === 'Sat' || str.substring(0, 3) === 'Sun') {
-                    console.log(`Weekend`);
                     schedule.value = "Weekend";
                 } else {
-                    console.log(`Weekday`);
                     schedule.value = "Weekday";
                 }
             },
@@ -173,8 +171,6 @@
 
 
 
-        const dateBook = document.getElementById('datetime').value;
-        console.log(dateBook);
 
 
         $(document).ready(function() {
