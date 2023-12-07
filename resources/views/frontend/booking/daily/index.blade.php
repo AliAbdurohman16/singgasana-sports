@@ -86,18 +86,49 @@
                                         </select>
                                     </div>
                                     <div class="col-md-12" id="hidePackage">
-                                        <div class="input-group">
-                                            <select name="package[]" class="form-control flex-fill" id="packageSelect">
-                                                <option value="">Pilih Paket</option>
-                                            </select>
-                                            <input type="number" name="amount[]" class="form-control ms-2" placeholder="Jumlah">
-                                            <div class="input-group-append ms-2">
-                                                <button type="button" class="btn btn-primary" onclick="addPackage()">
-                                                    <i class="bi bi-plus"></i>
-                                                </button>
+                                        <div class="row mb-3">
+                                            <label for="dewasa" class="col-sm-8 col-form-label">Paket Dewasa</label>
+                                            <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <button class="btn btn-outline-secondary" type="button" id="minusDewasa">-</button>
+                                                    <input type="number" id="dewasa" name="dewasa" class="form-control text-center" min="0" value="0" disabled>
+                                                    <button class="btn btn-outline-secondary" type="button" id="plusDewasa">+</button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div id="packageContainer"></div>
+
+                                        <div class="row mb-3">
+                                            <label for="anak" class="col-sm-8 col-form-label">Paket Anak</label>
+                                            <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <button class="btn btn-outline-secondary" type="button" id="minusAnak">-</button>
+                                                    <input type="number" id="anak" name="anak" class="form-control text-center" min="0" value="0" disabled>
+                                                    <button class="btn btn-outline-secondary" type="button" id="plusAnak">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="pengantar" class="col-sm-8 col-form-label">Paket Pengantar</label>
+                                            <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <button class="btn btn-outline-secondary" type="button" id="minusPengantar">-</button>
+                                                    <input type="number" id="pengantar" name="pengantar" class="form-control text-center" min="0" value="0" disabled>
+                                                    <button class="btn btn-outline-secondary" type="button" id="plusPengantar">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="buku" class="col-sm-8 col-form-label">Paket Tiket Buku (15 Lembar)</label>
+                                            <div class="col-sm-4">
+                                                <div class="input-group">
+                                                    <button class="btn btn-outline-secondary" type="button" id="minusBuku">-</button>
+                                                    <input type="number" id="buku" name="buku" class="form-control text-center" min="0" value="0" disabled>
+                                                    <button class="btn btn-outline-secondary" type="button" id="plusBuku">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-12" id="hideSchedule">
                                         <select name="scheduleOption" id="scheduleOption" class="form-control" disabled>
@@ -184,17 +215,6 @@
             },
         });
 
-        function updateTotal(total) {
-            if (total !== null && total !== undefined) {
-                $('.total').text('Rp ' + total.toLocaleString('id-ID'));
-                $('input[name="total"]').val(total);
-            } else {
-                total = 0;
-                $('.total').text('Rp ' + total.toLocaleString('id-ID'));
-                $('input[name="total"]').val(total);
-            }
-        }
-
         let packageCount = 1;
         const packageContainer = document.getElementById('packageContainer');
 
@@ -260,6 +280,54 @@
         }
 
         $(document).ready(function() {
+            $('#plusDewasa').click(function () {
+                var currentValue = parseInt($('#dewasa').val());
+                $('#dewasa').val(currentValue + 1);
+             });
+
+            $('#minusDewasa').click(function () {
+                var currentValue = parseInt($('#dewasa').val());
+                if (currentValue > 0) {
+                    $('#dewasa').val(currentValue - 1);
+                }
+            });
+
+            $('#plusAnak').click(function () {
+                var currentValue = parseInt($('#anak').val());
+                $('#anak').val(currentValue + 1);
+            });
+
+            $('#minusAnak').click(function () {
+                var currentValue = parseInt($('#anak').val());
+                if (currentValue > 0) {
+                    $('#anak').val(currentValue - 1);
+                }
+            });
+
+            $('#plusPengantar').click(function () {
+                var currentValue = parseInt($('#pengantar').val());
+                $('#pengantar').val(currentValue + 1);
+            });
+
+            $('#minusPengantar').click(function () {
+                var currentValue = parseInt($('#pengantar').val());
+                if (currentValue > 0) {
+                    $('#pengantar').val(currentValue - 1);
+                }
+            });
+
+            $('#plusBuku').click(function () {
+                var currentValue = parseInt($('#buku').val());
+                $('#buku').val(currentValue + 1);
+            });
+
+            $('#minusBuku').click(function () {
+                var currentValue = parseInt($('#buku').val());
+                if (currentValue > 0) {
+                    $('#buku').val(currentValue - 1);
+                }
+            });
+
             var hideCategory = $('#hideCategory').hide();
             var hideUsage = $('#hideUsage').hide();
             var hidePackage = $('#hidePackage').hide();
@@ -270,7 +338,7 @@
             $('select[name="service"]').change(function() {
                 var selectedService = $(this).val();
                 var categorySelect = $('select[name="category"]');
-                var packageSelect = $('select[name="package[]"]');
+                // var packageSelect = $('select[name="package[]"]');
 
                 if (selectedService == 1) {
                     categorySelect.empty().append(
@@ -283,13 +351,13 @@
                     hideSchedule.show();
                     hidePackageBtn.show();
 
-                    packageSelect.empty().append(
-                        '<option value="">Pilih Paket</option>' +
-                        '<option value="Dewasa">Dewasa</option>' +
-                        '<option value="Anak">Anak</option>' +
-                        '<option value="Pengantar">Pengantar</option>' +
-                        '<option value="Tiket Buku (15 Lembar)">Tiket Buku (15 Lembar)</option>'
-                    );
+                    // packageSelect.empty().append(
+                    //     '<option value="">Pilih Paket</option>' +
+                    //     '<option value="Dewasa">Dewasa</option>' +
+                    //     '<option value="Anak">Anak</option>' +
+                    //     '<option value="Pengantar">Pengantar</option>' +
+                    //     '<option value="Tiket Buku (15 Lembar)">Tiket Buku (15 Lembar)</option>'
+                    // );
 
                     $('#addPackageBtn').click(function() {
                         var htmlToAdd = `
@@ -357,18 +425,53 @@
                 }
             });
 
-            $('select[name="scheduleOption"], select[name="package[]"], input[name="amount[]"]').on('change input', function() {
-                var package = $('select[name="package[]"]').val();
+            function updateTotal(total) {
+                if (total !== null && total !== undefined) {
+                    $('.total').text('Rp ' + total.toLocaleString('id-ID'));
+                    $('input[name="total"]').val(total);
+                } else {
+                    total = 0;
+                    $('.total').text('Rp ' + total.toLocaleString('id-ID'));
+                    $('input[name="total"]').val(total);
+                }
+            }
+
+            $('select[name="scheduleOption"], #dewasa, #anak').on('change input', function() {
                 var schedule = $('select[name="scheduleOption"]').val();
-                var amount = $('input[name="amount[]"]').val();
+                var dewasa = parseInt($('#dewasa').val()) || 0;
+                var anak = parseInt($('#anak').val()) || 0;
                 var total = 0;
 
                 prices.forEach(function(price) {
-                    if (price.package === package) {
+                    if (dewasa !== 0 && price.package === "Paket Dewasa") {
                         if (schedule === "Weekday") {
-                            total = price.weekday * amount;
+                            total += price.weekday * dewasa;
                         } else if (schedule === "Weekend") {
-                            total = price.weekend * amount;
+                            total += price.weekend * dewasa;
+                        }
+                    }
+
+                    if (anak !== 0 && price.package === "Paket Anak") {
+                        if (schedule === "Weekday") {
+                            total += price.weekday * anak;
+                        } else if (schedule === "Weekend") {
+                            total += price.weekend * anak;
+                        }
+                    }
+
+                    if (anak !== 0 && price.package === "Pengantar") {
+                        if (schedule === "Weekday") {
+                            total += price.weekday * anak;
+                        } else if (schedule === "Weekend") {
+                            total += price.weekend * anak;
+                        }
+                    }
+
+                    if (anak !== 0 && price.package === "Tiket Buku (15 Lembar)") {
+                        if (schedule === "Weekday") {
+                            total += price.weekday * anak;
+                        } else if (schedule === "Weekend") {
+                            total += price.weekend * anak;
                         }
                     }
                 });
