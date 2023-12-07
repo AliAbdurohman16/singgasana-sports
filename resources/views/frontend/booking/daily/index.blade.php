@@ -86,16 +86,28 @@
                                         </select>
                                     </div>
                                     <div class="col-md-12" id="hidePackage">
-                                        <select name="package" class="form-control">
-                                            <option value="">Pilih Paket</option>
-                                        </select>
+                                        <div class="input-group">
+                                            <select name="package[]" class="form-control flex-fill" id="packageSelect">
+                                                <option value="">Pilih Paket</option>
+                                            </select>
+                                            <input type="number" name="amount[]" class="form-control ms-2" placeholder="Jumlah">
+                                            <div class="input-group-append ms-2">
+                                                <button type="button" class="btn btn-primary" onclick="addPackage()">
+                                                    <i class="bi bi-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div id="packageContainer"></div>
                                     </div>
                                     <div class="col-md-12" id="hideSchedule">
-                                        <select name="schedule" id="schedule" class="form-control" disabled>
+                                        <select name="scheduleOption" id="scheduleOption" class="form-control" disabled>
                                             <option value="">Pilih Jadwal</option>
                                             <option value="Weekday">Weekday</option>
                                             <option value="Weekend">Weekend</option>
                                         </select>
+                                    </div>
+                                    <div class="col-md-12" hidden>
+                                        <input type="text" name="schedule" id="schedule">
                                     </div>
                                     <div class="col-md-12" id="hideDuration">
                                         <select name="duration" class="form-control">
@@ -160,18 +172,92 @@
             onChange: (selectedDates, dateStr, instance) => {
                 let total = 0;
                 var str = selectedDates.toString();
-                let schedule = document.getElementById('schedule');
+                let schedule = document.getElementById('scheduleOption');
+                let schdl = document.getElementById('schedule');
                 if (str.substring(0, 3) === 'Sat' || str.substring(0, 3) === 'Sun') {
                     schedule.value = "Weekend";
+                    schdl.value = "Weekend";
                 } else {
                     schedule.value = "Weekday";
+                    schdl.value= "Weekday";
                 }
             },
         });
 
+        function updateTotal(total) {
+            if (total !== null && total !== undefined) {
+                $('.total').text('Rp ' + total.toLocaleString('id-ID'));
+                $('input[name="total"]').val(total);
+            } else {
+                total = 0;
+                $('.total').text('Rp ' + total.toLocaleString('id-ID'));
+                $('input[name="total"]').val(total);
+            }
+        }
 
+        let packageCount = 1;
+        const packageContainer = document.getElementById('packageContainer');
 
+        function addPackage() {
+            const newSelect = document.createElement('select');
+            newSelect.setAttribute('name', 'package[]');
+            newSelect.setAttribute('class', 'form-control flex-fill mt-3');
+            newSelect.setAttribute('id', 'packageSelect' + packageCount);
 
+            const options = [
+                { value: '', text: 'Pilih Paket' },
+                { value: 'Dewasa', text: 'Dewasa' },
+                { value: 'Anak', text: 'Anak' },
+                { value: 'Pengantar', text: 'Pengantar' },
+                { value: 'Tiket Buku (15 Lembar)', text: 'Tiket Buku (15 Lembar)' }
+            ];
+
+            options.forEach(optionData => {
+                const option = document.createElement('option');
+                option.setAttribute('value', optionData.value);
+                option.appendChild(document.createTextNode(optionData.text));
+                newSelect.appendChild(option);
+            });
+
+            const amountInput = document.createElement('input');
+            amountInput.setAttribute('type', 'number');
+            amountInput.setAttribute('name', 'amount[]');
+            amountInput.setAttribute('class', 'form-control ms-2 mt-3');
+            amountInput.setAttribute('placeholder', 'Jumlah');
+            amountInput.setAttribute('id', 'amountInput' + packageCount);
+
+            const removeButton = document.createElement('button');
+            removeButton.setAttribute('type', 'button');
+            removeButton.setAttribute('class', 'btn btn-danger mt-3');
+            removeButton.innerHTML = '<i class="bi bi-x"></i>';
+            removeButton.addEventListener('click', function() {
+                const parentDiv = removeButton.parentNode.parentNode;
+                if (packageContainer.contains(parentDiv)) {
+                    parentDiv.style.display = 'none';
+                    packageCount--;
+                } else {
+                    console.error("Error: Parent div not found in packageContainer");
+                }
+            });
+
+            const packageInputGroupAppend = document.createElement('div');
+            packageInputGroupAppend.setAttribute('class', 'input-group-append ms-2');
+            packageInputGroupAppend.appendChild(removeButton);
+
+            const packageInputGroup = document.createElement('div');
+            packageInputGroup.setAttribute('class', 'input-group');
+            packageInputGroup.appendChild(newSelect);
+            packageInputGroup.appendChild(amountInput);
+            packageInputGroup.appendChild(packageInputGroupAppend);
+
+            const packageDiv = document.createElement('div');
+            packageDiv.setAttribute('class', 'col-md-12');
+            packageDiv.appendChild(packageInputGroup);
+
+            packageContainer.appendChild(packageDiv);
+
+            packageCount++;
+        }
 
         $(document).ready(function() {
             var hideCategory = $('#hideCategory').hide();
@@ -179,12 +265,12 @@
             var hidePackage = $('#hidePackage').hide();
             var hideSchedule = $('#hideSchedule').hide();
             var hideDuration = $('#hideDuration').hide();
+            var hidePackageBtn = $('#hidePackageBtn').hide();
 
             $('select[name="service"]').change(function() {
-                hideCategory.show();
                 var selectedService = $(this).val();
                 var categorySelect = $('select[name="category"]');
-                var packageSelect = $('select[name="package"]');
+                var packageSelect = $('select[name="package[]"]');
 
                 if (selectedService == 1) {
                     categorySelect.empty().append(
@@ -193,44 +279,46 @@
                         '<option value="Sekolah">Sekolah</option>'
                     );
 
-                    categorySelect.change(function() {
-                        if ($(this).val() === "Renang") {
-                            hidePackage.show();
-                            hideSchedule.show();
-                            packageSelect.empty().append(
-                                '<option value="">Pilih Paket</option>' +
-                                '<option value="Dewasa">Dewasa</option>' +
-                                '<option value="Anak">Anak</option>' +
-                                '<option value="Pengantar">Pengantar</option>' +
-                                '<option value="Tiket Buku (15 Lembar)">Tiket Buku (15 Lembar)</option>'
-                            );
-                        } else if ($(this).val() === "Sekolah") {
-                            hidePackage.show();
-                            hideSchedule.hide();
-                            packageSelect.empty().append(
-                                '<option value="">Pilih Paket</option>' +
-                                '<option value="SD Bintang Mulia">SD Bintang Mulia</option>' +
-                                '<option value="SMP Bintang Mulia">SMP Bintang Mulia</option>' +
-                                '<option value="SMA Bintang Mulia">SMA Bintang Mulia</option>' +
-                                '<option value="TK BPK Penabur Singgasana">TK BPK Penabur Singgasana</option>' +
-                                '<option value="SD BPK Penabur Singgasana">SD BPK Penabur Singgasana</option>' +
-                                '<option value="SMP BPK Penabur Singgasana">SMP BPK Penabur Singgasana</option>' +
-                                '<option value="SMA BPK Penabur Singgasana">SMA BPK Penabur Singgasana</option>' +
-                                '<option value="TK Harapan Kasih">TK Harapan Kasih</option>' +
-                                '<option value="SD Harapan Kasih">SD Harapan Kasih</option>' +
-                                '<option value="SMP Harapan Kasih">SMP Harapan Kasih</option>' +
-                                '<option value="SD Kalam Kudus">SD Kalam Kudus</option>' +
-                                '<option value="Starbright">Starbright</option>'
-                            );
-                        } else {
-                            hidePackage.hide();
-                        }
+                    hidePackage.show();
+                    hideSchedule.show();
+                    hidePackageBtn.show();
+
+                    packageSelect.empty().append(
+                        '<option value="">Pilih Paket</option>' +
+                        '<option value="Dewasa">Dewasa</option>' +
+                        '<option value="Anak">Anak</option>' +
+                        '<option value="Pengantar">Pengantar</option>' +
+                        '<option value="Tiket Buku (15 Lembar)">Tiket Buku (15 Lembar)</option>'
+                    );
+
+                    $('#addPackageBtn').click(function() {
+                        var htmlToAdd = `
+                        <div class="col-md-12 mb-3">
+                            <div class="input-group">
+                                <select name="package" class="form-control flex-fill">
+                                    <option value="">Pilih Paket</option>
+                                </select>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary ms-2 removePackageBtn">
+                                        <i class="bi bi-x"></i> Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>`;
+
+                        var packagesContainer = $('#packagesContainer');
+                        packagesContainer.append(htmlToAdd);
+
+                        $('.removePackageBtn').click(function() {
+                            $(this).closest('.col-md-12').remove();
+                        });
                     });
 
                     hideUsage.hide();
                     hideDuration.hide();
-                    hideSchedule.hide();
                 } else if (selectedService == 5 || selectedService == 6) {
+                    hideCategory.show();
+
                     categorySelect.empty().append(
                         '<option value="">Pilih Kategori</option>' +
                         '<option value="Umum">Umum</option>' +
@@ -246,6 +334,7 @@
                     hideDuration.show();
                     hidePackage.hide();
                     hideSchedule.hide();
+                    hidePackageBtn.hide();
                 } else {
                     categorySelect.empty().append(
                         '<option value="">Pilih Kategori</option>' +
@@ -264,32 +353,22 @@
                     hideDuration.show();
                     hidePackage.hide();
                     hideSchedule.hide();
+                    hidePackageBtn.hide();
                 }
             });
 
-            function updateTotal(total) {
-                if (total !== null && total !== undefined) {
-                    $('.total').text('Rp ' + total.toLocaleString('id-ID'));
-                    $('input[name="total"]').val(total);
-                } else {
-                    total = 0;
-                    $('.total').text('Rp ' + total.toLocaleString('id-ID'));
-                    $('input[name="total"]').val(total);
-                }
-            }
-
-
-            $('select[name="package"], select[name="schedule"]').change(function() {
-                var package = $('select[name="package"]').val();
-                var schedule = $('select[name="schedule"]').val();
+            $('select[name="scheduleOption"], select[name="package[]"], input[name="amount[]"]').on('change input', function() {
+                var package = $('select[name="package[]"]').val();
+                var schedule = $('select[name="scheduleOption"]').val();
+                var amount = $('input[name="amount[]"]').val();
                 var total = 0;
 
                 prices.forEach(function(price) {
                     if (price.package === package) {
                         if (schedule === "Weekday") {
-                            total = price.weekday;
+                            total = price.weekday * amount;
                         } else if (schedule === "Weekend") {
-                            total = price.weekend;
+                            total = price.weekend * amount;
                         }
                     }
                 });
