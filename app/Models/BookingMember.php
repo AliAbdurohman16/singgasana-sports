@@ -33,4 +33,9 @@ class BookingMember extends Model
     {
         return $this->belongsTo(Service::class);
     }
+
+    public function booking_schools()
+    {
+        return $this->hasMany(BookingSchool::class);
+    }
 }

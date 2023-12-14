@@ -8,11 +8,13 @@ use App\Models\PriceMember;
 use App\Models\Service;
 use App\Models\BookingDaily;
 use App\Models\BookingMember;
+use App\Models\BookingSchool;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\InvoiceBookingDailyMail;
 use App\Mail\InvoiceBookingMemberMail;
+use App\Mail\InvoiceBookingSchoolMail;
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
 
@@ -35,7 +37,7 @@ class BookingController extends Controller
         $category = $request->category;
 
         if ($service == 1) {
-            $information = $category."(".$request->package.")";
+            $information = $request->package;
             $time = $request->schedule;
         } else if ($service == 5 || $service == 6) {
             $information = $category;
@@ -85,7 +87,23 @@ class BookingController extends Controller
         }
 
         $datetime = $request->datetime;
-        $package = $request->package;
+        $school = $request->school;
+        $student = $request->student;
+        $total = $request->total;
+
+        if ($total == 0) {
+            return redirect('booking/member')->with('error', 'Booking gagal! Silahkan lengkapi form isian tersebut.');
+        }
+
+        if (empty($datetime)) {
+            return redirect('booking/member')->with('error', 'Booking gagal! Tanggal Mulai wajib diisi!.');
+        }
+
+        if (!empty($school)) {
+            $package = 'Sekolah';
+        } else {
+            $package = $request->package;
+        }
 
         $packageExpiration = [
             "Iuran Membership 2 Bulan" => 2,
@@ -110,6 +128,7 @@ class BookingController extends Controller
             "Paket Suka - Suka 10 Jam" => 10,
             "Paket Suka - Suka 12 Jam" => 12,
             "Paket Suka - Suka 15 Jam" => 15,
+            "Sekolah" => 1,
         ];
 
         $duration = $packageExpiration[$package];
@@ -120,6 +139,8 @@ class BookingController extends Controller
             $expired = Carbon::parse($datetime)->addWeeks();
         } elseif (is_numeric($duration)) {
             $expired = Carbon::parse($datetime)->addHours($duration);
+        } else {
+            $expired = Carbon::parse($datetime)->addMonths(1);
         }
 
         $data = BookingMember::create([
@@ -127,11 +148,23 @@ class BookingController extends Controller
             'service_id' => $request->service,
             'datetime' => $datetime,
             'package' => $package,
-            'total' => $request->total,
+            'total' => $total,
             'expired' => $expired,
         ]);
 
-        Mail::to($user->email)->send(new InvoiceBookingMemberMail($data));
+        if (!empty($school) && !empty($student)) {
+            $bookingSchool = BookingSchool::create([
+                'booking_member_id' => $data->id,
+                'school' => $school,
+                'student_counts' => $student,
+                'lock' => $student,
+            ]);
+
+            Mail::to($user->email)->send(new InvoiceBookingSchoolMail($bookingSchool));
+        } else {
+            Mail::to($user->email)->send(new InvoiceBookingMemberMail($data));
+        }
+
         return redirect('booking/member')->with('message', 'Booking berhasil! Mohon periksa email yang telah terdaftar.');
     }
 

@@ -40,6 +40,10 @@
                                 <div class="alert alert-success" role="alert">
                                     {{ Session::get('message') }}
                                 </div>
+                                @elseif (Session::has('error'))
+                                <div class="alert alert-danger" role="alert">
+                                    {{ Session::get('error') }}
+                                </div>
                                 @endif
                                 <div class="col-md-12">
                                     <select name="service" class="form-control">
@@ -67,12 +71,25 @@
                                         <option value="">Pilih Paket</option>
                                     </select>
                                 </div>
+                                <div class="col-md-12" id="hideSchool">
+                                    <select name="school" class="form-control">
+                                        <option value="">Pilih Sekolah</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12" id="hideStudent">
+                                    <input type="number" name="student" class="form-control" placeholder="Jumlah Siswa">
+                                </div>
                                 <div class="col-md-12">
                                     <table class="table table-borderless">
                                         <tr>
                                             <td class="fw-bold">Pembayaran</td>
                                             <td>:</td>
-                                            <td>Cash</td>
+                                            <td class="metode">Metode Pembayaran</td>
+                                        </tr>
+                                        <tr class="hidePrice">
+                                            <td class="fw-bold">Harga Persiswa</td>
+                                            <td>:</td>
+                                            <td class="priceStudent">Rp 0</td>
                                         </tr>
                                         <tr>
                                             <td class="fw-bold">Total</td>
@@ -124,17 +141,26 @@
         var hideMember = $('#hideMember').hide();
         var hideCategory = $('#hideCategory').hide();
         var hidePackage = $('#hidePackage').hide();
+        var hideSchool = $('#hideSchool').hide();
+        var hideStudent = $('#hideStudent').hide();
+        var hidePrice = $('.hidePrice').hide();
 
         $('select[name="service"]').change(function() {
             hideMember.show();
-            hideCategory.show();
-            hidePackage.show();
             var selectedService = $(this).val();
             var memberSelect = $('select[name="member"]');
             var categorySelect = $('select[name="category"]');
             var packageSelect = $('select[name="package"]');
+            var schoolSelect = $('select[name="school"]');
 
             if (selectedService == 1) {
+                var total = 0;
+                $('.total').text('Rp ' + total);
+                $('input[name="total"]').val(total);
+
+                hideCategory.hide();
+                hidePackage.hide();
+
                 memberSelect.empty().append(
                     '<option value="">Pilih Member</option>' +
                     '<option value="Personal">Personal</option>' +
@@ -146,11 +172,17 @@
                     '<option value="Community">Community</option>' +
                     '<option value="Corporate">Corporate</option>' +
                     '<option value="Ikawarna">Ikawarna</option>' +
-                    '<option value="Pelatih Renang">Pelatih Renang</option>'
+                    '<option value="Pelatih Renang">Pelatih Renang</option>' +
+                    '<option value="Sekolah">Sekolah</option>'
                 );
 
                 memberSelect.change(function() {
                     if ($(this).val() === "Personal" || $(this).val() === "Couple" || $(this).val() === "Triple" || $(this).val() === "Family") {
+                        hideCategory.show();
+                        hidePackage.show();
+                        hideSchool.hide();
+                        hideStudent.hide();
+
                         categorySelect.empty().append(
                             '<option value="">Pilih Kategori</option>' +
                             '<option value="Umum">Umum</option>' +
@@ -164,6 +196,11 @@
                             '<option value="Iuran Membership 12 Bulan">Iuran Membership 12 Bulan</option>'
                         );
                     } else if ($(this).val() === "Student") {
+                        hideCategory.show();
+                        hidePackage.show();
+                        hideSchool.hide();
+                        hideStudent.hide();
+
                         categorySelect.empty().append(
                             '<option value="">Pilih Kategori</option>' +
                             '<option value="Pelajar">Pelajar</option>'
@@ -175,6 +212,11 @@
                             '<option value="Iuran Membership 6 Bulan">Iuran Membership 6 Bulan</option>'
                         );
                     } else if ($(this).val() === "Swimming Club") {
+                        hideCategory.show();
+                        hidePackage.show();
+                        hideSchool.hide();
+                        hideStudent.hide();
+
                         categorySelect.empty().append(
                             '<option value="">Pilih Kategori</option>' +
                             '<option value="Sekolah Olahraga">Sekolah Olahraga</option>'
@@ -188,6 +230,11 @@
                             '<option value="Paket D - Pra Prestasi">Paket D - Pra Prestasi </option>'
                         );
                     } else if ($(this).val() === "Community" || $(this).val() === "Corporate" || $(this).val() === "Ikawarna") {
+                        hideCategory.show();
+                        hidePackage.show();
+                        hideSchool.hide();
+                        hideStudent.hide();
+
                         categorySelect.empty().append(
                             '<option value="">Pilih Kategori</option>' +
                             '<option value="Perusahaan">Perusahaan</option>'
@@ -201,6 +248,11 @@
                             '<option value="Iuran Membership 6 Bulan (10 Orang)">Iuran Membership 6 Bulan (10 Orang)</option>'
                         );
                     } else if ($(this).val() === "Pelatih Renang") {
+                        hideCategory.show();
+                        hidePackage.show();
+                        hideSchool.hide();
+                        hideStudent.hide();
+
                         categorySelect.empty().append(
                             '<option value="">Pilih Kategori</option>' +
                             '<option value="Pelatih">Pelatih</option>'
@@ -211,10 +263,43 @@
                             '<option value="Iuran Membership Pelatih Club 2 Bulan">Iuran Membership Pelatih Club 2 Bulan</option>' +
                             '<option value="Iuran Membership Pelatih Club + Fitness 2 Bulan">Iuran Membership Pelatih Club + Fitness 2 Bulan</option>'
                         );
+                    } else if ($(this).val() === "Sekolah") {
+                        var total = 0;
+                        $('.total').text('Rp ' + total);
+                        $('input[name="total"]').val(total);
+
+                        hideSchool.show();
+                        hideStudent.show();
+                        hideCategory.hide();
+                        hidePackage.hide();
+
+                        schoolSelect.empty().append(
+                            '<option value="">Pilih Sekolah</option>' +
+                            '<option value="SD Bintang Mulia">SD Bintang Mulia</option>' +
+                            '<option value="SMP Bintang Mulia">SMP Bintang Mulia</option>' +
+                            '<option value="SMA Bintang Mulia">SMA Bintang Mulia</option>' +
+                            '<option value="TK BPK Penabur Singgasana">TK BPK Penabur Singgasana</option>' +
+                            '<option value="SD BPK Penabur Singgasana">SD BPK Penabur Singgasana</option>' +
+                            '<option value="SMP BPK Penabur Singgasana">SMP BPK Penabur Singgasana</option>' +
+                            '<option value="SMA BPK Penabur Singgasana">SMA BPK Penabur Singgasana</option>' +
+                            '<option value="TK Harapan Kasih">TK Harapan Kasih</option>' +
+                            '<option value="SD Harapan Kasih">SD Harapan Kasih</option>' +
+                            '<option value="SMP Harapan Kasih">SMP Harapan Kasih</option>' +
+                            '<option value="SD Kalam Kudus">SD Kalam Kudus</option>' +
+                            '<option value="Starbright">Starbright</option>'
+                        )
                     }
                 });
             } else if (selectedService == 2 || selectedService == 3) {
+                var total = 0;
+                $('.total').text('Rp ' + total);
+                $('input[name="total"]').val(total);
+
                 hideMember.hide();
+                hideSchool.hide();
+                hideStudent.hide();
+                hideCategory.show();
+                hidePackage.show();
 
                 categorySelect.empty().append(
                     '<option value="">Pilih Kategori</option>' +
@@ -231,6 +316,10 @@
                 );
             } else if (selectedService == 4) {
                 hideMember.hide();
+                hideSchool.hide();
+                hideStudent.hide();
+                hideCategory.show();
+                hidePackage.show();
 
                 categorySelect.empty().append(
                     '<option value="">Pilih Kategori</option>' +
@@ -246,6 +335,10 @@
                 );
             } else if (selectedService == 5) {
                 hideMember.hide();
+                hideSchool.hide();
+                hideStudent.hide();
+                hideCategory.show();
+                hidePackage.show();
 
                 categorySelect.empty().append(
                     '<option value="">Pilih Kategori</option>' +
@@ -263,6 +356,10 @@
                 );
             } else if (selectedService == 6) {
                 hideMember.hide();
+                hideSchool.hide();
+                hideStudent.hide();
+                hideCategory.show();
+                hidePackage.show();
 
                 categorySelect.empty().append(
                     '<option value="">Pilih Kategori</option>' +
@@ -274,6 +371,13 @@
                     '<option value="">Pilih Paket</option>' +
                     '<option value="Per 1 Jam 1x Seminggu">Per 1 Jam 1x Seminggu</option>'
                 );
+            } else {
+                hideMember.hide();
+                hideCategory.hide();
+                hidePackage.hide();
+                hideSchool.hide();
+                hideStudent.hide();
+                hidePrice.hide();
             }
         });
 
@@ -339,9 +443,38 @@
                 }
             });
 
-            $('.total').text('Rp ' + total.toLocaleString('id-ID'));
+            hidePrice.hide();
+            $('.total').text('Rp ' + total);
+            $('.metode').text('Pembayaran dikasir');
             $('input[name="total"]').val(total);
         });
+
+        $('select[name="school"], input[name="student"]').on('change input', function () {
+            var school = $('select[name="school"]').val();
+            var student = $('input[name="student"]').val();
+            var total = 0;
+            var priceStudent = 0;
+
+            prices.forEach(function (data) {
+                if (data.category == school) {
+                    priceStudent = data.price;
+                    total = priceStudent * student;
+                }
+            });
+
+            hidePrice.show();
+
+            $('.priceStudent').text(formattedPrice(priceStudent));
+            $('.total').text(formattedPrice(total));
+            $('.metode').text('Tagihan diakhir bulan');
+            $('input[name="total"]').val(total);
+        });
+
+        function formattedPrice(name) {
+            var formatted = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(name);
+            formatted = formatted.replace(",00", "");
+            return formatted;
+        }
     });
 </script>
 @endsection

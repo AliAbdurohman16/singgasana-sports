@@ -17,16 +17,10 @@
             <div class="col-4"><b>Tanggal Mulai</b></div>
             <div class="col-8">{{ date('d-m-Y H:i:s', strtotime($data->datetime)) }}</div>
         </div>
-        @if (!is_null($data->duration))
-        <div class="row mb-2">
-            <div class="col-4"><b>Durasi</b></div>
-            <div class="col-8">{{ $data->duration }}</div>
-        </div>
-        @endif
         <div class="dashed mb-2"></div>
         <div class="row mb-2">
             <div class="col-4"><b>Pembayaran :</b></div>
-            <div class="col-8"><b>Cash</b></div>
+            <div class="col-8"><b>Pembayaran dikasir</b></div>
         </div>
         <div class="row mb-2">
             <div class="col-4"><b>Total Payment :</b></div>

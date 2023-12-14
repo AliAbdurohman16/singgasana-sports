@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('service_id');
             $table->string('member')->nullable();
             $table->string('category');
+            $table->decimal('price', 10, 2)->nullable();
             $table->decimal('one_hours', 10, 2)->nullable();
             $table->decimal('two_hours', 10, 2)->nullable();
             $table->decimal('three_hours', 10, 2)->nullable();

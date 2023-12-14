@@ -226,5 +226,89 @@ class PriceMemberSeeder extends Seeder
             'member_coach_club_two_months' => 2750000.00,
             'member_coach_club_two_months_plus_fitness' => 5100000.00,
         ]);
+
+        PriceMember::create([
+            'service_id' => 1,
+            'member' => 'Sekolah',
+            'category' => 'SD Bintang Mulia',
+            'price' => 18000.00,
+        ]);
+
+        PriceMember::create([
+            'service_id' => 1,
+            'member' => 'Sekolah',
+            'category' => 'SMP Bintang Mulia',
+            'price' => 28000.00,
+        ]);
+
+        PriceMember::create([
+            'service_id' => 1,
+            'member' => 'Sekolah',
+            'category' => 'SMA Bintang Mulia',
+            'price' => 28000.00,
+        ]);
+
+        PriceMember::create([
+            'service_id' => 1,
+            'member' => 'Sekolah',
+            'category' => 'TK BPK Penabur Singgasana',
+            'price' => 17000.00,
+        ]);
+
+        PriceMember::create([
+            'service_id' => 1,
+            'member' => 'Sekolah',
+            'category' => 'SD BPK Penabur Singgasana',
+            'price' => 17000.00,
+        ]);
+
+        PriceMember::create([
+            'service_id' => 1,
+            'member' => 'Sekolah',
+            'category' => 'SMP BPK Penabur Singgasana',
+            'price' => 17000.00,
+        ]);
+
+        PriceMember::create([
+            'service_id' => 1,
+            'member' => 'Sekolah',
+            'category' => 'SMA BPK Penabur Singgasana',
+            'price' => 17000.00,
+        ]);
+
+        PriceMember::create([
+            'service_id' => 1,
+            'member' => 'Sekolah',
+            'category' => 'TK Harapan Kasih',
+            'price' => 21000.00,
+        ]);
+
+        PriceMember::create([
+            'service_id' => 1,
+            'member' => 'Sekolah',
+            'category' => 'SD Harapan Kasih',
+            'price' => 21000.00,
+        ]);
+
+        PriceMember::create([
+            'service_id' => 1,
+            'member' => 'Sekolah',
+            'category' => 'SMP Harapan Kasih',
+            'price' => 27000.00,
+        ]);
+
+        PriceMember::create([
+            'service_id' => 1,
+            'member' => 'Sekolah',
+            'category' => 'SD Kalam Kudus',
+            'price' => 18000.00,
+        ]);
+
+        PriceMember::create([
+            'service_id' => 1,
+            'member' => 'Sekolah',
+            'category' => 'Starbright',
+            'price' => 17000.00,
+        ]);
     }
 }
