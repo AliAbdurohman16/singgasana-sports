@@ -22,7 +22,9 @@ class DashboardController extends Controller
             'officers' => User::whereHas('roles', function ($query) {
                             $query->where('name', '=', 'admin')->orWhere('name', '=', 'cashier');
                         })->count(),
-            'schedules' => BookingDaily::all(),
+            'schedules' => BookingDaily::select('booking_dailies.*', 'services.name as service_name')
+                            ->join('services', 'booking_dailies.service_id', '=', 'services.id')
+                            ->get(),
             'histories' => BookingMember::where('user_id', Auth::user()->id)
                             ->where('status', 'success')
                             ->get(),

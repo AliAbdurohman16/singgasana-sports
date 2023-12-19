@@ -170,7 +170,9 @@ class BookingController extends Controller
 
     public function schedule()
     {
-        $schedules = BookingDaily::all();
+        $schedules = BookingDaily::select('booking_dailies.*', 'services.name as service_name')
+                        ->join('services', 'booking_dailies.service_id', '=', 'services.id')
+                        ->get();
 
         return view('frontend.schedule.index', compact('schedules'));
     }

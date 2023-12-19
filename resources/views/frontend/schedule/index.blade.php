@@ -58,7 +58,7 @@
             slotMaxTime: '00:00:00',
             events: schedules.map(function(schedule) {
                 return {
-                    title: schedule.service,
+                    title: schedule.service_name,
                     start: schedule.datetime,
                     end: schedule.expired,
                     eventColor: 'blue',
