@@ -61,7 +61,7 @@
                             <tr>
                                 <td class="fw-bold">Sekolah</td>
                                 <td>:</td>
-                                <td>{{ $row->school }}</td>
+                                <td>{{ $row->bookingMember->school }}</td>
                             </tr>
                             <tr>
                                 <td class="fw-bold">Jumlah Siswa</td>
@@ -74,9 +74,9 @@
                                 <td>{{ date('d-m-Y H:i:s', strtotime($row->bookingMember->expired)) }}</td>
                             </tr>
                             <tr>
-                                <td class="fw-bold">Total</td>
+                                <td class="fw-bold">Subtotal</td>
                                 <td>:</td>
-                                <td>Rp {{ number_format($row->bookingMember->total, 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($row->subtotal, 0, ',', '.') }}</td>
                             </tr>
                         </table>
                     </div>

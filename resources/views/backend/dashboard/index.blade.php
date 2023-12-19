@@ -134,10 +134,10 @@
                 <div class="card">
                     <div class="card-body">
                         <h6 class="text-muted mb-1">{{ $history->service->name }}</h6>
-                        @if ($history->service_id == 1)
-                        <img src="{{ asset('qr_codes/' . $history->qr) }}" class="mb-2" width="20%" alt="QR Code"><br>
-                        @else
-                        <h5 class="font-bold">PIN: {{ $history->pin }}</h5>
+                        @if ($history->service_id != 1)
+                            <h5 class="font-bold">PIN: {{ $history->pin }}</h5>
+                        {{-- @else
+                            <img src="{{ asset('qr_codes/' . $history->qr) }}" class="mb-2" width="20%" alt="QR Code"><br> --}}
                         @endif
                         <small class="text-muted mb-0">Kedaluwarsa: {{ date('d-m-Y H:i:s', strtotime($history->expired)) }}</small>
                     </div>

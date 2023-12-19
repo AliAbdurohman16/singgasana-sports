@@ -148,6 +148,8 @@ class BookingController extends Controller
                             ->first();
 
         if ($existingBooking) {
+            $existingBooking->total += $total;
+            $existingBooking->save();
             $data = $existingBooking;
         } else {
             $data = BookingMember::create([
@@ -166,6 +168,7 @@ class BookingController extends Controller
                 'booking_member_id' => $data->id,
                 'student_counts' => $student,
                 'lock' => $student,
+                'subtotal' => $total,
             ]);
 
             Mail::to($user->email)->send(new InvoiceBookingSchoolMail($bookingSchool));

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('student_counts')->nullable();
             $table->string('not_present')->nullable();
             $table->string('lock')->nullable();
+            $table->decimal('subtotal', 15, 2);
             $table->timestamps();
             $table->foreign('booking_member_id')->references('id')->on('booking_members')->onDelete('cascade');
         });
