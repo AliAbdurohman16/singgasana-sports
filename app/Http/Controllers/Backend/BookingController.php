@@ -58,11 +58,11 @@ class BookingController extends Controller
         $total = $request->total;
 
         if ($total == 0) {
-            return redirect('booking/member')->with('error', 'Booking gagal! Silahkan lengkapi form isian tersebut.');
+            return redirect('booking/create')->with('error', 'Booking gagal! Silahkan lengkapi form isian tersebut.');
         }
 
         if (empty($datetime)) {
-            return redirect('booking/member')->with('error', 'Booking gagal! Tanggal Mulai wajib diisi!.');
+            return redirect('booking/create')->with('error', 'Booking gagal! Tanggal Mulai wajib diisi!.');
         }
 
         if (!empty($school)) {
@@ -109,19 +109,27 @@ class BookingController extends Controller
             $expired = Carbon::parse($datetime)->addMonths(1);
         }
 
-        $data = BookingMember::create([
-            'user_id' => $user->id,
-            'service_id' => $request->service,
-            'datetime' => $datetime,
-            'package' => $package,
-            'total' => $total,
-            'expired' => $expired,
-        ]);
+        $existingBooking = BookingMember::where('school', $school)
+                            ->where('status', 'Pending')
+                            ->first();
 
-        if (!empty($school) && !empty($student)) {
+        if ($existingBooking) {
+            $data = $existingBooking;
+        } else {
+            $data = BookingMember::create([
+                'user_id' => $user->id,
+                'service_id' => $request->service,
+                'datetime' => $datetime,
+                'package' => $package,
+                'school' => $school,
+                'total' => $total,
+                'expired' => $expired,
+            ]);
+        }
+
+        if (!empty($student)) {
             $bookingSchool = BookingSchool::create([
                 'booking_member_id' => $data->id,
-                'school' => $school,
                 'student_counts' => $student,
                 'lock' => $student,
             ]);

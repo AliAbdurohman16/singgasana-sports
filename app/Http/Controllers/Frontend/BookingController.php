@@ -143,19 +143,27 @@ class BookingController extends Controller
             $expired = Carbon::parse($datetime)->addMonths(1);
         }
 
-        $data = BookingMember::create([
-            'user_id' => $user->id,
-            'service_id' => $request->service,
-            'datetime' => $datetime,
-            'package' => $package,
-            'total' => $total,
-            'expired' => $expired,
-        ]);
+        $existingBooking = BookingMember::where('school', $school)
+                            ->where('status', 'Pending')
+                            ->first();
 
-        if (!empty($school) && !empty($student)) {
+        if ($existingBooking) {
+            $data = $existingBooking;
+        } else {
+            $data = BookingMember::create([
+                'user_id' => $user->id,
+                'service_id' => $request->service,
+                'datetime' => $datetime,
+                'package' => $package,
+                'school' => $school,
+                'total' => $total,
+                'expired' => $expired,
+            ]);
+        }
+
+        if (!empty($student)) {
             $bookingSchool = BookingSchool::create([
                 'booking_member_id' => $data->id,
-                'school' => $school,
                 'student_counts' => $student,
                 'lock' => $student,
             ]);

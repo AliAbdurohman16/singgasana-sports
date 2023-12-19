@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('booking_schools', function (Blueprint $table) {
             $table->id();
             $table->string('booking_member_id');
-            $table->string('school');
             $table->string('student_counts')->nullable();
             $table->string('not_present')->nullable();
             $table->string('lock')->nullable();
