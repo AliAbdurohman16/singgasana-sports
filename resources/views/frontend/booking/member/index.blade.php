@@ -444,7 +444,7 @@
             });
 
             hidePrice.hide();
-            $('.total').text('Rp ' + total);
+            $('.total').text(formattedPrice(total));
             $('.metode').text('Pembayaran dikasir');
             $('input[name="total"]').val(total);
         });
