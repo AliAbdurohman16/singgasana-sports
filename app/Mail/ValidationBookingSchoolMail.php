@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class InvoiceBookingSchoolMail extends Mailable
+class ValidationBookingSchoolMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -27,7 +27,7 @@ class InvoiceBookingSchoolMail extends Mailable
 
     public function build()
     {
-        return $this->markdown('emails.invoice.school')
-                    ->subject('Invoice Booking Sekolah');
+        return $this->markdown('emails.validation.school')
+                    ->subject('Validasi Booking Sekolah');
     }
 }

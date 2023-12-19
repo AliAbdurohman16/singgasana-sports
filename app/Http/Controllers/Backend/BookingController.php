@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\ValidationBookingDailyMail;
 use App\Mail\ValidationBookingMemberMail;
+use App\Mail\ValidationBookingSchoolMail;
 use App\Mail\InvoiceBookingMemberMail;
 use App\Mail\InvoiceBookingSchoolMail;
 use Carbon\Carbon;
@@ -220,5 +221,66 @@ class BookingController extends Controller
         $member = BookingMember::where('id', $id)->first();
 
         return view('backend.booking.members.detail', compact('member'));
+    }
+
+    public function school()
+    {
+        $schools = BookingSchool::orderBy('status', 'asc')
+                        ->join('booking_members', 'booking_schools.booking_member_id', '=', 'booking_members.id')
+                        ->orderBy('booking_members.status', 'asc')
+                        ->get(['booking_schools.*', 'booking_members.status']);
+
+        return view('backend.booking.schools.index', compact('schools'));
+    }
+
+    public function validationSchool(Request $request, $id)
+    {
+        $member = BookingMember::where('id', $id)->first();
+
+        // Generate a 6-Digit PIN
+        $pin = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+
+        // Generate QR Code
+        $qr = QrCode::size(100)->generate($pin);
+
+        // Save QR Code as PNG
+        $qrPath = public_path('qr_codes/'); // Folder to save QR codes
+        $qrFileName = 'qr_' . time() . '.png'; // Generate a unique file name
+
+        // Save QR code as PNG
+        QrCode::size(300)->format('png')->backgroundColor(255, 255, 255)->margin(10)->generate($pin, $qrPath . $qrFileName);
+
+        $member->update([
+            'pin' => $pin,
+            'qr' => $qrFileName,
+            'status' => 'success',
+        ]);
+
+        Mail::to($member->user->email)->send(new ValidationBookingSchoolMail($member));
+
+        return response()->json(['message' => 'Data berhasil divalidasi!']);
+    }
+
+    public function showSchool($id)
+    {
+        $schools = BookingSchool::where('booking_member_id', $id)->get();
+
+        return view('backend.booking.schools.detail', compact('schools'));
+    }
+
+    public function notPresent(Request $request, $id)
+    {
+        $school = BookingSchool::find($id);
+
+        $not_present = $request->not_present;
+        $result = $school->student_counts - $not_present;
+
+        $school->update([
+            'student_counts' => $result,
+            'not_present' => $not_present,
+            'lock' => $result,
+        ]);
+
+        return redirect()->back()->with('message', 'Siswa tidak hadir berhasil diinputkan!');
     }
 }

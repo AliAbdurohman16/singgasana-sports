@@ -108,6 +108,9 @@
                         <li class="submenu-item {{ Request::is('booking/members*') ? 'active' : '' }}">
                             <a href="{{ route('booking.members') }}">Member</a>
                         </li>
+                        <li class="submenu-item {{ Request::is('booking/schools*') ? 'active' : '' }}">
+                            <a href="{{ route('booking.schools') }}">Sekolah</a>
+                        </li>
                     </ul>
                 </li>
                 @endif

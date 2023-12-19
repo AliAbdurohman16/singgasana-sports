@@ -19,7 +19,7 @@
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('booking.school') }}">Booking Sekolah</a>
+                                <a href="{{ route('booking.schools') }}">Booking Sekolah</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 List
@@ -33,59 +33,125 @@
         <!-- Basic Tables start -->
         <section class="section">
             <div class="card">
-                {{-- <div class="card-header">
-                    <button class="btn btn-primary btn-validation btn-sm mb-2"><i class="fas fa-qrcode"></i> Scan QR</button>
-                </div> --}}
                 <div class="card-body">
-                    <table class="table categories-table" id="table1">
-                        <thead>
-                        <tr>
-                            <th width="5%">No</th>
-                            <th>Nama Lengkap</th>
-                            <th>Email</th>
-                            <th>No Telp</th>
-                            <th>Layanan</th>
-                            <th>Waktu</th>
-                            <th>Tanggal Dibooking</th>
-                            <th>Informasi</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                            <th width="20%">Aksi</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($schools as $row)
-                            <tr>
-                                <input type="hidden" class="delete_id" value="{{ $row->id }}">
-                                <td>{{ $loop->iteration }}</td>
-
-                                <td>{{ $row->first_name }} {{ $row->last_name }}</td>
-                                <td>{{ $row->email }}</td>
-                                <td>{{ $row->telephone }}</td>
-                                <td>{{ $row->service->name }}</td>
-                                <td>{{ $row->duration }}</td>
-                                <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
-                                <td>{{ $row->information }}</td>
-                                <td>Rp {{ number_format($row->total, 0, ',', '.') }}</td>
-                                <td>
-                                    @if ($row->status == 'pending')
-                                        <span class="badge bg-secondary">Pending</span>
-                                    @elseif ($row->status == 'success')
-                                        <span class="badge bg-success">Success</span>
-                                    @else
-                                        <span class="badge bg-danger">Expired</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm mb-2" onclick="window.location='school/{{ $row->id }}'"><i class="fas fa-eye"></i> Detail</button>
-                                    @if ($row->status == 'pending')
-                                        <button class="btn btn-success btn-validation btn-sm mb-2" data-id="{{ $row->id }}"><i class="fas fa-check"></i> Validasi</button>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="attendance-tab" data-bs-toggle="tab" href="#attendance"
+                                role="tab" aria-controls="attendance" aria-selected="true">Absen</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="validation-tab" data-bs-toggle="tab" href="#validation"
+                                role="tab" aria-controls="validation" aria-selected="false">validasi</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="attendance" role="tabpanel" aria-labelledby="attendance-tab">
+                            <table class="table categories-table" id="table1">
+                                <thead>
+                                    <tr>
+                                        <th width="5%">No</th>
+                                        <th>Layanan</th>
+                                        <th>Tanggal Dibooking</th>
+                                        <th>Sekolah</th>
+                                        <th>Jml Siswa</th>
+                                        <th width="20%">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach ($schools as $row)
+                                    <tr>
+                                        <input type="hidden" class="delete_id" value="{{ $row->id }}">
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $row->bookingMember->service->name }}</td>
+                                        <td>{{ date('d-m-Y H:i:s', strtotime($row->bookingMember->datetime)) }}</td>
+                                        <td>{{ $row->school }}</td>
+                                        <td>{{ $row->student_counts }}</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#border-less-attendance{{ $row->id }}"><i class="fas fa-user"></i> Siswa Tidak Hadir</button>
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade text-left modal-borderless" id="border-less-attendance{{ $row->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Siswa Tidak Hadir</h5>
+                                                    <button type="button" class="close rounded-pill" data-bs-dismiss="modal" aria-label="Close">
+                                                        <i data-feather="x"></i>
+                                                    </button>
+                                                </div>
+                                                <form action="{{ route('booking.notPresent', $row->id ) }}" method="POST" class="form form-vertical">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-body">
+                                                        <div class="form-body">
+                                                        <div class="col-md-12">
+                                                            <label class="mb-2">Siswa Tidak Hadir</label>
+                                                            <input type="text" class="form-control" name="not_present" placeholder="Siswa Tidak Hadir" autofocus required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                                            <i class="fas fa-times d-block d-sm-none"></i>
+                                                            <span class="d-none d-sm-block">Batal</span>
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary ml-1" data-bs-dismiss="modal">
+                                                            <i class="fas fa-check d-block d-sm-none"></i>
+                                                            <span class="d-none d-sm-block">Simpan</span>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="validation" role="tabpanel" aria-labelledby="validation-tab">
+                            <table class="table categories-table" id="table2">
+                                <thead>
+                                <tr>
+                                    <th width="5%">No</th>
+                                    <th>Kode Booking</th>
+                                    <th>Nama Lengkap</th>
+                                    <th>Layanan</th>
+                                    <th>Tanggal Dibooking</th>
+                                    <th>Sekolah</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th width="20%">Aksi</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach ($schools as $row)
+                                    <tr>
+                                        <input type="hidden" class="delete_id" value="{{ $row->id }}">
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $row->booking_member_id }}</td>
+                                        <td>{{ $row->bookingMember->user->first_name }} {{ $row->bookingMember->user->last_name }}</td>
+                                        <td>{{ $row->bookingMember->service->name }}</td>
+                                        <td>{{ date('d-m-Y H:i:s', strtotime($row->bookingMember->datetime)) }}</td>
+                                        <td>{{ $row->school }}</td>
+                                        <td>Rp {{ number_format($row->bookingMember->total, 0, ',', '.') }}</td>
+                                        <td>
+                                            @if ($row->bookingMember->status == 'pending')
+                                                <span class="badge bg-secondary">Belum Bayar</span>
+                                            @elseif ($row->bookingMember->status == 'success')
+                                                <span class="badge bg-success">Sudah Bayar</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm mb-2" onclick="window.location='schools/{{ $row->booking_member_id }}'"><i class="fas fa-eye"></i> Detail</button>
+                                            @if ($row->bookingMember->status == 'pending')
+                                                <button class="btn btn-success btn-validation btn-sm mb-2" data-id="{{ $row->booking_member_id }}"><i class="fas fa-check"></i> Validasi</button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -126,7 +192,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "school/" + id,
+                        url: "schools/" + id,
                         type: 'PUT',
                         data: {
                             "id": id,

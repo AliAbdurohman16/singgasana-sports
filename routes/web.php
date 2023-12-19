@@ -54,6 +54,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('booking/members', [App\Http\Controllers\Backend\BookingController::class, 'member'])->name('booking.members');
         Route::get('booking/members/{id}', [App\Http\Controllers\Backend\BookingController::class, 'showMember'])->name('booking.showMembers');
         Route::put('booking/members/{id}', [App\Http\Controllers\Backend\BookingController::class, 'validationMember'])->name('booking.validationMember');
+        Route::get('booking/schools', [App\Http\Controllers\Backend\BookingController::class, 'school'])->name('booking.schools');
+        Route::get('booking/schools/{id}', [App\Http\Controllers\Backend\BookingController::class, 'showSchool'])->name('booking.showSchools');
+        Route::put('booking/schools/{id}', [App\Http\Controllers\Backend\BookingController::class, 'validationSchool'])->name('booking.validationSchool');
+        Route::put('booking/schools/not-present/{id}', [App\Http\Controllers\Backend\BookingController::class, 'notPresent'])->name('booking.notPresent');
         Route::get('service/swimming-pool', [App\Http\Controllers\Backend\SwimmingPoolController::class, 'index'])->name('swimmingPool');
         Route::get('service/swimming-pool/daily/{id}', [App\Http\Controllers\Backend\SwimmingPoolController::class, 'dailyEdit'])->name('swimmingPoolDaily.edit');
         Route::put('service/swimming-pool/daily/{id}', [App\Http\Controllers\Backend\SwimmingPoolController::class, 'dailyUpdate'])->name('swimmingPoolDaily.update');
