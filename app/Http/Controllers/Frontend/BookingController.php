@@ -47,7 +47,27 @@ class BookingController extends Controller
             $time = $request->duration;
         }
 
-        $expired = Carbon::parse($datetime)->addDay();
+        $expired = ($service == 1)
+                    ? Carbon::parse($datetime)->addDay()
+                    : Carbon::parse($datetime)->addHours(intval($request->duration));
+
+        if ($service != 1) {
+            // Check if there is an existing booking with the same service and overlapping datetime-expired range
+            $existingBooking = BookingDaily::whereHas('service', function ($query) use ($service, $datetime, $expired) {
+                                    $query->where('service_id', $service)
+                                            ->where(function ($query) use ($datetime, $expired) {
+                                                $query->whereBetween('datetime', [$datetime, $expired])
+                                                    ->orWhereBetween('expired', [$datetime, $expired]);
+                                            });
+                                    })->count();
+
+            $serviceData = Service::find($service);
+
+            if ($existingBooking >= $serviceData->field_counts) {
+                // If there are already bookings, return a failure message
+                return redirect('booking/daily')->with('error', 'Maaf, sudah mencapai batas maksimal booking untuk jam tersebut.');
+            }
+        }
 
         $data = BookingDaily::create([
             'first_name' => $request->first_name,
