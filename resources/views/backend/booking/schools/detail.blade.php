@@ -59,6 +59,11 @@
                                 <td>{{ date('d-m-Y H:i:s', strtotime($row->start_date)) }}</td>
                             </tr>
                             <tr>
+                                <td class="fw-bold">Expired</td>
+                                <td>:</td>
+                                <td>{{ date('d-m-Y H:i:s', strtotime($row->bookingMember->expired)) }}</td>
+                            </tr>
+                            <tr>
                                 <td class="fw-bold">Sekolah</td>
                                 <td>:</td>
                                 <td>{{ $row->bookingMember->school }}</td>

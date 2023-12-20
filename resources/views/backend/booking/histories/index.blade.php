@@ -40,11 +40,10 @@
                             <th>Email</th>
                             <th>No Telp</th>
                             <th>Layanan</th>
-                            <th>Durasi</th>
-                            <th>Tanggal Mulai</th>
-                            <th>Tanggal Selesai</th>
+                            <th>Paket</th>
                             <th>Total</th>
                             <th>Status</th>
+                            <th>aksi</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -57,9 +56,7 @@
                                 <td>{{ $row->user->email }}</td>
                                 <td>{{ $row->user->telephone }}</td>
                                 <td>{{ $row->service->name }}</td>
-                                <td>{{ $row->duration }}</td>
-                                <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
-                                <td>{{ date('d-m-Y H:i:s', strtotime($row->expired)) }}</td>
+                                <td>{{ $row->package }}</td>
                                 <td>Rp {{ number_format($row->total, 0, ',', '.') }}</td>
                                 <td>
                                     @if ($row->status == 'pending')
@@ -69,6 +66,9 @@
                                     @else
                                         <span class="badge bg-danger">Expired</span>
                                     @endif
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm mb-2" onclick="window.location='histories/{{ $row->id }}'"><i class="fas fa-eye"></i> Detail</button>
                                 </td>
                             </tr>
                         @endforeach

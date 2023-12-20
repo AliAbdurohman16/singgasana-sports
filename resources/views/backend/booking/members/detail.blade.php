@@ -63,7 +63,7 @@
                             <td>{{ date('d-m-Y H:i:s', strtotime($member->datetime)) }}</td>
                         </tr>
                         <tr>
-                            <td class="fw-bold">Tanggal Selesai</td>
+                            <td class="fw-bold">Expired</td>
                             <td>:</td>
                             <td>{{ date('d-m-Y H:i:s', strtotime($member->expired)) }}</td>
                         </tr>

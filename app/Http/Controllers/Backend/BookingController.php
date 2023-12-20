@@ -146,6 +146,16 @@ class BookingController extends Controller
         return redirect('booking/create')->with('message', 'Booking berhasil! Mohon periksa email yang telah terdaftar.');
     }
 
+    public function show($id)
+    {
+        $data = [
+            'schools' => BookingSchool::where('booking_member_id', $id)->get(),
+            'member' => BookingMember::find($id),
+        ];
+
+        return view('backend.booking.histories.detail', $data);
+    }
+
     public function daily()
     {
         $dailies = BookingDaily::orderBy('status', 'asc')->get();
@@ -155,7 +165,7 @@ class BookingController extends Controller
 
     public function validationDaily(Request $request, $id)
     {
-        $daily = BookingDaily::where('id', $id)->first();
+        $daily = BookingDaily::find($id);
 
         // Generate a 6-Digit PIN
         $pin = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
@@ -188,7 +198,7 @@ class BookingController extends Controller
 
     public function showDaily($id)
     {
-        $daily = BookingDaily::where('id', $id)->first();
+        $daily = BookingDaily::find($id);
 
         return view('backend.booking.dailies.detail', compact('daily'));
     }
@@ -202,7 +212,7 @@ class BookingController extends Controller
 
     public function validationMember(Request $request, $id)
     {
-        $member = BookingMember::where('id', $id)->first();
+        $member = BookingMember::find($id);
 
         // Generate a 6-Digit PIN
         $pin = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
@@ -230,7 +240,7 @@ class BookingController extends Controller
 
     public function showMember($id)
     {
-        $member = BookingMember::where('id', $id)->first();
+        $member = BookingMember::find($id);
 
         return view('backend.booking.members.detail', compact('member'));
     }
@@ -247,7 +257,7 @@ class BookingController extends Controller
 
     public function validationSchool(Request $request, $id)
     {
-        $member = BookingMember::where('id', $id)->first();
+        $member = BookingMember::find($id);
 
         // Generate a 6-Digit PIN
         $pin = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);

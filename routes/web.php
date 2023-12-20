@@ -43,6 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware('checkUserRole:user')->group(function () {
         Route::get('booking/histories', [App\Http\Controllers\Backend\BookingController::class, 'index'])->name('booking.histories');
+        Route::get('booking/histories/{id}', [App\Http\Controllers\Backend\BookingController::class, 'show'])->name('booking.show');
         Route::get('booking/create', [App\Http\Controllers\Backend\BookingController::class, 'create'])->name('booking.createMembers');
         Route::post('booking/store', [App\Http\Controllers\Backend\BookingController::class, 'store'])->name('booking.storeMembers');
     });
