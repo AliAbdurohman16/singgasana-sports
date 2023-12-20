@@ -15,7 +15,7 @@
         </div>
         <div class="row mb-2">
             <div class="col-4"><b>Nama Sekolah</b></div>
-            <div class="col-8">{{ $data->school }}</div>
+            <div class="col-8">{{ $data->bookingMember->school }}</div>
         </div>
         <div class="row mb-2">
             <div class="col-4"><b>Jumlah Siswa</b></div>
