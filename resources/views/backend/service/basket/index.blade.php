@@ -51,6 +51,7 @@
                                     <th width="5%">No</th>
                                     <th>Layanan</th>
                                     <th>Kategori</th>
+                                    <th>Jumlah Lapangan</th>
                                     <th>Per jam / Lapang (PAGI)</th>
                                     <th>Per jam / Lapang (SIANG)</th>
                                     <th width="20%">Aksi</th>
@@ -63,6 +64,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $row->service->name }}</td>
                                     <td>{{ $row->category }}</td>
+                                    <td>{{ $row->service->field_counts }} Lapang</td>
                                     <td>Rp {{ number_format($row->morning, 0, ',', '.') }}</td>
                                     <td>Rp {{ number_format($row->afternoon, 0, ',', '.') }}</td>
                                     <td>

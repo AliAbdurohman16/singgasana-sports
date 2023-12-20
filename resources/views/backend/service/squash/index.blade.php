@@ -51,6 +51,7 @@
                                     <th width="5%">No</th>
                                     <th>Layanan</th>
                                     <th>Kategori</th>
+                                    <th>Jumlah Lapangan</th>
                                     <th>Per jam / Lapang</th>
                                     <th width="20%">Aksi</th>
                                 </tr>
@@ -62,6 +63,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $row->service->name }}</td>
                                     <td>{{ $row->category }}</td>
+                                    <td>{{ $row->service->field_counts }} Lapang</td>
                                     <td>Rp {{ number_format($row->price, 0, ',', '.') }}</td>
                                     <td>
                                         <button class="btn btn-warning btn-sm mb-2" onclick="window.location='/service/squash/daily/{{ $row->id }}'"><i class="fas fa-edit"></i> Edit</button>

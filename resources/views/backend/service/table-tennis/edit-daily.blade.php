@@ -50,6 +50,10 @@
                                         <input type="text" class="form-control" value="{{ $daily->category }}" readonly/>
                                     </div>
                                     <div class="form-group">
+                                        <label for="first-name-column">Jumlah Meja</label>
+                                        <input type="number" class="form-control" name="field_counts" value="{{ $daily->service->field_counts }}"/>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="first-name-column">Per jam / Lapang</label>
                                         <input type="text" name="price" id="price" class="form-control" value="{{ old('price', intval($daily->price)) }}"/>
                                     </div>
