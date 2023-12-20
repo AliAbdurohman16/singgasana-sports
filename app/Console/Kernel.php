@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('update:expired-booking-daily')->everyMinute();
         $schedule->command('update:expired-booking-member')->everyMinute();
+        $schedule->command('send:invoices')->everyMinute();
     }
 
     /**
