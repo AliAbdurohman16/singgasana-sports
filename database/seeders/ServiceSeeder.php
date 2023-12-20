@@ -23,26 +23,31 @@ class ServiceSeeder extends Seeder
         Service::create( [
             'name' => 'Basket',
             'slug' => 'basket',
+            'field_counts' => 1,
         ]);
 
         Service::create([
             'name' => 'Badminton',
             'slug' => 'badminton',
+            'field_counts' => 4,
         ]);
 
         Service::create([
             'name' => 'Tenis',
             'slug' => 'tenis',
+            'field_counts' => 2,
         ]);
 
         Service::create([
             'name' => 'Tenis Meja',
             'slug' => 'tenis-meja',
+            'field_counts' => 3,
         ]);
 
         Service::create([
             'name' => 'Squash',
             'slug' => 'squash',
+            'field_counts' => 2,
         ]);
 
         // Service::create([
