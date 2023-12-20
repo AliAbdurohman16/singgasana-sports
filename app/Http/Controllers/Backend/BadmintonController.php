@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PriceDaily;
 use App\Models\PriceMember;
+use App\Models\Service;
 
 class BadmintonController extends Controller
 {
@@ -36,6 +37,12 @@ class BadmintonController extends Controller
         $daily->update([
             'morning' => $morning,
             'afternoon' => $afternoon,
+        ]);
+
+        $service = Service::find($daily->service_id);
+
+        $service->update([
+            'field_counts' => $request->field_counts
         ]);
 
         return redirect('service/badminton')->with('message', 'Layanan berhasil diubah');

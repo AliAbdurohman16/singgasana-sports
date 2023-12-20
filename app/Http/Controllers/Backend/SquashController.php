@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PriceDaily;
 use App\Models\PriceMember;
+use App\Models\Service;
 
 class SquashController extends Controller
 {
@@ -34,6 +35,12 @@ class SquashController extends Controller
 
         $daily->update([
             'price' => $price,
+        ]);
+
+        $service = Service::find($daily->service_id);
+
+        $service->update([
+            'field_counts' => $request->field_counts
         ]);
 
         return redirect('service/squash')->with('message', 'Layanan berhasil diubah');
