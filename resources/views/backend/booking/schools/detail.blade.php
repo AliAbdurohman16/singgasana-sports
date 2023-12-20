@@ -56,7 +56,7 @@
                             <tr>
                                 <td class="fw-bold">Tanggal Mulai</td>
                                 <td>:</td>
-                                <td>{{ date('d-m-Y H:i:s', strtotime($row->bookingMember->datetime)) }}</td>
+                                <td>{{ date('d-m-Y H:i:s', strtotime($row->start_date)) }}</td>
                             </tr>
                             <tr>
                                 <td class="fw-bold">Sekolah</td>

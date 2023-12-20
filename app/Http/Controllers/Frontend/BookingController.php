@@ -166,6 +166,7 @@ class BookingController extends Controller
         if (!empty($student)) {
             $bookingSchool = BookingSchool::create([
                 'booking_member_id' => $data->id,
+                'start_date' => $datetime,
                 'student_counts' => $student,
                 'lock' => $student,
                 'subtotal' => $total,

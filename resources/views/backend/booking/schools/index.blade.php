@@ -63,7 +63,7 @@
                                         <input type="hidden" class="delete_id" value="{{ $row->id }}">
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $row->bookingMember->service->name }}</td>
-                                        <td>{{ date('d-m-Y H:i:s', strtotime($row->bookingMember->datetime)) }}</td>
+                                        <td>{{ date('d-m-Y H:i:s', strtotime($row->start_date)) }}</td>
                                         <td>{{ $row->school }}</td>
                                         <td>{{ $row->student_counts }}</td>
                                         <td>
