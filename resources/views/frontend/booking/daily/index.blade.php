@@ -90,9 +90,9 @@
                                             <label for="dewasa" class="col-sm-8 col-form-label">Paket Dewasa</label>
                                             <div class="col-sm-4">
                                                 <div class="input-group">
-                                                    <button class="btn btn-outline-secondary" type="button" id="minusDewasa">-</button>
+                                                    <button class="btn btn-outline-secondary minus" type="button" id="minusDewasa" data-target="dewasa">-</button>
                                                     <input type="number" id="dewasa" name="dewasa" class="form-control text-center" min="0" value="0" disabled>
-                                                    <button class="btn btn-outline-secondary" type="button" id="plusDewasa">+</button>
+                                                    <button class="btn btn-outline-secondary plus" type="button" id="plusDewasa" data-target="dewasa">+</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -101,9 +101,9 @@
                                             <label for="anak" class="col-sm-8 col-form-label">Paket Anak</label>
                                             <div class="col-sm-4">
                                                 <div class="input-group">
-                                                    <button class="btn btn-outline-secondary" type="button" id="minusAnak">-</button>
+                                                    <button class="btn btn-outline-secondary minus" type="button" id="minusAnak" data-target="anak">-</button>
                                                     <input type="number" id="anak" name="anak" class="form-control text-center" min="0" value="0" disabled>
-                                                    <button class="btn btn-outline-secondary" type="button" id="plusAnak">+</button>
+                                                    <button class="btn btn-outline-secondary plus" type="button" id="plusAnak" data-target="anak">+</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -112,9 +112,9 @@
                                             <label for="pengantar" class="col-sm-8 col-form-label">Paket Pengantar</label>
                                             <div class="col-sm-4">
                                                 <div class="input-group">
-                                                    <button class="btn btn-outline-secondary" type="button" id="minusPengantar">-</button>
+                                                    <button class="btn btn-outline-secondary minus" type="button" id="minusPengantar" data-target="pengantar">-</button>
                                                     <input type="number" id="pengantar" name="pengantar" class="form-control text-center" min="0" value="0" disabled>
-                                                    <button class="btn btn-outline-secondary" type="button" id="plusPengantar">+</button>
+                                                    <button class="btn btn-outline-secondary plus" type="button" id="plusPengantar" data-target="pengantar">+</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,9 +123,9 @@
                                             <label for="buku" class="col-sm-8 col-form-label">Paket Tiket Buku (15 Lembar)</label>
                                             <div class="col-sm-4">
                                                 <div class="input-group">
-                                                    <button class="btn btn-outline-secondary" type="button" id="minusBuku">-</button>
+                                                    <button class="btn btn-outline-secondary minus" type="button" id="minusBuku" data-target="buku">-</button>
                                                     <input type="number" id="buku" name="buku" class="form-control text-center" min="0" value="0" disabled>
-                                                    <button class="btn btn-outline-secondary" type="button" id="plusBuku">+</button>
+                                                    <button class="btn btn-outline-secondary plus" type="button" id="plusBuku" data-target="buku">+</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -338,26 +338,12 @@
             $('select[name="service"]').change(function() {
                 var selectedService = $(this).val();
                 var categorySelect = $('select[name="category"]');
-                // var packageSelect = $('select[name="package[]"]');
 
                 if (selectedService == 1) {
-                    categorySelect.empty().append(
-                        '<option value="">Pilih Kategori</option>' +
-                        '<option value="Renang">Renang</option>' +
-                        '<option value="Sekolah">Sekolah</option>'
-                    );
-
+                    hideCategory.hide();
                     hidePackage.show();
                     hideSchedule.show();
                     hidePackageBtn.show();
-
-                    // packageSelect.empty().append(
-                    //     '<option value="">Pilih Paket</option>' +
-                    //     '<option value="Dewasa">Dewasa</option>' +
-                    //     '<option value="Anak">Anak</option>' +
-                    //     '<option value="Pengantar">Pengantar</option>' +
-                    //     '<option value="Tiket Buku (15 Lembar)">Tiket Buku (15 Lembar)</option>'
-                    // );
 
                     $('#addPackageBtn').click(function() {
                         var htmlToAdd = `
@@ -404,6 +390,8 @@
                     hideSchedule.hide();
                     hidePackageBtn.hide();
                 } else {
+                    hideCategory.show();
+
                     categorySelect.empty().append(
                         '<option value="">Pilih Kategori</option>' +
                         '<option value="Umum">Umum</option>' +
@@ -426,58 +414,55 @@
             });
 
             function updateTotal(total) {
-                if (total !== null && total !== undefined) {
-                    $('.total').text('Rp ' + total.toLocaleString('id-ID'));
-                    $('input[name="total"]').val(total);
-                } else {
-                    total = 0;
-                    $('.total').text('Rp ' + total.toLocaleString('id-ID'));
-                    $('input[name="total"]').val(total);
-                }
+                total = total || 0;
+                $('.total').text('Rp ' + total.toLocaleString('id-ID'));
+                $('input[name="total"]').val(total);
             }
 
-            $('select[name="scheduleOption"], #dewasa, #anak').on('change input', function() {
-                var schedule = $('select[name="scheduleOption"]').val();
-                var dewasa = parseInt($('#dewasa').val()) || 0;
-                var anak = parseInt($('#anak').val()) || 0;
-                var total = 0;
+            // $('select[name="scheduleOption"], #dewasa, #anak, #pengantar, #buku').on('change input', function() {
+            //     var schedule = $('select[name="scheduleOption"]').val();
+            //     var dewasa = parseInt($('#dewasa').val()) || 0;
+            //     var anak = parseInt($('#anak').val()) || 0;
+            //     var pengantar = parseInt($('#pengantar').val()) || 0;
+            //     var buku = parseInt($('#buku').val()) || 0;
+            //     var total = 0;
 
-                prices.forEach(function(price) {
-                    if (dewasa !== 0 && price.package === "Paket Dewasa") {
-                        if (schedule === "Weekday") {
-                            total += price.weekday * dewasa;
-                        } else if (schedule === "Weekend") {
-                            total += price.weekend * dewasa;
-                        }
-                    }
+            //     prices.forEach(function(price) {
+            //         if (dewasa !== 0 && price.package === "Paket Dewasa") {
+            //             if (schedule === "Weekday") {
+            //                 total += price.weekday * dewasa;
+            //             } else if (schedule === "Weekend") {
+            //                 total += price.weekend * dewasa;
+            //             }
+            //         }
 
-                    if (anak !== 0 && price.package === "Paket Anak") {
-                        if (schedule === "Weekday") {
-                            total += price.weekday * anak;
-                        } else if (schedule === "Weekend") {
-                            total += price.weekend * anak;
-                        }
-                    }
+            //         if (anak !== 0 && price.package === "Paket Anak") {
+            //             if (schedule === "Weekday") {
+            //                 total += price.weekday * anak;
+            //             } else if (schedule === "Weekend") {
+            //                 total += price.weekend * anak;
+            //             }
+            //         }
 
-                    if (anak !== 0 && price.package === "Pengantar") {
-                        if (schedule === "Weekday") {
-                            total += price.weekday * anak;
-                        } else if (schedule === "Weekend") {
-                            total += price.weekend * anak;
-                        }
-                    }
+            //         if (pengantar !== 0 && price.package === "Pengantar") {
+            //             if (schedule === "Weekday") {
+            //                 total += price.weekday * pengantar;
+            //             } else if (schedule === "Weekend") {
+            //                 total += price.weekend * pengantar;
+            //             }
+            //         }
 
-                    if (anak !== 0 && price.package === "Tiket Buku (15 Lembar)") {
-                        if (schedule === "Weekday") {
-                            total += price.weekday * anak;
-                        } else if (schedule === "Weekend") {
-                            total += price.weekend * anak;
-                        }
-                    }
-                });
+            //         if (buku !== 0 && price.package === "Tiket Buku (15 Lembar)") {
+            //             if (schedule === "Weekday") {
+            //                 total += price.weekday * buku;
+            //             } else if (schedule === "Weekend") {
+            //                 total += price.weekend * buku;
+            //             }
+            //         }
+            //     });
 
-                updateTotal(total);
-            });
+            //     updateTotal(total);
+            // });
 
             $('select[name="service"], select[name="category"], select[name="usage"], select[name="duration"]')
                 .change(function() {
