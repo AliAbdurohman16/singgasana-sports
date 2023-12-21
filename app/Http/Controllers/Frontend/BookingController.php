@@ -35,9 +35,37 @@ class BookingController extends Controller
         $service = $request->service;
         $datetime = $request->datetime;
         $category = $request->category;
+        $dewasa = $request->dewasa;
+        $anak = $request->anak;
+        $pengantar = $request->pengantar;
+        $buku = $request->buku;
+        $total = $request->total;
+
+        if ($total == 0) {
+            return redirect('booking/daily')->with('error', 'Booking gagal! Silahkan lengkapi form isian tersebut.');
+        }
+
+        if (empty($datetime)) {
+            return redirect('booking/daily')->with('error', 'Booking gagal! Tanggal Mulai wajib diisi!.');
+        }
 
         if ($service == 1) {
-            $information = $request->package;
+            if ($dewasa != 0 && $anak != 0 && $pengantar != 0 && $buku != 0) {
+                $information = 'Dewasa ' . $dewasa . ' Orang, Anak ' . $anak . ' Orang, Pengantar ' . $pengantar . ' Orang, Tiket Buku (15 Lembar) ' . $buku . ' Buah';
+            } else if ($dewasa != 0 && $anak != 0 && $pengantar != 0) {
+                $information = 'Dewasa ' . $dewasa . ' Orang, Anak ' . $anak . ' Orang, Pengantar ' . $pengantar . ' Orang';
+            } else if ($dewasa != 0 && $anak != 0) {
+                $information = 'Dewasa ' . $dewasa . ' Orang, Anak ' . $anak . ' Orang';
+            } else if ($dewasa != 0) {
+                $information = 'Dewasa ' . $dewasa . ' Orang';
+            } else if ($anak != 0) {
+                $information = 'Anak ' . $anak . ' Orang';
+            } else if ($pengantar != 0) {
+                $information = 'Pengantar ' . $pengantar . ' Orang';
+            } else if ($buku != 0) {
+                $information = 'Tiket Buku (15 Lembar) ' . $buku . ' Buah';
+            }
+
             $time = $request->schedule;
         } else if ($service == 5 || $service == 6) {
             $information = $category;
@@ -78,7 +106,7 @@ class BookingController extends Controller
             'datetime' => $datetime,
             'information' => $information,
             'duration' => $time,
-            'total' => $request->total,
+            'total' => $total,
             'expired' => $expired,
         ]);
 
