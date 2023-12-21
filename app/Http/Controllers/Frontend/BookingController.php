@@ -76,8 +76,8 @@ class BookingController extends Controller
         }
 
         $expired = ($service == 1)
-                    ? Carbon::parse($datetime)->addDay()
-                    : Carbon::parse($datetime)->addHours(intval($request->duration));
+                    ? Carbon::parse($datetime)->addHours(23)->endOfDay()->min(Carbon::parse($datetime)->endOfDay())
+                    : Carbon::parse($datetime)->addHours(intval($request->duration))->endOfDay()->min(Carbon::parse($datetime)->endOfDay());
 
         if ($service != 1) {
             // Check if there is an existing booking with the same service and overlapping datetime-expired range
