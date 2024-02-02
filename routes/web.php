@@ -2,6 +2,8 @@
 
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,4 +104,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'users' => App\Http\Controllers\Backend\UserController::class,
         ]);
     });
+});
+
+Route::get('/run-scheduler', function () {
+    Artisan::call('schedule:run');
+    return 'Scheduler has been run successfully.';
 });
