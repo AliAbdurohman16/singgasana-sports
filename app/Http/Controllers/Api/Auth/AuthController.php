@@ -13,7 +13,6 @@ use App\Helpers\ResponseFormatter;
 
 class AuthController extends Controller
 {
-    use RegistersUsers;
 
     public function register(Request $request)
     {
@@ -34,12 +33,11 @@ class AuthController extends Controller
             'last_name' => $request->last_name,
             'telephone' => $request->telephone,
             'email' => $request->email,
+            'email_verified_at' => now(),
             'password' => Hash::make($request->password)
         ]);
 
         $user->assignRole('user');
-
-        $user->sendEmailVerificationNotification();
 
         return ResponseFormatter::success(['user' => $user], 'Register has been successfully!');
     }
