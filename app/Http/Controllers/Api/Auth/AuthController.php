@@ -25,7 +25,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return ResponseFormatter::error($validator->errors(), 'Validation Error', 422);
         }
 
         $user = User::create([
@@ -51,9 +51,9 @@ class AuthController extends Controller
                     ->first();
 
         if (!$user || !Auth::attempt($credentials)) {
-            return response()->json([
+            return ResponseFormatter::error([
                 'message' => 'Unauthorized'
-            ], 401);
+            ], 'Unauthorized', 401);
         }
 
         $user = User::where('email', $request->email)->firstOrFail();
