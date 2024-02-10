@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Booking\MemberController;
 use App\Http\Controllers\Api\Service\ServiceController;
 use App\Http\Controllers\Api\Page\PageController;
 use App\Http\Controllers\Api\Article\ArticleController;
+use App\Http\Controllers\Api\Price\{PriceDailyController, PriceMemberController};
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Article
     Route::get('articles/{slug}', [ArticleController::class, 'index']);
+
+    // Price
+    Route::name('price.')->prefix('price')->group(function () {
+        // Dailies
+        Route::get('dailies', [PriceDailyController::class, 'index']);
+        // Members
+        Route::get('members', [PriceMemberController::class, 'index']);
+    });
 
     // Booking
     Route::name('booking.')->prefix('booking')->group(function () {
