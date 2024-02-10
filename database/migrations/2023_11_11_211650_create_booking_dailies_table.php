@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('booking_dailies', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('first_name');
+            $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('email');
-            $table->string('telephone');
+            $table->string('email')->nullable();
+            $table->string('telephone')->nullable();
             $table->unsignedBigInteger('service_id');
             $table->datetime('datetime');
             $table->string('duration');

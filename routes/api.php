@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Dashboard\DashboardController;
-use App\Http\Controllers\Api\Booking\MemberController;
+use App\Http\Controllers\Api\Booking\{DailyController, MemberController};
 use App\Http\Controllers\Api\Service\ServiceController;
 use App\Http\Controllers\Api\Page\PageController;
 use App\Http\Controllers\Api\Article\ArticleController;
@@ -50,6 +50,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Booking
     Route::name('booking.')->prefix('booking')->group(function () {
+        // Daily
+        Route::post('daily', [DailyController::class, 'store']);
         // Member
         Route::post('member', [MemberController::class, 'store']);
     });
