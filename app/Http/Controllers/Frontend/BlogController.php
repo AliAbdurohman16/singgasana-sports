@@ -9,7 +9,6 @@ use App\Models\Category;
 use App\Models\User;
 use Conner\Tagging\Model\Tag;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Crypt;
 
 class BlogController extends Controller
 {
@@ -43,9 +42,8 @@ class BlogController extends Controller
         return view('frontend.blog.single', compact('article', 'categories', 'recentPosts', 'tags'));
     }
 
-    public function author($encryptedId)
+    public function author($id)
     {
-        $id = Crypt::decryptString($encryptedId);
         $articles = Article::where(['user_id' => $id, 'status' => 'Publish'])->orderBy('created_at', 'desc')->paginate(5);
 
         $categories = Category::all();
