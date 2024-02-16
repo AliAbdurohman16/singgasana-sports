@@ -33,7 +33,7 @@
 
         <div class="entry-meta">
             <ul>
-                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="{{ route('blog.author', $row->user_id) }}">{{ $row->user->name }}</a></li>
+                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="{{ route('blog.author', $row->user_id) }}">{{ $article->user->first_name }} {{ $article->user->last_name }}</a></li>
                 <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="{{ route('blog.date', date('y-m-d', strtotime($row->created_at))) }}"><time datetime="{{ date('y-m-d', strtotime($row->created_at)) }}">{{ date('d-M-Y', strtotime($row->created_at)) }}</time></a></li>
                 <li class="d-flex align-items-center"><i class="bi bi-folder"></i> <a href="{{ route('blog.category', $row->category->slug) }}">{{ $row->category->title }}</a></li>
             </ul>
