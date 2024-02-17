@@ -15,6 +15,8 @@ class ArticleController extends Controller
                             ->with('category')
                             ->first();
 
+        $article->update(['viewers' => $article->viewers + 1]);
+
         return ResponseFormatter::success(['article' => $article], 'Services has been successfully displayed!');
     }
 }
