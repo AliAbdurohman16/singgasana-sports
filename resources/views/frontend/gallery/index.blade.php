@@ -30,9 +30,7 @@
                 <div class="col-lg-12 d-flex justify-content-center">
                     <ul id="gallery-flters">
                         <li data-filter="*" class="filter-active">All Venue</li>
-                        <li data-filter=".filter-football">Football Area</li>
                         <li data-filter=".filter-swim">Swimming Area</li>
-                        <li data-filter=".filter-gym">Gym Area</li>
                         <li data-filter=".filter-tennis">Tennis Area</li>
                         <li data-filter=".filter-basket">Basket Area</li>
                     </ul>
@@ -129,7 +127,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 gallery-item filter-football">
+                <div class="col-lg-4 col-md-6 gallery-item filter-swim">
                     <div class="gallery-wrap">
                         <img src="{{ asset('frontend') }}/assets/img/venue/kolam-2.webp" class="img-fluid" alt="">
                         <div class="gallery-info">
