@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Dashboard\DashboardController;
-use App\Http\Controllers\Api\Booking\{DailyController, MemberController};
+use App\Http\Controllers\Api\Booking\{DailyController, MemberController, HistoryController};
 use App\Http\Controllers\Api\Service\ServiceController;
 use App\Http\Controllers\Api\Page\PageController;
 use App\Http\Controllers\Api\Article\ArticleController;
@@ -54,5 +54,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('daily', [DailyController::class, 'store']);
         // Member
         Route::post('member', [MemberController::class, 'store']);
+
+        // History
+        Route::name('histories.')->prefix('histories')->group(function () {
+            // Daily
+            Route::get('dailies', [HistoryController::class, 'daily']);
+            // Member
+            Route::get('members', [HistoryController::class, 'member']);
+            // Member
+            Route::get('schools', [HistoryController::class, 'school']);
+        });
     });
 });
