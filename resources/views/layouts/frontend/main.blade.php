@@ -66,6 +66,7 @@
                     <ul>
                         <li><a class="{{ request()->is('facilities/auditorium-function-room') ? 'active' : '' }}" href="{{ route('facilities.index', 'auditorium-function-room') }}">Auditorium & Function Room</a></li>
                         <li><a class="{{ request()->is('facilities/pool-side-cafe-kantin') ? 'active' : '' }}" href="{{ route('facilities.index', 'pool-side-cafe-kantin') }}">Pool Side Café & Kantin</a></li>
+                        <li><a class="{{ request()->is('facilities/proshop') ? 'active' : '' }}" href="{{ route('facilities.index', 'proshop') }}">Proshop</a></li>
                     </ul>
                 </li>
                 <li class="dropdown"><a class="{{ request()->is('pages/kolam-renang') || request()->is('pages/badminton-basket') || request()->is('pages/tenis-indoor') || request()->is('pages/tenis-meja') ||
@@ -76,7 +77,6 @@
                         <li><a class="{{ request()->is('pages/tenis-indoor') ? 'active' : '' }}" href="{{ route('pages.index', 'tenis-indoor') }}">Tenis Indoor</a></li>
                         <li><a class="{{ request()->is('pages/tenis-meja') ? 'active' : '' }}" href="{{ route('pages.index', 'tenis-meja') }}">Tenis Meja</a></li>
                         <li><a class="{{ request()->is('pages/squash') ? 'active' : '' }}" href="{{ route('pages.index', 'squash') }}">Squash</a></li>
-                        <li><a class="{{ request()->is('pages/batting-practice') ? 'active' : '' }}" href="{{ route('pages.index', 'batting-practice') }}">Batting Practice</a></li>
                         <li><a class="{{ request()->is('pages/fitness') ? 'active' : '' }}" href="{{ route('pages.index', 'fitness') }}">Fitness</a></li>
                         <li><a class="{{ request()->is('pages/whirlpool-steam') ? 'active' : '' }}" href="{{ route('pages.index', 'whirlpool-steam') }}">Whirlpool & Steam</a></li>
                         <li><a class="{{ request()->is('pages/aerobik') ? 'active' : '' }}" href="{{ route('pages.index', 'aerobik') }}">Aerobik</a></li>
