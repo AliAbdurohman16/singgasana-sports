@@ -8,6 +8,7 @@ use App\Models\BookingDaily;
 use App\Models\BookingMember;
 use App\Models\BookingSchool;
 use App\Helpers\ResponseFormatter;
+use Illuminate\Support\Facades\Auth;
 
 class HistoryController extends Controller
 {
