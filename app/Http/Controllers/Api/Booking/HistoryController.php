@@ -13,14 +13,18 @@ class HistoryController extends Controller
 {
     public function daily()
     {
-        $dailies = BookingDaily::orderBy('status', 'asc')->get();
+        $user = Auth::user();
+
+        $dailies = BookingDaily::where('user_id', $user->id)->orderBy('status', 'asc')->get();
 
         return ResponseFormatter::success(['dailies' => $dailies], 'Services has been successfully displayed!');
     }
 
     public function member()
     {
-        $members = BookingMember::orderBy('status', 'asc')->get();
+        $user = Auth::user();
+
+        $members = BookingMember::where('user_id', $user->id)->where('app_name', 'mobile')->orderBy('status', 'asc')->get();
 
         return ResponseFormatter::success(['members' => $members], 'Services has been successfully displayed!');
     }

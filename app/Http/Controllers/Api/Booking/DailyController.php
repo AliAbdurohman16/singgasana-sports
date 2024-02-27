@@ -98,6 +98,7 @@ class DailyController extends Controller
             'duration' => $time,
             'total' => $total,
             'expired' => $expired,
+            'app_name' => 'mobile',
         ]);
 
         Mail::to($user->email)->send(new InvoiceBookingDailyMail($data));
