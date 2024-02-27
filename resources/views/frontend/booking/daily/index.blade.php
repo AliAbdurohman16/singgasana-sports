@@ -33,7 +33,7 @@
                                 <div class="row gy-4">
                                     <h4 class="text-center">Form Booking Harian</h4>
                                     <div class="alert alert-warning" role="alert">
-                                        Perhatian! Jam Pemakaian 06.00 - 16.00 (Pagi) & 16.00 - 23.00 (Siang). Silahkan
+                                        Perhatian! Jam Pemakaian 06.00 - 16.00 (Pagi) & 16.00 - 23.00 (Malam). Silahkan
                                         <b>Cek Jadwal</b> terlebih dahulu agar tidak terjadi bentrok jadwal.
                                         Klik <a href="{{ route('booking.schedule') }}" class="fw-bold"
                                             style="color:#523e02">Cek Jadwal</a> disini atau dimenu navigasi.
