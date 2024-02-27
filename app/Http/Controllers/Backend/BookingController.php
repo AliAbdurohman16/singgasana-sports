@@ -126,6 +126,7 @@ class BookingController extends Controller
                 'school' => $school,
                 'total' => $total,
                 'expired' => $expired,
+                'app_name' => 'web',
             ]);
         }
 

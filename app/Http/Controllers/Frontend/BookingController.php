@@ -108,6 +108,7 @@ class BookingController extends Controller
             'duration' => $time,
             'total' => $total,
             'expired' => $expired,
+            'app_name' => 'web',
         ]);
 
         Mail::to($request->email)->send(new InvoiceBookingDailyMail($data));
@@ -208,6 +209,7 @@ class BookingController extends Controller
                 'school' => $school,
                 'total' => $total,
                 'expired' => $expired,
+                'app_name' => 'web',
             ]);
         }
 
