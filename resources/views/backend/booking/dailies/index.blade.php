@@ -60,11 +60,11 @@
                                 <td>{{ $loop->iteration }}</td>
 
                                 <td>
-                                    {{ $row->first_name != null ? $row->first_name : $row->user->first_name }}
-                                    {{ $row->last_name != null ? $row->last_name  : $row->user->last_name}}
+                                    {{ $row->first_name != NULL ? $row->first_name : $row->user->first_name }}
+                                    {{ $row->last_name != NULL ? $row->last_name  : $row->user->last_name}}
                                 </td>
-                                <td>{{ $row->email != null ? $row->email : $row->user->email }}</td>
-                                <td>{{ $row->telephone != null ? $row->telephone : $row->user->telephone }}</td>
+                                <td>{{ $row->email != NULL ? $row->email : $row->user->email }}</td>
+                                <td>{{ $row->telephone != NULL ? $row->telephone : $row->user->telephone }}</td>
                                 <td>{{ $row->service->name }}</td>
                                 <td>{{ $row->duration }}</td>
                                 <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
