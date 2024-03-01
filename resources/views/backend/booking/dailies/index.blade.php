@@ -58,13 +58,12 @@
                             <tr>
                                 <input type="hidden" class="delete_id" value="{{ $row->id }}">
                                 <td>{{ $loop->iteration }}</td>
-
                                 <td>
-                                    {{ $row->first_name != NULL ? $row->first_name : $row->user->first_name }}
-                                    {{ $row->last_name != NULL ? $row->last_name  : $row->user->last_name}}
+                                    {{ isset($row->first_name) ? $row->first_name : $row->user->first_name}}
+                                    {{ isset($row->last_name) ? $row->last_name : $row->user->last_name }}
                                 </td>
-                                <td>{{ $row->email != NULL ? $row->email : $row->user->email }}</td>
-                                <td>{{ $row->telephone != NULL ? $row->telephone : $row->user->telephone }}</td>
+                                <td>{{ isset($row->email) ? $row->email : $row->user->email }}</td>
+                                <td>{{ isset($row->telephone) ? $row->telephone : $row->user->telephone }}</td>
                                 <td>{{ $row->service->name }}</td>
                                 <td>{{ $row->duration }}</td>
                                 <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
