@@ -35,17 +35,20 @@
                         <tr>
                             <td class="fw-bold">Nama Lengkap</td>
                             <td>:</td>
-                            <td>{{ $daily->first_name }} {{ $daily->last_name }}</td>
+                            <td>
+                                {{ isset($daily->first_name) ? $daily->first_name : $daily->user->first_name}}
+                                {{ isset($daily->last_name) ? $daily->last_name : $daily->user->last_name }}
+                            </td>
                         </tr>
                         <tr>
                             <td class="fw-bold">Email</td>
                             <td>:</td>
-                            <td>{{ $daily->email }}</td>
+                            <td>{{ isset($daily->email) ? $daily->email : $daily->user->email }}</td>
                         </tr>
                         <tr>
                             <td class="fw-bold">No Telepon</td>
                             <td>:</td>
-                            <td>{{ $daily->telephone }}</td>
+                            <td>{{ isset($daily->telephone) ? $daily->telephone : $daily->user->telephone }}</td>
                         </tr>
                         <tr>
                             <td class="fw-bold">Layanan</td>
