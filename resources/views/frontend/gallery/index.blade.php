@@ -32,7 +32,6 @@
                         <li data-filter="*" class="filter-active">All Venue</li>
                         <li data-filter=".filter-swim">Swimming Area</li>
                         <li data-filter=".filter-tennis">Tennis Area</li>
-                        <li data-filter=".filter-basket">Basket Area</li>
                     </ul>
                 </div>
             </div>

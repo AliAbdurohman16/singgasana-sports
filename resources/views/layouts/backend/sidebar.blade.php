@@ -116,7 +116,7 @@
                 @endif
 
                 @if (Auth::user()->hasRole('admin'))
-                <li class="sidebar-item has-sub {{ Request::is(['gallery_categories*', 'gallery_images*']) ? 'active' : '' }}">
+                {{-- <li class="sidebar-item has-sub {{ Request::is(['gallery_categories*', 'gallery_images*']) ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-image-fill"></i>
                         <span>Galeri</span>
@@ -129,7 +129,7 @@
                             <a href="{{ route('gallery_images.index') }}">Foto</a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
                 <li class="sidebar-title">Petugas &amp; Pengguna</li>
 
