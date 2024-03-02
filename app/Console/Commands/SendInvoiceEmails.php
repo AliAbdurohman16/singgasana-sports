@@ -16,12 +16,7 @@ class SendInvoiceEmails extends Command
 
     public function handle()
     {
-        $isEndOfMonth = Carbon::now()->endOfMonth()->isToday();
-
-        if ($isEndOfMonth) {
-            $currentMonth = Carbon::now()->month;
-            $currentYear = Carbon::now()->year;
-
+        if (Carbon::now()->endOfMonth()->isToday()) {
             $pendingBookings = BookingMember::where('status', 'pending')
                 ->where('package', 'Sekolah')
                 ->get();
