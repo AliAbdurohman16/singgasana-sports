@@ -205,11 +205,10 @@
 
                 <div class="row">
                     @foreach ($recentPosts as $row)
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 entries">
                             <div class="post-box">
                                 <div class="post-img">
-                                    <img src="{{ asset('storage/article/' . $row->image) }}" class="img-fluid"
-                                         alt="image-blog">
+                                    <img src="{{ asset('storage/article/' . $row->image) }}" class="img-fluid" alt="image-blog">
                                 </div>
                                 <span class="post-date"><i class="bi bi-clock"></i> {{ date('d-M-Y', strtotime($row->created_at)) }}</span>
                                 <h3 class="post-title">{{ $row->title }}</h3>
@@ -219,7 +218,6 @@
                             </div>
                         </div>
                     @endforeach
-
                 </div>
 
             </div>

@@ -21,7 +21,6 @@
                         <h3 class="sidebar-title">Pencarian</h3>
                         <div class="sidebar-item search-form">
                             <form action="{{ route('blog.search') }}" method="GET">
-                                {{-- @csrf --}}
                                 <input type="text" name="keyword">
                                 <button type="submit"><i class="bi bi-search"></i></button>
                             </form>
