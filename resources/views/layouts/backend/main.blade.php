@@ -14,7 +14,6 @@
     <meta name="theme-color" content="#ffffff">
 
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/main/app.css" />
-    <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/main/app-dark.css" />
 
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/shared/iconly.css"/>
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/extensions/@fortawesome/fontawesome-free/css/all.min.css"/>
