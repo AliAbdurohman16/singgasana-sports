@@ -227,12 +227,6 @@
                                     </ul>
                                 </div>
 
-                                <div class="entry-content">
-                                    <div class="read-more">
-                                        <a href="{{ route('blog.single', $row->slug) }}">Selengkapnya</a>
-                                    </div>
-                                </div>
-
                             </article><!-- End blog entry -->
                         </div>
                     @endforeach

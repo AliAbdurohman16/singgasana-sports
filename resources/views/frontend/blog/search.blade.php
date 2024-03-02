@@ -44,7 +44,7 @@
         </div>
 
         <div class="entry-content">
-            <p>{!! Str::limit($row->content, $limit = 1000, $end = '...') !!}</p>
+            <p>{!! Str::words($row->content, $words = 120, $end = '...') !!}</p>
             <div class="read-more">
             <a href="{{ route('blog.single', $row->slug) }}">Selengkapnya</a>
             </div>
