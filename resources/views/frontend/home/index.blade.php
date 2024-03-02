@@ -194,7 +194,7 @@
         </section><!-- End Pricing Section -->
 
         <!-- ======= Recent Blog Posts Section ======= -->
-        <section id="blog" class="recent-blog-posts">
+        <section id="blog" class="blog">
 
             <div class="container" data-aos="fade-up">
 
@@ -206,16 +206,35 @@
                 <div class="row">
                     @foreach ($recentPosts as $row)
                         <div class="col-lg-4 entries">
-                            <div class="post-box">
-                                <div class="post-img">
-                                    <img src="{{ asset('storage/article/' . $row->image) }}" class="img-fluid" alt="image-blog">
+                            <article class="entry">
+
+                                <div class="entry-img">
+                                    <img src="{{ asset('storage/article/' . $row->image) }}" alt="image-blog" class="img-fluid">
                                 </div>
-                                <span class="post-date"><i class="bi bi-clock"></i> {{ date('d-M-Y', strtotime($row->created_at)) }}</span>
-                                <h3 class="post-title">{{ $row->title }}</h3>
-                                <a href="{{ route('blog.single', $row->slug) }}"
-                                   class="readmore stretched-link mt-auto"><span>Selengkapnya</span><i
-                                        class="bi bi-arrow-right"></i></a>
-                            </div>
+
+                                <h2 class="entry-title">
+                                    <a href="{{ route('blog.single', $row->slug) }}">{{ $row->title }}</a>
+                                </h2>
+
+                                <div class="entry-meta">
+                                    <ul>
+                                        <li class="d-flex align-items-center"><i class="bi bi-person"></i>
+                                            @php $userId = Crypt::encrypt($row->user_id); @endphp
+                                            <a href="{{ route('blog.author', $userId) }}">{{ $row->user->first_name }} {{ $row->user->last_name }}</a>
+                                        </li>
+                                        <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="{{ route('blog.date', date('y-m-d', strtotime($row->created_at))) }}"><time datetime="{{ date('y-m-d', strtotime($row->created_at)) }}">{{ date('d-M-Y', strtotime($row->created_at)) }}</time></a></li>
+                                        <li class="d-flex align-items-center"><i class="bi bi-folder"></i> <a href="{{ route('blog.category', $row->category->slug) }}">{{ $row->category->title }}</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="entry-content">
+                                    <p>{!! Str::limit($row->content, $limit = 1000, $end = '...') !!}</p>
+                                    <div class="read-more">
+                                    <a href="{{ route('blog.single', $row->slug) }}">Selengkapnya</a>
+                                    </div>
+                                </div>
+
+                            </article><!-- End blog entry -->
                         </div>
                     @endforeach
                 </div>
