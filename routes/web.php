@@ -106,7 +106,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-Route::get('/run-scheduler', function () {
-    Artisan::call('schedule:run');
-    return 'Scheduler has been run successfully.';
-});
+
+// Auto Expired
+Route::get('auto-expired', [App\Http\Controllers\AutoExpiredController::class, 'index'])->name('auto-expired');
