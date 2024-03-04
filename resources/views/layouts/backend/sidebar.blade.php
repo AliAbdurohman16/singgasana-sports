@@ -34,7 +34,7 @@
                 </li>
                 @endif
 
-                @if (Auth::user()->hasRole('admin'))
+                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin'))
                 <li class="sidebar-item has-sub {{ Request::is(['write_articles*', 'article*', 'category*']) ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-pen-fill"></i>
@@ -95,7 +95,7 @@
                 </li>
                 @endif
 
-                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('cashier'))
+                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('cashier'))
                 <li class="sidebar-item has-sub {{ Request::is('booking*') ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-ticket-detailed-fill"></i>
@@ -115,7 +115,7 @@
                 </li>
                 @endif
 
-                @if (Auth::user()->hasRole('admin'))
+                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin'))
                 {{-- <li class="sidebar-item has-sub {{ Request::is(['gallery_categories*', 'gallery_images*']) ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-image-fill"></i>
@@ -150,7 +150,7 @@
 
                 <li class="sidebar-title">
                     Akun
-                    @if (Auth::user()->hasRole('admin'))
+                    @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin'))
                     &amp; Pengaturan
                     @endif
                 </li>
@@ -170,7 +170,7 @@
                     </ul>
                 </li>
 
-                @if (Auth::user()->hasRole('admin'))
+                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin'))
                 <li class="sidebar-item {{ Request::is('setting*') ? 'active' : '' }}">
                     <a href="{{ route('setting.index') }}" class="sidebar-link">
                         <i class="bi bi-gear-fill"></i>
