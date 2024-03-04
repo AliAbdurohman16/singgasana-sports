@@ -14,7 +14,7 @@ class OfficerController extends Controller
     {
         // get data only roles admin or cashier
         $officers = User::whereHas('roles', function ($query) {
-                    $query->where('name', '=', 'admin')->orWhere('name', '=', 'cashier');
+                    $query->where('name', '!=', 'superadmin')->where('name', '=', 'admin')->orWhere('name', '=', 'cashier');
                 })->get();
 
         return view('backend.officer.index', compact('officers'));
