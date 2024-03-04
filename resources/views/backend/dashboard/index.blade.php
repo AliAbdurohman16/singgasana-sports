@@ -54,7 +54,7 @@
                     </div>
                   </div>
                 </div>
-                @if (Auth::user()->hasRole('admin'))
+                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin'))
                 <div class="col-6 col-lg-3 col-md-6">
                   <div class="card">
                     <div class="card-body px-4 py-4-5">
@@ -94,7 +94,7 @@
                 @endif
             </div>
           </div>
-          @if (Auth::user()->hasRole('admin'))
+          @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin'))
           <div class="col-12 col-lg-4">
             <div class="card">
               <div class="card-body py-4 px-4">
