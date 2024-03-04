@@ -50,7 +50,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('booking/store', [App\Http\Controllers\Backend\BookingController::class, 'store'])->name('booking.storeMembers');
     });
 
-    Route::middleware('checkUserRole:admin,cashier, superadmin')->group(function () {
+    Route::middleware('checkUserRole:admin,cashier,superadmin')->group(function () {
         Route::get('booking/dailies', [App\Http\Controllers\Backend\BookingController::class, 'daily'])->name('booking.dailies');
         Route::get('booking/dailies/{id}', [App\Http\Controllers\Backend\BookingController::class, 'showDaily'])->name('booking.showDaily');
         Route::put('booking/dailies/{id}', [App\Http\Controllers\Backend\BookingController::class, 'validationDaily'])->name('booking.validationDaily');
