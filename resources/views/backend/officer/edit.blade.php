@@ -114,8 +114,8 @@
                                         <label for="first-name-column">Role</label>
                                         <select name="role" class="form-control @error('role') is-invalid @enderror">
                                             <option value="">-- Pilih Role --</option>
-                                            <option value="admin" {{ $officer->hasRole('admin') ?? old('role') == 'admin' ? 'selected' : '' }}>admin</option>
-                                            <option value="cashier" {{ $officer->hasRole('cashier') ?? old('role') == 'cashier' ? 'selected' : '' }}>cashier</option>
+                                            <option value="admin" {{ $officer->hasRole('admin') ?? old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                            <option value="cashier" {{ $officer->hasRole('cashier') ?? old('role') == 'cashier' ? 'selected' : '' }}>Kasir</option>
                                         </select>
                                     </div>
                                 </div>
