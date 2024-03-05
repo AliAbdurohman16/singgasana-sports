@@ -131,13 +131,6 @@
                     <div class="col-lg-6 mt-5 mt-lg-0 d-flex">
                         <div class="row align-self-center gy-4">
 
-                            <div class="col-md-6" data-aos="zoom-out" data-aos-delay="200">
-                            <div class="feature-box d-flex align-items-center">
-                                <i class="bi bi-check"></i>
-                                <h3>Whirlpool & Steam</h3>
-                            </div>
-                            </div>
-
                             <div class="col-md-6" data-aos="zoom-out" data-aos-delay="300">
                             <div class="feature-box d-flex align-items-center">
                                 <i class="bi bi-check"></i>
@@ -155,7 +148,7 @@
                             <div class="col-md-6" data-aos="zoom-out" data-aos-delay="500">
                             <div class="feature-box d-flex align-items-center">
                                 <i class="bi bi-check"></i>
-                                <h3>Aerobik</h3>
+                                <h3>Proshop</h3>
                             </div>
                             </div>
                         </div>
