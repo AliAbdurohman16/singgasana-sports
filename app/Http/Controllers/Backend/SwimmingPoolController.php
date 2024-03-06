@@ -106,7 +106,7 @@ class SwimmingPoolController extends Controller
 
     public function schoolEdit($id)
     {
-        $data['school'] = PriceMember::where('member', 'Sekolah')->first();
+        $data['school'] = PriceMember::where('id', $id)->where('member', 'Sekolah')->first();
 
         return view('backend.service.swimming-pool.edit-school', $data);
     }
