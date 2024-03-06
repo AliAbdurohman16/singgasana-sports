@@ -15,6 +15,7 @@ class SwimmingPoolController extends Controller
         $data = [
             'dailies' => PriceDaily::where('service_id', 1)->get(),
             'members' => PriceMember::where('service_id', 1)->get(),
+            'schools' => PriceMember::where('member', 'Sekolah')->get()
         ];
 
         return view('backend.service.swimming-pool.index', $data);
@@ -84,5 +85,50 @@ class SwimmingPoolController extends Controller
         ]);
 
         return redirect('service/swimming-pool')->with('message', 'Layanan berhasil diubah');
+    }
+
+    public function schoolCreate()
+    {
+        return view('backend.service.swimming-pool.create-school');
+    }
+
+    public function schoolStore(Request $request)
+    {
+        PriceMember::create([
+            "service_id" => 1,
+            "member" => "Sekolah",
+            "category" => $request->school,
+            "price" => str_replace(['Rp ', '.', ','], ['', '', ''], $request->price),
+        ]);
+
+        return redirect('service/swimming-pool')->with('message', 'Data sekolah berhasil disimpan!');
+    }
+
+    public function schoolEdit($id)
+    {
+        $data['school'] = PriceMember::where('member', 'Sekolah')->first();
+
+        return view('backend.service.swimming-pool.edit-school', $data);
+    }
+
+    public function schoolUpdate(Request $request,$id)
+    {
+        $school = PriceMember::find($id);
+
+        $school->update([
+            "category" => $request->school,
+            "price" => str_replace(['Rp ', '.', ','], ['', '', ''], $request->price),
+        ]);
+
+        return redirect('service/swimming-pool')->with('message', 'Data sekolah berhasil diubah!');
+    }
+
+    public function schoolDestroy($id)
+    {
+        $school = PriceMember::find($id);
+
+        $school->delete();
+
+        return response()->json(["message" => 'Data sekolah berhasil dihapus!']);
     }
 }

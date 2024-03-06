@@ -117,6 +117,7 @@
 <script src="{{ asset('frontend') }}/assets/vendor/flatpickr/flatpickr.min.js"></script>
 <script>
     var prices = {!! json_encode($prices) !!};
+    var schools = {!! json_encode($schools) !!}
 </script>
 <script>
     flatpickr("#datetime", {
@@ -274,20 +275,11 @@
                         hidePackage.hide();
 
                         schoolSelect.empty().append(
-                            '<option value="">Pilih Sekolah</option>' +
-                            '<option value="SD Bintang Mulia">SD Bintang Mulia</option>' +
-                            '<option value="SMP Bintang Mulia">SMP Bintang Mulia</option>' +
-                            '<option value="SMA Bintang Mulia">SMA Bintang Mulia</option>' +
-                            '<option value="TK BPK Penabur Singgasana">TK BPK Penabur Singgasana</option>' +
-                            '<option value="SD BPK Penabur Singgasana">SD BPK Penabur Singgasana</option>' +
-                            '<option value="SMP BPK Penabur Singgasana">SMP BPK Penabur Singgasana</option>' +
-                            '<option value="SMA BPK Penabur Singgasana">SMA BPK Penabur Singgasana</option>' +
-                            '<option value="TK Harapan Kasih">TK Harapan Kasih</option>' +
-                            '<option value="SD Harapan Kasih">SD Harapan Kasih</option>' +
-                            '<option value="SMP Harapan Kasih">SMP Harapan Kasih</option>' +
-                            '<option value="SD Kalam Kudus">SD Kalam Kudus</option>' +
-                            '<option value="Starbright">Starbright</option>'
-                        )
+                            '<option value="">Pilih Sekolah</option>'
+                        );
+                        schools.forEach(function (school) {
+                            schoolSelect.append('<option value="' + school.category + '">' + school.category + '</option>');
+                        });
                     }
                 });
             } else if (selectedService == 2 || selectedService == 3) {

@@ -120,6 +120,7 @@ class BookingController extends Controller
         $data = [
             'services' => Service::all(),
             'prices' => PriceMember::all(),
+            'schools' => PriceMember::where('member', 'Sekolah')->get(),
         ];
 
         return view('frontend.booking.member.index', $data);
