@@ -14,7 +14,7 @@ class SwimmingPoolController extends Controller
     {
         $data = [
             'dailies' => PriceDaily::where('service_id', 1)->get(),
-            'members' => PriceMember::where('service_id', 1)->get(),
+            'members' => PriceMember::where('service_id', 1)->where('member', '!=', 'Sekolah')->get(),
             'schools' => PriceMember::where('member', 'Sekolah')->get()
         ];
 
