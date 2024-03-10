@@ -133,8 +133,7 @@
                     <h4>Tautan</h4>
                     <ul>
                         <li><i class="bi bi-chevron-right"></i> <a href="{{ route('/') }}">Beranda</a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="{{ route('pages.index', 'tentang-kami') }}">Tentang
-                                Kami</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="{{ route('pages.index', 'tentang-kami') }}">Tentang Kami</a></li>
                         <li><i class="bi bi-chevron-right"></i> <a href="{{ route('blog.index') }}">Blog</a></li>
                         <li><i class="bi bi-chevron-right"></i> <a href="{{ route('contact.index') }}">Kontak</a></li>
                     </ul>
