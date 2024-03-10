@@ -34,7 +34,6 @@ class HistoryController extends Controller
     {
         $schools = BookingSchool::join('booking_members', 'booking_schools.booking_member_id', '=', 'booking_members.id')
                         ->where('booking_members.app_name', 'mobile')
-                        ->orderBy('booking_members.status', 'asc')
                         ->latest()
                         ->take(10)
                         ->get(['booking_schools.*', 'booking_members.status']);
