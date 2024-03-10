@@ -16,7 +16,7 @@ class HistoryController extends Controller
     {
         $user = Auth::user();
 
-        $dailies = BookingDaily::where('user_id', $user->id)->latest()->take(10)->get();
+        $dailies = BookingDaily::where('user_id', $user->id)->where('app_name', 'mobile')->latest()->take(10)->get();
 
         return ResponseFormatter::success(['dailies' => $dailies], 'Services has been successfully displayed!');
     }
