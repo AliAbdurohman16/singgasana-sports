@@ -143,16 +143,9 @@
                 <div class="col-lg-2 col-6 footer-links">
                     <h4>Fasilitas</h4>
                     <ul>
-                        <li><i class="bi bi-chevron-right"></i><a
-                                href="{{ route('facilities.index', 'whirlpool-steam') }}">Whirlpool & Steam</a></li>
-                        <li><i class="bi bi-chevron-right"></i><a
-                                href="{{ route('facilities.index', 'auditorium-function-room') }}">Auditorium & Function
-                                Room</a></li>
-                        <li><i class="bi bi-chevron-right"></i><a
-                                href="{{ route('facilities.index', 'pool-side-cafe-kantin') }}">Pool Side Café &
-                                Kantin</a></li>
-                        <li><i class="bi bi-chevron-right"></i><a href="{{ route('facilities.index', 'aerobik') }}">Aerobik</a>
-                        </li>
+                        <li><i class="bi bi-chevron-right"></i><a href="{{ route('facilities.index', 'whirlpool-steam') }}">Whirlpool & Steam</a></li>
+                        <li><i class="bi bi-chevron-right"></i><a href="{{ route('facilities.index', 'auditorium-function-room') }}">Auditorium & Function Room</a></li>
+                        <li><i class="bi bi-chevron-right"></i><a href="{{ route('facilities.index', 'proshop') }}">Proshop</a></li>
                     </ul>
                 </div>
 
