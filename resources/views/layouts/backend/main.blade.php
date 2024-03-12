@@ -12,6 +12,9 @@
     <link href="{{ asset('storage/setting/' . $setting->favicon) }}" rel="apple-touch-icon">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
 
     <link rel="stylesheet" href="{{ asset('backend') }}/assets/css/main/app.css" />
 
