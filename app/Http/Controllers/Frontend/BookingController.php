@@ -194,6 +194,7 @@ class BookingController extends Controller
         }
 
         $existingBooking = BookingMember::where('school', $school)
+                            ->where('user_id', $user->id)
                             ->where('status', 'Pending')
                             ->first();
 
