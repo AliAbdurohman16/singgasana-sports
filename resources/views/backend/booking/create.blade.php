@@ -390,6 +390,7 @@
 
         $('select[name="service"], select[name="category"], select[name="package"]').change(function () {
             var service = $('select[name="service"]').val();
+            var member = $('select[name="member"]').val();
             var category = $('select[name="category"]').val();
             var package = $('select[name="package"]').val();
             var total = 0;
@@ -397,61 +398,65 @@
             prices.forEach(function (price) {
                 if (price.service_id == service) {
                     if (price.category == category) {
-                        if (package === "Iuran Membership 2 Bulan") {
-                            total = price.two_months;
-                        } else if (package === "Iuran Membership 6 Bulan") {
-                            total = price.six_months;
-                        } else if (package === "Iuran Membership 12 Bulan") {
-                            total = price.twelve_months;
-                        } else if (package === "Paket A - Pemula") {
-                            total = price.package_a;
-                        } else if (package === "Paket B - Prestasi Non Fitness") {
-                            total = price.package_b;
-                        } else if (package === "Paket C - Prestasi + Fitness") {
-                            total = price.package_c;
-                        } else if (package === "Paket D - Pra Prestasi") {
-                            total = price.package_d;
-                        } else if (package === "Iuran Membership 2 Bulan (5 Orang)") {
-                            total = price.two_months;
-                        } else if (package === "Iuran Membership 2 Bulan (10 Orang)") {
-                            total = price.two_months_ten_people;
-                        } else if (package === "Iuran Membership 6 Bulan (5 Orang)") {
-                            total = price.six_months;
-                        } else if (package === "Iuran Membership 6 Bulan (10 Orang)") {
-                            total = price.six_months_ten_people;
-                        } else if (package === "Iuran Membership Pelatih Club 2 Bulan") {
-                            total = price.member_coach_club_two_months;
-                        } else if (package === "Iuran Membership Pelatih Club + Fitness 2 Bulan") {
-                            total = price.member_coach_club_two_months_plus_fitness;
-                        } else if (package === "Per 2 Jam 1x Seminggu (PAGI)") {
-                            total = price.two_hours_morning;
-                        } else if (package === "Per 3 Jam 1x Seminggu (PAGI)") {
-                            total = price.three_hours_morning;
-                        } else if (package === "Per 2 Jam 1x Seminggu (SIANG)") {
-                            total = price.two_hours_afternoon;
-                        } else if (package === "Per 4 Jam 1x Seminggu (SIANG)") {
-                            total = price.four_hours_afternoon;
-                        } else if (package === "Per 3 Jam 1x Seminggu (SIANG)") {
-                            total = price.three_hours_afternoon;
-                        } else if (package === "Per 1 Jam 1x Seminggu") {
-                            total = price.one_hours;
-                        } else if (package === "Per 2 Jam 1x Seminggu") {
-                            total = price.two_hours;
-                        } else if (package === "Per 3 Jam 1x Seminggu") {
-                            total = price.three_hours;
-                        } else if (package === "Paket Suka - Suka 10 Jam") {
-                            total = price.ten_hours;
-                        } else if (package === "Paket Suka - Suka 12 Jam") {
-                            total = price.twelve_hours;
-                        } else if (package === "Paket Suka - Suka 15 Jam") {
-                            total = price.fifteen_hours;
+                        if (price.member == member) {
+                            if (package === "Iuran Membership 2 Bulan") {
+                                total = price.two_months;
+                            } else if (package === "Iuran Membership 6 Bulan") {
+                                total = price.six_months;
+                            } else if (package === "Iuran Membership 12 Bulan") {
+                                total = price.twelve_months;
+                            } else if (package === "Paket A - Pemula") {
+                                total = price.package_a;
+                            } else if (package === "Paket B - Prestasi Non Fitness") {
+                                total = price.package_b;
+                            } else if (package === "Paket C - Prestasi + Fitness") {
+                                total = price.package_c;
+                            } else if (package === "Paket D - Pra Prestasi") {
+                                total = price.package_d;
+                            } else if (package === "Iuran Membership 2 Bulan (5 Orang)") {
+                                total = price.two_months;
+                            } else if (package === "Iuran Membership 2 Bulan (10 Orang)") {
+                                total = price.two_months_ten_people;
+                            } else if (package === "Iuran Membership 6 Bulan (5 Orang)") {
+                                total = price.six_months;
+                            } else if (package === "Iuran Membership 6 Bulan (10 Orang)") {
+                                total = price.six_months_ten_people;
+                            } else if (package === "Iuran Membership Pelatih Club 2 Bulan") {
+                                total = price.member_coach_club_two_months;
+                            } else if (package === "Iuran Membership Pelatih Club + Fitness 2 Bulan") {
+                                total = price.member_coach_club_two_months_plus_fitness;
+                            }
+                        } else {
+                            if (package === "Per 2 Jam 1x Seminggu (PAGI)") {
+                                total = price.two_hours_morning;
+                            } else if (package === "Per 3 Jam 1x Seminggu (PAGI)") {
+                                total = price.three_hours_morning;
+                            } else if (package === "Per 2 Jam 1x Seminggu (SIANG)") {
+                                total = price.two_hours_afternoon;
+                            } else if (package === "Per 4 Jam 1x Seminggu (SIANG)") {
+                                total = price.four_hours_afternoon;
+                            } else if (package === "Per 3 Jam 1x Seminggu (SIANG)") {
+                                total = price.three_hours_afternoon;
+                            } else if (package === "Per 1 Jam 1x Seminggu") {
+                                total = price.one_hours;
+                            } else if (package === "Per 2 Jam 1x Seminggu") {
+                                total = price.two_hours;
+                            } else if (package === "Per 3 Jam 1x Seminggu") {
+                                total = price.three_hours;
+                            } else if (package === "Paket Suka - Suka 10 Jam") {
+                                total = price.ten_hours;
+                            } else if (package === "Paket Suka - Suka 12 Jam") {
+                                total = price.twelve_hours;
+                            } else if (package === "Paket Suka - Suka 15 Jam") {
+                                total = price.fifteen_hours;
+                            }
                         }
                     }
                 }
             });
 
             hidePrice.hide();
-            $('.total').text('Rp ' + total);
+            $('.total').text(formattedPrice(total));
             $('.metode').text('Pembayaran dikasir');
             $('input[name="total"]').val(total);
         });
