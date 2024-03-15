@@ -16,7 +16,7 @@ class HistoryController extends Controller
     {
         $user = Auth::user();
 
-        $dailies = BookingDaily::where('user_id', $user->id)->where('app_name', 'mobile')->latest()->take(10)->get();
+        $dailies = BookingDaily::with('service')->where('user_id', $user->id)->where('app_name', 'mobile')->latest()->take(10)->get();
 
         return ResponseFormatter::success(['dailies' => $dailies], 'Services has been successfully displayed!');
     }
@@ -25,14 +25,15 @@ class HistoryController extends Controller
     {
         $user = Auth::user();
 
-        $members = BookingMember::where('user_id', $user->id)->where('app_name', 'mobile')->latest()->take(10)->get();
+        $members = BookingMember::with('service')->where('user_id', $user->id)->where('app_name', 'mobile')->latest()->take(10)->get();
 
         return ResponseFormatter::success(['members' => $members], 'Services has been successfully displayed!');
     }
 
     public function school()
     {
-        $schools = BookingSchool::join('booking_members', 'booking_schools.booking_member_id', '=', 'booking_members.id')
+        $schools = BookingSchool::with('bookingMember.service')
+                        ->join('booking_members', 'booking_schools.booking_member_id', '=', 'booking_members.id')
                         ->where('booking_members.app_name', 'mobile')
                         ->latest()
                         ->take(10)
