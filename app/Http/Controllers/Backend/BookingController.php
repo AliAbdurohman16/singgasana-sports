@@ -110,26 +110,27 @@ class BookingController extends Controller
         }
 
         $existingBooking = BookingMember::where('school', $school)
-                            ->where('user_id', $user->id)
+                            ->whereNotNull('school')
                             ->where('status', 'Pending')
                             ->first();
 
-        if ($existingBooking) {
+        if (!$existingBooking) {
+            $data = BookingMember::create([
+                'user_id' => $user->id,
+                'service_id' => $request->service,
+                'datetime' => $datetime,
+                'package' => $package,
+                'school' => $school,
+                'total' => $total,
+                'expired' => $expired,
+                'app_name' => 'web',
+            ]);
+        } else {
             $existingBooking->total += $total;
             $existingBooking->save();
             $data = $existingBooking;
         }
 
-        $data = BookingMember::create([
-            'user_id' => $user->id,
-            'service_id' => $request->service,
-            'datetime' => $datetime,
-            'package' => $package,
-            'school' => $school,
-            'total' => $total,
-            'expired' => $expired,
-            'app_name' => 'web',
-        ]);
 
         if (!empty($student)) {
             $bookingSchool = BookingSchool::create([
