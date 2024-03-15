@@ -43,7 +43,7 @@
         </div>
 
         <div class="entry-content">
-            <p>{!! Str::words($row->content, $words = 150, $end = '...') !!}</p>
+            <p>{!! Str::words($row->content, $words = 130, $end = '...') !!}</p>
         </div>
 
     </article><!-- End blog entry -->
