@@ -118,18 +118,18 @@ class BookingController extends Controller
             $existingBooking->total += $total;
             $existingBooking->save();
             $data = $existingBooking;
-        } else {
-            $data = BookingMember::create([
-                'user_id' => $user->id,
-                'service_id' => $request->service,
-                'datetime' => $datetime,
-                'package' => $package,
-                'school' => $school,
-                'total' => $total,
-                'expired' => $expired,
-                'app_name' => 'web',
-            ]);
         }
+
+        $data = BookingMember::create([
+            'user_id' => $user->id,
+            'service_id' => $request->service,
+            'datetime' => $datetime,
+            'package' => $package,
+            'school' => $school,
+            'total' => $total,
+            'expired' => $expired,
+            'app_name' => 'web',
+        ]);
 
         if (!empty($student)) {
             $bookingSchool = BookingSchool::create([
