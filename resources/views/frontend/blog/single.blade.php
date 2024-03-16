@@ -45,14 +45,16 @@
             <p>{!! $article->content !!}</p>
         </div>
 
-        <div class="entry-footer">
-            <i class="bi bi-tags"></i>
-            <ul class="tags">
+        @if(count($article->tags) > 0)
+            <div class="entry-footer">
                 @foreach ($article->tags as $tag)
-                    <li><a href="">{{ $tag->name }}</a></li>
+                    <i class="bi bi-tags"></i>
+                    <ul class="tags">
+                        <li><a href="">{{ $tag->name }}</a></li>
+                    </ul>
                 @endforeach
-            </ul>
-          </div>
+            </div>
+        @endif
 
     </article><!-- End blog entry -->
 
