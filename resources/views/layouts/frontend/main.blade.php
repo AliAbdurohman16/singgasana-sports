@@ -138,7 +138,7 @@
                         <li><i class="bi bi-chevron-right"></i> <a href="{{ route('pages.index', 'tentang-kami') }}">Tentang Kami</a></li>
                         <li><i class="bi bi-chevron-right"></i> <a href="{{ route('blog.index') }}">Blog</a></li>
                         <li><i class="bi bi-chevron-right"></i> <a href="{{ route('contact.index') }}">Kontak</a></li>
-                        {{-- <li><i class="bi bi-chevron-right"></i><a href="{{ route('pages.index', 'privacy-policy') }}">Privacy Policy</a></li> --}}
+                        <li><i class="bi bi-chevron-right"></i><a href="{{ route('pages.index', 'privacy-policy') }}">Privacy Policy</a></li>
                     </ul>
                 </div>
 
