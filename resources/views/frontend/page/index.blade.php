@@ -11,7 +11,7 @@
           <li><a href="{{ route('/') }}">Beranda</a></li>
           <li>Fasilitas</li>
         </ol>
-        <h2 class="{{ route('pages.index', 'privacy-policy') ? 'text-center' : '' }}">Fasilitas Detail</h2>
+        <h2>Fasilitas Detail</h2>
 
       </div>
     </section><!-- End Breadcrumbs -->
@@ -40,7 +40,7 @@
 
           <div class="col-lg-6">
             <div class="facility-description">
-              <h2>{{ $row->title }}</h2>
+              <h2 class="{{ route('pages.index', 'privacy-policy') ? 'text-center' : '' }}">{{ $row->title }}</h2>
               <p>{!! $row->content !!}</p>
             </div>
           </div>
