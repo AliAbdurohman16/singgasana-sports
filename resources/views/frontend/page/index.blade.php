@@ -11,7 +11,7 @@
           <li><a href="{{ route('/') }}">Beranda</a></li>
           <li>Fasilitas</li>
         </ol>
-        <h2>Fasilitas Detail</h2>
+        <h2 class="{{ route('pages.index', 'privacy-policy') ? 'text-center' : '' }}">Fasilitas Detail</h2>
 
       </div>
     </section><!-- End Breadcrumbs -->
@@ -23,22 +23,20 @@
         @foreach ($pages as $row)
         <div class="row gy-4">
 
-          <div class="col-lg-6">
-            <div class="facility-details-slider swiper">
-              <div class="swiper-wrapper align-items-center">
-
-                @if ($row->images->count() > 0)
-                    @foreach ($row->images as $image)
-                        <div class="swiper-slide">
-                            <img src="{{ asset('storage/page/'.$image->path) }}" alt="image-pages">
-                        </div>
-                    @endforeach
-                @endif
-
-              </div>
-              <div class="swiper-pagination"></div>
+        @if ($row->images->count() > 0)
+            <div class="col-lg-6">
+                <div class="facility-details-slider swiper">
+                    <div class="swiper-wrapper align-items-center">
+                        @foreach ($row->images as $image)
+                            <div class="swiper-slide">
+                                <img src="{{ asset('storage/page/'.$image->path) }}" alt="image-pages">
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
             </div>
-          </div>
+        @endif
 
           <div class="col-lg-6">
             <div class="facility-description">

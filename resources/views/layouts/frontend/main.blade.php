@@ -138,6 +138,7 @@
                         <li><i class="bi bi-chevron-right"></i> <a href="{{ route('pages.index', 'tentang-kami') }}">Tentang Kami</a></li>
                         <li><i class="bi bi-chevron-right"></i> <a href="{{ route('blog.index') }}">Blog</a></li>
                         <li><i class="bi bi-chevron-right"></i> <a href="{{ route('contact.index') }}">Kontak</a></li>
+                        <li><i class="bi bi-chevron-right"></i><a href="{{ route('pages.index', 'privacy-policy') }}">Privacy Policy</a></li>
                     </ul>
                 </div>
 
@@ -147,7 +148,6 @@
                         <li><i class="bi bi-chevron-right"></i><a href="{{ route('facilities.index', 'whirlpool-steam') }}">Whirlpool & Steam</a></li>
                         <li><i class="bi bi-chevron-right"></i><a href="{{ route('facilities.index', 'auditorium-function-room') }}">Auditorium & Function Room</a></li>
                         <li><i class="bi bi-chevron-right"></i><a href="{{ route('facilities.index', 'proshop') }}">Proshop</a></li>
-                        <li><i class="bi bi-chevron-right"></i><a href="{{ route('pages.index', 'privacy-policy') }}">Privacy Policy</a></li>
                     </ul>
                 </div>
 
