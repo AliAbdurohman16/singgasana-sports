@@ -9,9 +9,9 @@
 
         <ol>
           <li><a href="{{ route('/') }}">Beranda</a></li>
-          <li>Fasilitas</li>
+          <li>Halaman</li>
         </ol>
-        <h2>Fasilitas Detail</h2>
+        <h2>Halaman Detail</h2>
 
       </div>
     </section><!-- End Breadcrumbs -->
