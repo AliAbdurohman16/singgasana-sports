@@ -38,9 +38,9 @@
             </div>
         @endif
 
-          <div class="col-lg-6">
+          <div class="{{ route('pages.index', 'privacy-policy') ? 'col-lg-12' : 'col-lg-6' }}">
             <div class="facility-description">
-              <h2>{{ $row->title }}</h2>
+              <h2 class="{{ route('pages.index', 'privacy-policy') ? 'text-center' : '' }}">{{ $row->title }}</h2>
               <p>{!! $row->content !!}</p>
             </div>
           </div>
