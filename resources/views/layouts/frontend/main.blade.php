@@ -147,6 +147,7 @@
                         <li><i class="bi bi-chevron-right"></i><a href="{{ route('facilities.index', 'whirlpool-steam') }}">Whirlpool & Steam</a></li>
                         <li><i class="bi bi-chevron-right"></i><a href="{{ route('facilities.index', 'auditorium-function-room') }}">Auditorium & Function Room</a></li>
                         <li><i class="bi bi-chevron-right"></i><a href="{{ route('facilities.index', 'proshop') }}">Proshop</a></li>
+                        <li><i class="bi bi-chevron-right"></i><a href="{{ route('facilities.index', 'privacy-policy') }}">Privacy Policy</a></li>
                     </ul>
                 </div>
 
