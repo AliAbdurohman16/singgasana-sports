@@ -14,7 +14,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $pages = Page::where('slug', '!=', 'tentang-kami')->get();
+        $pages = Page::whereNotIn('slug', ['tentang-kami', 'privacy-policy', 'privacy-policy-for-app'])->get();
         $facilities = [];
 
         foreach ($pages as $page) {
