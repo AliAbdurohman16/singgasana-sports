@@ -41,6 +41,7 @@
                         <thead>
                         <tr>
                             <th width="5%">No</th>
+                            <th>Kode Booking</th>
                             <th>Nama Lengkap</th>
                             <th>Email</th>
                             <th>No Telp</th>
@@ -58,6 +59,7 @@
                             <tr>
                                 <input type="hidden" class="delete_id" value="{{ $row->id }}">
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $row->id }}</td>
                                 <td>
                                     {{ isset($row->first_name) ? $row->first_name : $row->user->first_name}}
                                     {{ isset($row->last_name) ? $row->last_name : $row->user->last_name }}

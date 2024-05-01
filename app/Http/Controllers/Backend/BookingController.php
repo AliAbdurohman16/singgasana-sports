@@ -208,7 +208,7 @@ class BookingController extends Controller
 
     public function member()
     {
-        $members = BookingMember::orderBy('status', 'asc')->get();
+        $members = BookingMember::orderBy('status', 'asc')->whereNot('package', 'Sekolah')->get();
 
         return view('backend.booking.members.index', compact('members'));
     }

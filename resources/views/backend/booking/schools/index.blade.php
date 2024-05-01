@@ -50,6 +50,7 @@
                                 <thead>
                                     <tr>
                                         <th width="5%">No</th>
+                                        <th>Kode Booking</th>
                                         <th>Layanan</th>
                                         <th>Tanggal Dibooking</th>
                                         <th>Sekolah</th>
@@ -62,9 +63,10 @@
                                     <tr>
                                         <input type="hidden" class="delete_id" value="{{ $row->id }}">
                                         <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $row->booking_member_id }}</td>
                                         <td>{{ $row->bookingMember->service->name }}</td>
                                         <td>{{ date('d-m-Y H:i:s', strtotime($row->start_date)) }}</td>
-                                        <td>{{ $row->school }}</td>
+                                        <td>{{ $row->bookingMember->school }}</td>
                                         <td>{{ $row->student_counts }}</td>
                                         <td>
                                             <button class="btn btn-primary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#border-less-attendance{{ $row->id }}"><i class="fas fa-user"></i> Siswa Tidak Hadir</button>
