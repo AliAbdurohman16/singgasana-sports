@@ -168,7 +168,7 @@
                         <div class="box">
                             <h3 style="color: #07d5c0;">Harian</h3>
                             <img src="{{ asset('frontend') }}/assets/img/pricing/personal.webp" class="img-fluid" alt="membership">
-                            <a href="{{ route('booking.daily') }}" class="btn-buy">Pilih Sekarang</a>
+                            <!-- <a href="{{ route('booking.daily') }}" class="btn-buy">Pilih Sekarang</a> -->
                         </div>
                     </div>
 
@@ -176,7 +176,7 @@
                         <div class="box">
                             <h3 style="color: #ff901c;">Member</h3>
                             <img src="{{ asset('frontend') }}/assets/img/pricing/triple.webp" class="img-fluid" alt="membership">
-                            <a href="{{ route('booking.member') }}" class="btn-buy">Pilih Sekarang</a>
+                            <!-- <a href="{{ route('booking.member') }}" class="btn-buy">Pilih Sekarang</a> -->
                         </div>
                     </div>
                 </div>
