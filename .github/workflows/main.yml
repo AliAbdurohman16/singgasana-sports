@@ -21,8 +21,15 @@ jobs:
         extensions: mbstring, intl
         ini-values: post_max_size=256M, max_execution_time=180
 
+    - name: Install Composer
+      run: |
+        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+        php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+        php -r "unlink('composer-setup.php');"
+
     - name: Install composer dependencies
-      run: php composer.phar install
+      run: |
+        composer install
       env:
         COMPOSER_ALLOW_SUPERUSER: true
         COMPOSER_MEMORY_LIMIT: -1
