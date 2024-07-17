@@ -1,5 +1,5 @@
 name: 🚀 Deploy website on push to hosting
-on: 
+on:
   workflow_dispatch:
   push:
     branches:
@@ -11,8 +11,7 @@ jobs:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
     steps:
-
-    - name: 🚚 Get latest code
+      - name: 🚚 Get latest code
         uses: actions/checkout@v3
 
       - name: Install npm modules
@@ -21,9 +20,9 @@ jobs:
       - name: Run vite bundler
         run: npm run build
 
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.2
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USER }}
-        password: ${{ secrets.FTP_PASSWORD }}
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.2
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
