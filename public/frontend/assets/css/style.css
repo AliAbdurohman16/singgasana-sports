@@ -2724,7 +2724,7 @@ section {
   font-size: 14px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .blog .sidebar {
     margin: 0;
   }
