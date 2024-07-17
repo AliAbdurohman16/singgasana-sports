@@ -11,28 +11,9 @@ jobs:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v2
-
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.1'
-        extensions: mbstring, intl
-        ini-values: post_max_size=256M, max_execution_time=180
-
-    - name: Install Composer
-      run: |
-        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-        php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-        php -r "unlink('composer-setup.php');"
 
     - name: Install composer dependencies
-      run: |
-        composer install
-      env:
-        COMPOSER_ALLOW_SUPERUSER: true
-        COMPOSER_MEMORY_LIMIT: -1
+      run: composer install
 
     - name: Install npm modules
       run: npm install
