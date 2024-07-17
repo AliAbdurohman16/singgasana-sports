@@ -14,10 +14,10 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v2
 
-    - name: Set up PHP 8.1
+    - name: Set up PHP
       uses: shivammathur/setup-php@v2
-      with:
-        php-version: 8.1
+        with:
+          php-version: '8.1'
 
     - name: Install composer dependencies
       run: composer install
