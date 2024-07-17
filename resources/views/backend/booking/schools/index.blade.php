@@ -133,13 +133,15 @@
                                         <td>{{ $row->bookingMember->user->first_name }} {{ $row->bookingMember->user->last_name }}</td>
                                         <td>{{ $row->bookingMember->service->name }}</td>
                                         <td>{{ date('d-m-Y H:i:s', strtotime($row->bookingMember->datetime)) }}</td>
-                                        <td>{{ $row->school }}</td>
+                                        <td>{{ $row->bookingMember->school }}</td>
                                         <td>Rp {{ number_format($row->bookingMember->total, 0, ',', '.') }}</td>
                                         <td>
                                             @if ($row->bookingMember->status == 'pending')
                                                 <span class="badge bg-secondary">Belum Bayar</span>
                                             @elseif ($row->bookingMember->status == 'success')
                                                 <span class="badge bg-success">Sudah Bayar</span>
+                                            @elseif ($row->bookingMember->status == 'expired')
+                                                <span class="badge bg-danger">Expired</span>
                                             @endif
                                         </td>
                                         <td>

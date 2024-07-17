@@ -1900,6 +1900,13 @@ section {
   }
 }
 
+@media (min-width: 1400px) {
+  .facility-description {
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+}
+
 /*--------------------------------------------------------------
 # Team
 --------------------------------------------------------------*/
@@ -2224,7 +2231,6 @@ section {
 }
 
 .blog .entry .entry-img {
-  max-height: 440px;
   margin: -30px -30px 20px -30px;
   overflow: hidden;
 }

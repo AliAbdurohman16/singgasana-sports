@@ -22,14 +22,15 @@
 
         @foreach ($pages as $row)
         <div class="row gy-4">
+            <h2 class="text-center">{{ $row->title }}</h2>
 
             @if ($row->images->count() > 0)
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="facility-details-slider swiper">
-                        <div class="swiper-wrapper align-items-center">
+                        <div class="swiper-wrapper text-center">
                             @foreach ($row->images as $image)
                                 <div class="swiper-slide">
-                                    <img src="{{ asset('storage/page/'.$image->path) }}" alt="image-pages">
+                                    <img src="{{ asset('storage/page/'.$image->path) }}" class="img-single-page" alt="image-pages">
                                 </div>
                             @endforeach
                         </div>
@@ -39,16 +40,14 @@
             @endif
 
             @if (!request()->is('pages/privacy-policy') && !request()->is('pages/privacy-policy-for-app'))
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="facility-description">
-                        <h2>{{ $row->title }}</h2>
                         <p>{!! $row->content !!}</p>
                     </div>
                 </div>
             @else
                 <div class="col-lg-12">
                     <div class="facility-description">
-                        <h2 class="text-center">{{ $row->title }}</h2>
                         <p>{!! $row->content !!}</p>
                     </div>
                 </div>

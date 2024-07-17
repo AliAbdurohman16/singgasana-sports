@@ -32,17 +32,23 @@
         <section id="tentang" class="about">
 
             <div class="container" data-aos="fade-up">
-                <div class="row gx-0">
+                <div class="row align-items-center">
+                    <div class="col-lg-5 col-md-6 col-12" data-aos="zoom-out" data-aos-delay="200">
+                        @if ($page->images->count() > 0)
+                            @foreach ($page->images as $image)
+                                <img src="{{ asset('storage/page/' . $image->path) }}" class="img-fluid"
+                                    alt="img-about">
+                            @endforeach
+                        @endif
+                    </div><!--end col-->
 
                     <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up"
                          data-aos-delay="200">
                         <div class="content">
                             <h3>Tentang Kami</h3>
                             <h2>{{ $setting->name }}</h2>
-                            <p>
-                                {!! Str::limit($page->content, $limit = 650, $end = '...') !!}
-                            </p>
-                            <div class="text-center text-lg-start">
+                            {!! Str::limit($page->content, $limit = 650, $end = '...') !!}
+                            <div class="text-center text-lg-start mt-5">
                                 <a href="{{ route('pages.index', 'tentang-kami') }}"
                                    class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
                                     <span>Baca Selengkapnya</span>
@@ -51,18 +57,9 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-lg-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
-                        @if ($page->images->count() > 0)
-                            @foreach ($page->images as $image)
-                                <img src="{{ asset('storage/page/' . $image->path) }}" class="img-fluid"
-                                     alt="img-about">
-                            @endforeach
-                        @endif
-                    </div>
-
-                </div>
-            </div>
+                    
+                </div><!--end row-->
+            </div><!--end container-->
 
         </section><!-- End About Section -->
 
@@ -202,7 +199,7 @@
                             <article class="entry">
 
                                 <div class="entry-img">
-                                    <img src="{{ asset('storage/article/' . $row->image) }}" alt="image-blog" class="img-fluid">
+                                    <img src="{{ asset('storage/article/' . $row->image) }}" alt="image-blog" class="img-blog">
                                 </div>
 
                                 <h2 class="entry-title">
@@ -218,10 +215,6 @@
                                         <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="{{ route('blog.date', date('y-m-d', strtotime($row->created_at))) }}"><time datetime="{{ date('y-m-d', strtotime($row->created_at)) }}">{{ date('d-M-Y', strtotime($row->created_at)) }}</time></a></li>
                                         <li class="d-flex align-items-center"><i class="bi bi-folder"></i> <a href="{{ route('blog.category', $row->category->slug) }}">{{ $row->category->title }}</a></li>
                                     </ul>
-                                </div>
-
-                                <div class="entry-content">
-                                    <p>{!! Str::words($row->content, $words = 120, $end = '...') !!}</p>
                                 </div>
 
                             </article><!-- End blog entry -->

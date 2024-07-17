@@ -22,15 +22,16 @@
 
         @foreach ($facilities as $row)
         <div class="row gy-4">
+          <h2 class="text-center">{{ $row->name }}</h2>
 
-          <div class="col-lg-6">
+          <div class="col-lg-12">
             <div class="facility-details-slider swiper">
-              <div class="swiper-wrapper align-items-center">
+              <div class="swiper-wrapper text-center">
 
                 @if ($row->images->count() > 0)
                     @foreach ($row->images as $image)
                         <div class="swiper-slide">
-                            <img src="{{ asset('storage/facility/'.$image->path) }}" alt="image-facilities">
+                            <img src="{{ asset('storage/facility/'.$image->path) }}" class="img-single-page" alt="image-facilities">
                         </div>
                     @endforeach
                 @endif
@@ -40,9 +41,8 @@
             </div>
           </div>
 
-          <div class="col-lg-6">
+          <div class="col-lg-12">
             <div class="facility-description">
-              <h2>{{ $row->name }}</h2>
               <p>{!! $row->description !!}</p>
             </div>
           </div>
