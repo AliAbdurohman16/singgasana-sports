@@ -1324,6 +1324,12 @@ section {
   padding-top: 30px;
 }
 
+.facility-details .facility-description h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
 .facility-details .facility-description h2 {
   font-size: 26px;
   font-weight: 700;
