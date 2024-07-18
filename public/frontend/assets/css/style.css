@@ -1330,6 +1330,12 @@ section {
   margin-bottom: 20px;
 }
 
+.facility-details .facility-description h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
 .facility-details .facility-description p {
   padding: 0;
 }
