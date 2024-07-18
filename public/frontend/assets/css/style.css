@@ -1336,6 +1336,24 @@ section {
   margin-bottom: 20px;
 }
 
+.facility-details .facility-description h4 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.facility-details .facility-description h5 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.facility-details .facility-description h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
 .facility-details .facility-description p {
   padding: 0;
 }
