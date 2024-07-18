@@ -1276,6 +1276,10 @@ section {
   padding-top: 40px;
 }
 
+.facility-details .facility-title {
+  font-weight: 700;
+}
+
 .facility-details .facility-details-slider img {
   width: 100%;
 }

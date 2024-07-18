@@ -22,7 +22,7 @@
 
         @foreach ($pages as $row)
         <div class="row gy-4">
-            <h2 class="text-center">{{ $row->title }}</h2>
+            <h2 class="text-center facility-title">{{ $row->title }}</h2>
 
             @if ($row->images->count() > 0)
                 <div class="col-lg-12">
