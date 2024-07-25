@@ -120,10 +120,7 @@
                         <img src="{{ asset('storage/setting/' . $setting->logo) }}" alt="logo">
 
                     </a>
-                    <?php $page = App\Models\Page::where('slug', 'tentang-kami')->first(); ?>
-                    <p class="mb-3">Temukan destinasi olahraga dan rekreasi terbaik di kawasan eksklusif Permukiman Singgasana Pradana – Bandung. Nikmati lingkungan yang nyaman dan modern untuk semua aktivitas keluarga Anda.
-                    <p>Dengan berbagai fasilitas olahraga dan rekreasi yang lengkap, mulai dari Swimming Pool, Lapangan Tenis Indoor, Basket Indoor, Squash, Tenis Meja, Badminton Indoor, hingga Fitness dan Aerobic. Tidak hanya itu, kami juga menyediakan fasilitas relaksasi seperti Steam, Whirlpool, dan Pool Side Cafe.</p>
-                    </p>
+                    <p class="mb-3">The Inspired Life - "Bersama Menyehatkan, Bersama Berprestasi"</p>
                     <div class="social-links mt-3">
                         <a href="http://twitter.com/sngsportscentre" class="twitter"><i class="bi bi-twitter"></i></a>
                         <a href="http://facebook.com/SinggasanaSportsandRecreationCentre" class="facebook"><i
