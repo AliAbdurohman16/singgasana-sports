@@ -13,24 +13,6 @@ class AutoExpiredController extends Controller
 {
     public function index()
     {
-        // Send monthly invoice for School package at the end of the month
-        if (Carbon::now()->endOfMonth()->isToday()) {
-
-            $pendingBookings = BookingMember::where('status', 'pending')
-                ->where('package', 'Sekolah')
-                ->get();
-
-            foreach ($pendingBookings as $booking) {
-                try {
-                    Mail::to($booking->user->email)->send(new InvoiceMonthlyMail($booking));
-                } catch (\Exception $e) {
-                    echo $e->getMessage();
-                }
-            }
-        } else {
-            echo 'Today is not the end of the month. No invoices were sent.';
-        }
-
         $now = Carbon::now();
 
         // Retrieve data that has expired daily
@@ -51,6 +33,27 @@ class AutoExpiredController extends Controller
         // Status update becomes expired member
         foreach ($expiredMember as $member) {
             $member->update(['status' => 'expired']);
+        }
+    }
+
+    public function sendMonthInvoice()
+    {
+        // Send monthly invoice for School package at the end of the month
+        if (Carbon::now()->endOfMonth()->isToday()) {
+
+            $pendingBookings = BookingMember::where('status', 'pending')
+                ->where('package', 'Sekolah')
+                ->get();
+
+            foreach ($pendingBookings as $booking) {
+                try {
+                    Mail::to($booking->user->email)->send(new InvoiceMonthlyMail($booking));
+                } catch (\Exception $e) {
+                    echo $e->getMessage();
+                }
+            }
+        } else {
+            echo 'Today is not the end of the month. No invoices were sent.';
         }
     }
 }

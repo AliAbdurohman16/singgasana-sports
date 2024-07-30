@@ -139,3 +139,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // Auto Expired
 Route::get('auto-expired', [App\Http\Controllers\AutoExpiredController::class, 'index'])->name('auto-expired');
+
+// Auto send invoice
+Route::get('auto-send-invoice', [App\Http\Controllers\AutoExpiredController::class, 'sendMonthInvoice'])->name('auto-send-invoice');
