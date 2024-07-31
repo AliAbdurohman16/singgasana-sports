@@ -34,6 +34,17 @@ class AutoExpiredController extends Controller
         foreach ($expiredMember as $member) {
             $member->update(['status' => 'expired']);
         }
+
+        // Retrieve data that has expired school
+        $expiredSchool = BookingMember::where('expired', '<=', $now)
+            ->where('package', 'Sekolah')
+            ->where('status', 'success')
+            ->get();
+
+        // Status update becomes expired school
+        foreach ($expiredSchool as $school) {
+            $school->update(['status' => 'expired']);
+        }
     }
 
     public function sendMonthInvoice()
