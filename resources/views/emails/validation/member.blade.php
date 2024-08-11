@@ -10,7 +10,7 @@
     </div>
 </div>
 <div class="row mb-2"><div class="col-12">Harap simpan QR ini dengan kerahasiaan dan gunakan untuk tiket Anda.</div></div>
-<div class="row mb-2"><div class="col-12">Harap diingat bahwa kode QR ini akan berlaku hingga <b>{{ date('d-m-Y H:i:s', strtotime($data->expired)) }}</b>. Setelah waktu tersebut, kode ini akan tidak berlaku dan Anda perlu melakukan proses booking kembali.</div></div> --}}
+<div class="row mb-2"><div class="col-12">Harap diingat bahwa kode QR ini akan berlaku hingga <b>{{ date('d-m-Y H:i:s', strtotime($data->expired)) }}</b>. Setelah waktu tersebut, kode ini akan tidak berlaku dan Anda perlu melakukan proses booking kembali.</div></div>
 @else
 <div class="row mb-2"><div class="col-12">Kami senang memberitahu Anda bahwa proses validasi Anda baru-baru ini berhasil. Berikut adalah kode PIN Anda:</div></div>
 <h1 style="text-align:center;">{{ $data->pin }}</h1>
