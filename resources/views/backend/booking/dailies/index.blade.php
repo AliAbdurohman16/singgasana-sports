@@ -62,7 +62,7 @@
                                 <td>{{ $row->id }}</td>
                                 <td>
                                     {{ isset($row->first_name) ? $row->first_name : $row->user->first_name}}
-                                    {{ isset($row->last_name) ? $row->last_name : $row->user->last_name }}
+                                    {{ isset($row->last_name) && $row->last_name !== null ? $row->last_name : ($row->user->last_name ?? '') }}
                                 </td>
                                 <td>{{ isset($row->email) ? $row->email : $row->user->email }}</td>
                                 <td>{{ isset($row->telephone) ? $row->telephone : $row->user->telephone }}</td>
