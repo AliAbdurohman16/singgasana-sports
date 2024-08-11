@@ -27,7 +27,13 @@ class ValidationBookingSchoolMail extends Mailable
 
     public function build()
     {
+        $qrPath = public_path('qr_codes/' . $this->data->qr);
+        
         return $this->markdown('emails.validation.school')
-                    ->subject('Validasi Booking Sekolah');
+                    ->subject('Validasi Booking Sekolah')
+                    ->attach($qrPath, [
+                        'as' => 'QR_Code.png',
+                        'mime' => 'image/png',
+                    ]);
     }
 }

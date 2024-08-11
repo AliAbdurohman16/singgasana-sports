@@ -27,7 +27,13 @@ class ValidationBookingMemberMail extends Mailable
 
     public function build()
     {
+        $qrPath = public_path('qr_codes/' . $this->data->qr);
+
         return $this->markdown('emails.validation.member')
-                    ->subject('Validasi Booking Member');
+                    ->subject('Validasi Booking Member')
+                    ->attach($qrPath, [
+                        'as' => 'QR_Code.png',
+                        'mime' => 'image/png',
+                    ]);
     }
 }
