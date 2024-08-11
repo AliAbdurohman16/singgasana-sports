@@ -1,5 +1,5 @@
 @component('mail::message')
-<img src="{{ asset('icon/checked.png') }}" alt="Circle Check" class="img-fluid" style="display:block;margin:auto;margin-bottom:20px;text-align:center;width:50px;">
+<!-- <img src="{{ asset('icon/checked.png') }}" alt="Circle Check" class="img-fluid" style="display:block;margin:auto;margin-bottom:20px;text-align:center;width:50px;"> -->
 <h1 class="text-center mb-4">Validasi Berhasil</h1>
 <div class="row mb-2"><div class="col-12">Halo {{ $data->user->first_name }},</div></div>
 <div class="row mb-2"><div class="col-12">Kami senang memberitahu Anda bahwa proses validasi Anda baru-baru ini berhasil.</div></div>
