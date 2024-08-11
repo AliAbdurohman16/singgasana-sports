@@ -3,7 +3,7 @@
 <h1 class="text-center mb-4">Validasi Berhasil</h1>
 <div class="row mb-2"><div class="col-12">Halo {{ $data->first_name }},</div></div>
 @if ($data->service->name == 'Swimming Pool')
-<div class="row mb-2"><div class="col-12">Kami senang memberitahu Anda bahwa proses validasi Anda baru-baru ini berhasil. Silakan unduh QR Code Anda yang terlampir.</div></div>
+<div class="row mb-2"><div class="col-12">Kami senang memberitahu Anda bahwa proses validasi Anda baru-baru ini berhasil.</div></div>
 <div class="row mb-2">
     <div class="col-12 qr-code-container" style="background-color: #ecebeb; padding: 20px;">
         <img src="{{ asset('singgasana-sport/public/qr_codes/' . $data->qr) }}" style="display: block; margin: auto; text-align: center; width: 200px;" alt="QR Code">
