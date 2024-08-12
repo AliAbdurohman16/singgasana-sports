@@ -14,13 +14,6 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v3
 
-      - name: Install composer dependencies
-        uses: php-actions/composer@v6
-        with:
-          dev: no
-          args: --optimize-autoloader --no-dev
-          php_extensions: gd zip
-
       - name: Install npm modules
         run: npm install
 
