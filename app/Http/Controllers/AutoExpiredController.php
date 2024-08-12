@@ -17,7 +17,8 @@ class AutoExpiredController extends Controller
 
         // Retrieve data that has expired daily
         $expiredDaily = BookingDaily::where('expired', '<=', $now)
-            ->where('status', '!=', 'expired')
+            // ->where('status', '!=', 'expired')
+            ->where('status', 'pending')
             ->get();
 
         // Status update becomes expired daily
@@ -27,7 +28,8 @@ class AutoExpiredController extends Controller
 
         // Retrieve data that has expired member
         $expiredMember = BookingMember::where('expired', '<=', $now)
-            ->where('status', '!=', 'expired')
+            // ->where('status', '!=', 'expired')
+            ->where('status', 'pending')
             ->get();
 
         // Status update becomes expired member
