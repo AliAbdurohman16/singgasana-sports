@@ -152,7 +152,7 @@
                                             <tr>
                                                 <td class="fw-bold">Pembayaran</td>
                                                 <td>:</td>
-                                                <td>Cash</td>
+                                                <td>Transfer</td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">Total</td>

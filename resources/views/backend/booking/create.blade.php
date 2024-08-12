@@ -457,7 +457,7 @@
 
             hidePrice.hide();
             $('.total').text(formattedPrice(total));
-            $('.metode').text('Pembayaran dikasir');
+            $('.metode').text('Transfer');
             $('input[name="total"]').val(total);
         });
 
