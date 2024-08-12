@@ -115,7 +115,7 @@
                 </li>
                 <li class="sidebar-item {{ Request::is('facility*') ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
-                        <i class="bi bi-print"></i>
+                        <i class="bi bi-file-earmark-excel"></i>
                         <span>Report</span>
                     </a>
                 </li>
