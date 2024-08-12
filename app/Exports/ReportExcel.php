@@ -74,10 +74,10 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
 
         return [
             $no++,
-            $row->service->name ?? 'N/A',
+            $row->service->name ?? '',
             date('d-m-Y H:i:s', strtotime($row->datetime)),
-            isset($row->duration) ? $row->duration : $row->package ?? 'N/A',
-            isset($row->information) ? $row->information : $row->school ?? 'N/A',
+            isset($row->duration) ? $row->duration : $row->package ?? '',
+            isset($row->information) ? $row->information : $row->school ?? '',
             'Transfer BCA',
             StringHelper::formatNumber($row->total),
         ];
