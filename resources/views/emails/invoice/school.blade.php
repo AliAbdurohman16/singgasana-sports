@@ -34,10 +34,19 @@
             <div class="col-4"><b>Total Payment :</b></div>
             <div class="col-8 total">Rp {{ number_format($data->subtotal, 0, ',', '.') }}</div>
         </div>
+        <div class="dashed mb-2"></div>
+        <div class="row mb-2">
+            <div class="col-4"><b>Transfer :</b></div>
+            <div class="col-8 total"><b>45333 20328 (BCA)</b></div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4"><b></b></div>
+            <div class="col-8"><b>a/n PT. Singgasana Sarana Sejahtera</b></div>
+        </div>
         <div class="dashed mb-2 mt-2"></div>
-        <div class="foot">1. Invoice ini berisi total biaya untuk pesanan yang telah dipesan.</div>
-        <div class="foot">2. Seluruh invoice akan dikirimkan pada akhir bulan.</div>
-        <div class="foot">3. Mohon melakukan pembayaran pada akhir bulan sesuai dengan tagihan yang tertera.</div>
+        <div class="foot">1. Pembayaran dapat dilakukan secara transfer</div>
+        <div class="foot">2. Silahkan kirimkan bukti pembayaran ke nomor telepon 087737268080</div>>
+        <div class="foot">3. Apabila terjadi pembatalan transaksi, uang yang sudah diserahkan tidak dapat dikembalikan</div>
     </div>
 </div>
 @endcomponent
