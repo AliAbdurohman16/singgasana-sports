@@ -113,6 +113,12 @@
                         </li>
                     </ul>
                 </li>
+                <li class="sidebar-item {{ Request::is('facility*') ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-print"></i>
+                        <span>Report</span>
+                    </a>
+                </li>
                 @endif
 
                 @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin'))
