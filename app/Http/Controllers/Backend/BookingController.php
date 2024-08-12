@@ -99,14 +99,20 @@ class BookingController extends Controller
 
         $duration = $packageExpiration[$package];
 
-        if (is_numeric($duration)) {
-            $expired = Carbon::parse($datetime)->addMonths($duration);
-        } elseif ($duration === "week") {
-            $expired = Carbon::parse($datetime)->addWeeks();
-        } elseif (is_numeric($duration)) {
-            $expired = Carbon::parse($datetime)->addHours($duration);
+        // if (is_numeric($duration)) {
+        //     $expired = Carbon::parse($datetime)->addMonths($duration);
+        // } elseif ($duration === "week") {
+        //     $expired = Carbon::parse($datetime)->addWeeks();
+        // } elseif (is_numeric($duration)) {
+        //     $expired = Carbon::parse($datetime)->addHours($duration);
+        // } else {
+        //     $expired = Carbon::parse($datetime)->addMonths(1);
+        // }
+
+        if ($package == 'Sekolah') {
+            $expired = '';
         } else {
-            $expired = Carbon::parse($datetime)->addMonths(1);
+            $expired = Carbon::now()->addMinutes(20);
         }
 
         $existingBooking = BookingMember::where('school', $school)
