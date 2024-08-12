@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\BookingDaily;
+use App\Models\BookingMember;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
@@ -16,24 +17,42 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
     protected $startDate;
     protected $endDate;
     protected $loginUser;
+    protected $data = true;
+    protected $totalSum = 0;
 
     public function __construct($startDate, $endDate, $loginUser)
     {
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->loginUser = $loginUser;
+        $this->data = collect();
     }
 
     public function collection()
     {
-        return BookingDaily::where('status', 'success')
-        ->when($this->startDate, function ($query) {
-            $query->whereDate('datetime', '>=', $this->startDate);
-        })
-        ->when($this->endDate, function ($query) {
-            $query->whereDate('datetime', '<=', $this->endDate);
-        })
+        $dailyBookings = BookingDaily::where('status', 'success')
+                            ->when($this->startDate, function ($query) {
+                                $query->whereDate('datetime', '>=', $this->startDate);
+                            })
+                            ->when($this->endDate, function ($query) {
+                                $query->whereDate('datetime', '<=', $this->endDate);
+                            })
                             ->get();
+
+        $this->data = $this->data->merge($dailyBookings);
+
+        $memberBookings = BookingMember::where('status', 'success')
+                            ->when($this->startDate, function ($query) {
+                                $query->whereDate('datetime', '>=', $this->startDate);
+                            })
+                            ->when($this->endDate, function ($query) {
+                                $query->whereDate('datetime', '<=', $this->endDate);
+                            })
+                            ->get();
+
+        $this->data = $this->data->merge($memberBookings);
+
+        return $this->data;
     }
 
     public function headings(): array
@@ -43,7 +62,7 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
             ['Nama Kasir : ' . $this->loginUser],
             ['Tanggal Export : ' . Carbon::now()->locale('id')->format('d-m-Y H:i:s')],
             [],
-            ['NO', 'Cabang Olahraga', 'Tanggal Booking', 'Waktu Booking', 'Pesanan', 'Total', 'Pembayaran']
+            ['NO', 'Cabang Olahraga', 'Tanggal Booking', 'Tipe Booking', 'Pesanan', 'Pembayaran', 'Total']
         ];
     }
 
@@ -51,14 +70,16 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
     {
         static $no = 1;
 
+        $this->totalSum += $row->total;
+
         return [
             $no++,
             $row->service->name ?? 'N/A',
             date('d-m-Y H:i:s', strtotime($row->datetime)),
-            $row->duration ?? 'N/A',
-            $row->information ?? 'N/A',
+            isset($row->duration) ? $row->duration : $row->package ?? 'N/A',
+            isset($row->information) ? $row->information : $row->school ?? 'N/A',
+            'Transfer BCA',
             StringHelper::formatNumber($row->total),
-            'Cash'
         ];
     }
 
@@ -131,6 +152,22 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
         $sheet->getColumnDimension('G')->setWidth(15);
 
         $highestRow = $sheet->getHighestRow();
+
+        $sheet->setCellValue('F' . ($highestRow + 1), 'Total Keseluruhan');
+        $sheet->setCellValue('G' . ($highestRow + 1), StringHelper::formatNumber($this->totalSum));
+
+        $sheet->getStyle('F' . ($highestRow + 1) . ':G' . ($highestRow + 1))->applyFromArray([
+            'font' => [
+                'bold' => true,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => 'FF000000'],
+                ],
+            ],
+        ]);
+
         $sheet->getStyle('A6:A' . $highestRow)->applyFromArray([
             'alignment' => [
                 'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
