@@ -113,8 +113,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="sidebar-item {{ Request::is('facility*') ? 'active' : '' }}">
-                    <a href="#" class="sidebar-link">
+                <li class="sidebar-item {{ Request::is('report*') ? 'active' : '' }}">
+                    <a href="{{ route('report.index') }}" class="sidebar-link">
                         <i class="bi bi-file-earmark-excel"></i>
                         <span>Report</span>
                     </a>

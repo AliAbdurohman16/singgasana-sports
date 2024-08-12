@@ -121,6 +121,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('service/squash/member/{id}', [App\Http\Controllers\Backend\SquashController::class, 'memberEdit'])->name('squashMember.edit');
         Route::put('service/squash/member/{id}', [App\Http\Controllers\Backend\SquashController::class, 'memberUpdate'])->name('squashMember.update');
 
+        Route::get('report', [App\Http\Controllers\Backend\ReportController::class, 'index'])->name('report.index');
+        Route::get('report/export', [App\Http\Controllers\Backend\ReportController::class, 'export'])->name('report.export');
+
         Route::resources([
             'category' => App\Http\Controllers\Backend\CategoryController::class,
             'write_articles' => App\Http\Controllers\Backend\WriteArticlesController::class,
