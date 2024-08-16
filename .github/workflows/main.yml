@@ -20,10 +20,6 @@ jobs:
       - name: Run vite bundler
         run: npm run build
 
-      - name: Install Composer dependencies
-        run: |
-          composer install --no-interaction --prefer-dist --optimize-autoloader
-
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.2
         with:
