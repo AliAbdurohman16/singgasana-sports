@@ -6,26 +6,38 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 d-flex flex-column justify-content-center">
-                    <h1 data-aos="fade-up">{{ $setting->name }}</h1>
-                    <h2 data-aos="fade-up" data-aos-delay="400">{{ $setting->slogan }}</h2>
-                    <div data-aos="fade-up" data-aos-delay="600">
-                        <div class="text-center text-lg-start">
-                            <a href="#booking"
-                               class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
-                                <span>Join Sekarang</span>
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+                <div class="hero-img">
                     <img src="{{ asset('storage/setting/' . $setting->hero) }}" class="img-fluid" alt="hero">
                 </div>
             </div>
         </div>
 
     </section><!-- End Hero -->
+    
+    <!-- ======= Banner ======= -->
+    <div class="container">
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                <img src="{{ asset('frontend/assets/img/hero-bg.png') }}" class="d-block w-100" alt="banner">
+                </div>
+                <div class="carousel-item">
+                <img src="{{ asset('frontend/assets/img/hero-bg.png') }}" class="d-block w-100" alt="banner">
+                </div>
+                <div class="carousel-item">
+                <img src="{{ asset('frontend/assets/img/hero-bg.png') }}" class="d-block w-100" alt="banner">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
 
     <main id="main">
         <!-- ======= About Section ======= -->
