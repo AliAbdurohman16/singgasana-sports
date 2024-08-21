@@ -1,6 +1,7 @@
 $("#summernote").summernote({
   tabsize: 2,
-  height: 120,
+  placeholder: 'Tulis sesuatu di sini...',
+  height: 300,
 })
 $("#hint").summernote({
   height: 100,

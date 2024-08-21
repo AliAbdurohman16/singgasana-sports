@@ -86,6 +86,7 @@
         selectHeader.classList.add('header-scrolled')
       } else {
         selectHeader.classList.remove('header-scrolled')
+        selectHeader.classList.add('bg-white')
       }
     }
     window.addEventListener('load', headerScrolled)
