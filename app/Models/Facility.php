@@ -9,7 +9,7 @@ class Facility extends Model
 {
     use HasFactory;
 
-    public $fillable = ['name', 'slug', 'description'];
+    protected $guarded = [];
 
     public function images()
     {

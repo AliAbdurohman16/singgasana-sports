@@ -16,10 +16,17 @@ return new class extends Migration
         Schema::create('galleries', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('image');
-            $table->unsignedBigInteger('gallery_categories_id');
+            $table->string('slug');
+            $table->string('thumbnail');
+            $table->text('short_description');
+            $table->string('title_foto_1')->nullable();
+            $table->string('foto_1')->nullable();
+            $table->string('title_foto_2')->nullable();
+            $table->string('foto_2')->nullable();
+            $table->string('title_foto_3')->nullable();
+            $table->string('foto_3')->nullable();
+            $table->text('description');
             $table->timestamps();
-            $table->foreign('gallery_categories_id')->references('id')->on('gallery_categories')->onDelete('cascade');
         });
     }
 

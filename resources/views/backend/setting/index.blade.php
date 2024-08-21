@@ -80,7 +80,7 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                        <div class="col-md-2">
+                                        {{-- <div class="col-md-2">
                                             <label>Hero</label>
                                         </div>
                                         <div class="col-md-2 mb-2">
@@ -94,8 +94,8 @@
                                                     {{ $message }}
                                                 </div>
                                             @enderror
-                                        </div>
-                                        <div class="col-md-4">
+                                        </div> --}}
+                                        {{-- <div class="col-md-4">
                                             <label>Slogan</label>
                                         </div>
                                         <div class="col-md-8 form-group">
@@ -105,7 +105,7 @@
                                                     {{ $message }}
                                                 </div>
                                             @enderror
-                                        </div>
+                                        </div> --}}
                                         <div class="col-md-4">
                                             <label>Pengunjung</label>
                                         </div>

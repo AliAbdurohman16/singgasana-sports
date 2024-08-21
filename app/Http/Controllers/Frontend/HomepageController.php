@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\Page;
 use App\Models\Facility;
 use App\Models\Setting;
+use App\Models\Banner;
 
 class HomepageController extends Controller
 {
@@ -18,15 +19,15 @@ class HomepageController extends Controller
      */
     public function index()
     {
-        $page = Page::where('slug', 'tentang-kami')->with('images')->first();
+        $data = [
+            'banners' => Banner::all(),
+            'page' => Page::where('slug', 'tentang-kami')->with('images')->first(),
+            'facilities' => Facility::latest()->take(3)->get(),
+            'recentPosts' => Article::where('status', 'Publish')->latest()->take(3)->get(),
+            'setting' => Setting::find(1),
+        ];
 
-        $facilities = Facility::latest()->take(3)->get();
-
-        $recentPosts = Article::where('status', 'Publish')->latest()->take(3)->get();
-
-        $setting = Setting::find(1);
-
-        return view('frontend.home.index', compact('recentPosts', 'page', 'facilities', 'setting'));
+        return view('frontend.home.index', $data);
     }
 
     /**

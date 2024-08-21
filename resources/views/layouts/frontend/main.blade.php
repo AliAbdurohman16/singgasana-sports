@@ -41,7 +41,7 @@
 
 <body>
 <!-- ======= Header ======= -->
-<header id="header" class="header fixed-top">
+<header id="header" class="header header-scrolled fixed-top">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
         <a href="{{ route('/') }}" class="logo d-flex align-items-center">
@@ -61,7 +61,7 @@
                                 <li><a class="{{ request()->is('pages/aerobik-seni-bela-diri') ? 'active' : '' }}" href="{{ route('pages.index', 'aerobik-seni-bela-diri') }}">Aerobik & Seni Bela Diri</a></li>
                             </ul>
                         </li>
-                        {{-- <li><a class="{{ request()->is('gallery') ? 'active' : '' }}" href="{{ route('gallery.index') }}">Galeri</a></li> --}}
+                        <li><a class="{{ request()->is('gallery') ? 'active' : '' }}" href="{{ route('gallery.index') }}">Galeri</a></li>
                     </ul>
                 </li>
                 <li class="dropdown"><a class="{{ request()->is('facilities/*') ? 'active' : '' }}" href=""><span>Fasilitas</span> <i class="bi bi-chevron-down"></i></a>

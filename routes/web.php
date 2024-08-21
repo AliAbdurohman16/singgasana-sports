@@ -31,6 +31,7 @@ Route::get('facilities/{slug}', [App\Http\Controllers\Frontend\FacilityControlle
 Route::get('pages/{slug}', [App\Http\Controllers\Frontend\PageController::class, 'index'])->name('pages.index');
 
 Route::get('gallery', [App\Http\Controllers\Frontend\GalleryController::class, 'index'])->name('gallery.index');
+Route::get('gallery/{slug}', [App\Http\Controllers\Frontend\GalleryController::class, 'detail'])->name('gallery.detail');
 
 Route::get('contact', [App\Http\Controllers\Frontend\ContactController::class, 'index'])->name('contact.index');
 
@@ -125,13 +126,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('report/export', [App\Http\Controllers\Backend\ReportController::class, 'export'])->name('report.export');
 
         Route::resources([
+            'banners' => App\Http\Controllers\Backend\BannerController::class,
             'category' => App\Http\Controllers\Backend\CategoryController::class,
             'write_articles' => App\Http\Controllers\Backend\WriteArticlesController::class,
             'article' => App\Http\Controllers\Backend\ArticleController::class,
             'page' => App\Http\Controllers\Backend\PageController::class,
             'facility' => App\Http\Controllers\Backend\FacilityController::class,
-            'gallery_categories' => App\Http\Controllers\Backend\GalleryCategoriesController::class,
-            'gallery_images' => App\Http\Controllers\Backend\GalleryController::class,
+            'galleries' => App\Http\Controllers\Backend\GalleryController::class,
             'setting' => App\Http\Controllers\Backend\SettingController::class,
             'officers' => App\Http\Controllers\Backend\OfficerController::class,
             'users' => App\Http\Controllers\Backend\UserController::class,

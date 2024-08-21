@@ -19,7 +19,7 @@
           <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
             <ol class="breadcrumb">
               <li class="breadcrumb-item">
-                <a href="{{ route('gallery_images.index') }}">Foto</a>
+                <a href="{{ route('galleries.index') }}">Foto</a>
               </li>
               <li class="breadcrumb-item active" aria-current="page">
                 List
@@ -34,17 +34,20 @@
     <section class="section">
       <div class="card">
         <div class="card-header">
-            <button class="btn btn-primary btn-sm" onclick="window.location='/gallery_images/create'"><i class="fas fa-plus"></i> Tambah Data</button>
+            <button class="btn btn-primary btn-sm" onclick="window.location='/galleries/create'"><i class="fas fa-plus"></i> Tambah Data</button>
         </div>
         <div class="card-body">
           <table class="table categories-table" id="table1">
             <thead>
               <tr>
                 <th width="5%">No</th>
-                <th width="10%">Foto</th>
+                <th>Foto</th>
                 <th>Nama</th>
-                <th>Kategori</th>
-                <th width="20%">Aksi</th>
+                <th>Foto 1</th>
+                <th>Foto 2</th>
+                <th>Foto 3</th>
+                <th>Deskripsi Singkat</th>
+                <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -53,12 +56,30 @@
                 <input type="hidden" class="delete_id" value="{{ $row->id }}">
                 <td>{{ $loop->iteration }}</td>
                 <td>
-                    <img src="{{ asset('storage/gallery/' . $row->image) }}" width="100%" alt="image">
+                    <img src="{{ asset('storage/gallery/' . $row->thumbnail) }}" width="100%" alt="image">
                 </td>
                 <td>{{ $row->title }}</td>
-                <td>{{ $row->galleryCategories->title }}</td>
                 <td>
-                  <button class="btn btn-warning btn-sm mb-2" onclick="window.location='/gallery_images/{{ $row->id }}/edit'"><i class="fas fa-edit"></i> Edit</button>
+                  @if ($row->foto_1)
+                  <img src="{{ asset('storage/gallery/' . $row->foto_1) }}" width="100%" alt="image">
+                  @endif
+                  <p>{{ $row->title_foto_1 }}</p>
+                </td>
+                <td>
+                  @if ($row->foto_2)
+                  <img src="{{ asset('storage/gallery/' . $row->foto_2) }}" width="100%" alt="image">
+                  @endif
+                  <p>{{ $row->title_foto_2 }}</p>
+                </td>
+                <td>
+                  @if ($row->foto_3)
+                  <img src="{{ asset('storage/gallery/' . $row->foto_3) }}" width="100%" alt="image">
+                  @endif
+                  <p>{{ $row->title_foto_3 }}</p>
+                </td>
+                <td>{{ $row->short_description }}</td>
+                <td>
+                  <button class="btn btn-warning btn-sm mb-2" onclick="window.location='/galleries/{{ $row->id }}/edit'"><i class="fas fa-edit"></i> Edit</button>
                   <button class="btn btn-danger btn-delete btn-sm mb-2" data-id="{{ $row->id }}"><i class="fas fa-trash"></i> Hapus</button>
                 </td>
               </tr>
@@ -105,7 +126,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "gallery_images/" + id,
+                    url: "galleries/" + id,
                     type: 'DELETE',
                     data: {
                         "id": id,

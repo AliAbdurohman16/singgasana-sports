@@ -1,33 +1,20 @@
 @extends('layouts.frontend.main')
 
 @section('content')
-    <!-- ======= Hero Section ======= -->
-    <section id="beranda" class="hero d-flex align-items-center">
-
-        <div class="container">
-            <div class="row">
-                <div class="hero-img">
-                    <img src="{{ asset('storage/setting/' . $setting->hero) }}" class="img-fluid" alt="hero">
-                </div>
-            </div>
-        </div>
-
-    </section><!-- End Hero -->
-    
-    <!-- ======= Banner ======= -->
-    <div class="container">
+    <!-- ======= Hero ======= -->
+    <div class="hero">
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                <img src="{{ asset('frontend/assets/img/hero-bg.png') }}" class="d-block w-100" alt="banner">
+                @foreach ($banners as $banner)
+                <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                    <a href="{{ $banner->link }}" target="_blank">
+                        <img src="{{ asset('storage/banner/' . $banner->image) }}" class="d-block carousel-img w-100" alt="banner">
+                    </a>
                 </div>
-                <div class="carousel-item">
-                <img src="{{ asset('frontend/assets/img/hero-bg.png') }}" class="d-block w-100" alt="banner">
-                </div>
-                <div class="carousel-item">
-                <img src="{{ asset('frontend/assets/img/hero-bg.png') }}" class="d-block w-100" alt="banner">
-                </div>
+                @endforeach
             </div>
+
+            @if ($banners->count() > 1)
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
@@ -36,6 +23,7 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
+            @endif
         </div>
     </div>
 
@@ -45,7 +33,7 @@
 
             <div class="container" data-aos="fade-up">
                 <div class="row align-items-center">
-                    <div class="col-lg-5 col-md-6 col-12" data-aos="zoom-out" data-aos-delay="200">
+                    <div class="col-lg-5 col-md-6 col-12">
                         @if ($page->images->count() > 0)
                             @foreach ($page->images as $image)
                                 <img src="{{ asset('storage/page/' . $image->path) }}" class="img-fluid"

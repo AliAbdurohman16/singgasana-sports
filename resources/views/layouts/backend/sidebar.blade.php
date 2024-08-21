@@ -35,6 +35,13 @@
                 @endif
 
                 @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin'))
+                <li class="sidebar-item {{ Request::is('banners*') ? 'active' : '' }}">
+                    <a href="{{ route('banners.index') }}" class="sidebar-link">
+                        <i class="far fa-images"></i>
+                        <span>Banner</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-item has-sub {{ Request::is(['write_articles*', 'article*', 'category*']) ? 'active' : '' }}">
                     <a href="#" class="sidebar-link">
                         <i class="bi bi-pen-fill"></i>
@@ -122,20 +129,12 @@
                 @endif
 
                 @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin'))
-                {{-- <li class="sidebar-item has-sub {{ Request::is(['gallery_categories*', 'gallery_images*']) ? 'active' : '' }}">
-                    <a href="#" class="sidebar-link">
-                        <i class="bi bi-image-fill"></i>
+                <li class="sidebar-item {{ Request::is('galleries*') ? 'active' : '' }}">
+                    <a href="{{ route('galleries.index') }}" class="sidebar-link">
+                        <i class="far fa-image"></i>
                         <span>Galeri</span>
                     </a>
-                    <ul class="submenu {{ Request::is(['gallery_categories*', 'gallery_images*']) ? 'active' : '' }}">
-                        <li class="submenu-item {{ Request::is('gallery_categories*') ? 'active' : '' }}">
-                            <a href="{{ route('gallery_categories.index') }}">Kategori Foto</a>
-                        </li>
-                        <li class="submenu-item {{ Request::is('gallery_images*') ? 'active' : '' }}">
-                            <a href="{{ route('gallery_images.index') }}">Foto</a>
-                        </li>
-                    </ul>
-                </li> --}}
+                </li>
 
                 <li class="sidebar-title">Petugas &amp; Pengguna</li>
 

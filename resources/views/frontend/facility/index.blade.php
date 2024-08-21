@@ -22,7 +22,7 @@
 
         @foreach ($facilities as $row)
         <div class="row gy-4">
-          <h2 class="text-center">{{ $row->name }}</h2>
+          <h2 class="text-center facility-title">{{ $row->name }}</h2>
 
           <div class="col-lg-12">
             <div class="facility-details-slider swiper">

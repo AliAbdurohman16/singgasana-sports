@@ -5,92 +5,111 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Gallery;
-use App\Models\GalleryCategories;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
     public function index()
     {
-        $galleries = Gallery::all();
+        $data['galleries'] = Gallery::all();
 
-        return view('backend.gallery.image.index', compact('galleries'));
+        return view('backend.gallery.index', $data);
     }
 
     public function create()
     {
-        $gallery_categories = GalleryCategories::all();
-
-        return view('backend.gallery.image.add', compact('gallery_categories'));
+        return view('backend.gallery.add');
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'image' => 'required|mimes:jpg,png,jpeg|image|max:2048',
+        $data = $request->validate([
+            'thumbnail' => 'required|mimes:jpg,png,jpeg,webp,avif|image|max:2048',
             'title' => 'required',
-            'gallery_categories_id' => 'required',
+            'short_description' => 'required',
+            'foto_1' => 'mimes:jpg,png,jpeg,webp,avif|image|max:2048',
+            'title_foto_1' => 'nullable',
+            'foto_2' => 'mimes:jpg,png,jpeg,webp,avif|image|max:2048',
+            'title_foto_2' => 'nullable',
+            'foto_3' => 'mimes:jpg,png,jpeg,webp,avif|image|max:2048',
+            'title_foto_3' => 'nullable',
+            'description' => 'required',
         ]);
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('public/gallery');
-            $imageName = basename($imagePath);
-        } else {
-            $imageName = '';
+        $data['slug'] = Str::slug($data['title']);
+
+        $fields = ['thumbnail', 'foto_1', 'foto_2', 'foto_3'];
+
+        foreach ($fields as $field) {
+            if ($request->hasFile($field)) {
+                $data[$field] = basename($request->file($field)->store('public/gallery'));
+            }
         }
 
-        Gallery::create([
-            'image' => $imageName,
-            'title' => $request->title,
-            'gallery_categories_id' => $request->gallery_categories_id,
-        ]);
+        Gallery::create($data);
 
-        return redirect('gallery_images')->with('message', 'Data berhasil ditambahkan!');
+        return redirect('galleries')->with('message', 'Data berhasil ditambahkan!');
     }
 
     public function edit($id)
     {
-        $galleries = Gallery::find($id);
-        $gallery_categories = GalleryCategories::all();
+        $data['gallery'] = Gallery::find($id);
 
-        return view('backend.gallery.image.edit', compact('galleries', 'gallery_categories'));
+        return view('backend.gallery.edit', $data);
     }
 
     public function update(Request $request,$id)
     {
-        $request->validate([
-            'image' => 'mimes:jpg,png,jpeg|image|max:2048',
+        $gallery = Gallery::find($id);
+
+        $data = $request->validate([
+            'thumbnail' => '|mimes:jpg,png,jpeg,webp,avif|image|max:2048',
             'title' => 'required',
-            'gallery_categories_id' => 'required',
+            'short_description' => 'required',
+            'foto_1' => 'mimes:jpg,png,jpeg,webp,avif|image|max:2048',
+            'title_foto_1' => 'nullable',
+            'foto_2' => 'mimes:jpg,png,jpeg,webp,avif|image|max:2048',
+            'title_foto_2' => 'nullable',
+            'foto_3' => 'mimes:jpg,png,jpeg,webp,avif|image|max:2048',
+            'title_foto_3' => 'nullable',
+            'description' => 'required',
         ]);
 
-        $galleries = Gallery::find($id);
+        $data['slug'] = Str::slug($data['title']);
 
-        if ($request->hasFile('image')) {
-            Storage::delete('public/gallery/' . $galleries->image);
-            $imagePath = $request->file('image')->store('public/gallery');
-            $imageName = basename($imagePath);
-        } else {
-            $imageName = $galleries->image;
+        $fields = ['thumbnail', 'foto_1', 'foto_2', 'foto_3'];
+
+        foreach ($fields as $field) {
+            if ($request->hasFile($field)) {
+                if ($gallery->$field && Storage::exists('public/gallery/' . $gallery->$field)) {
+                    Storage::delete('public/gallery/' . $gallery->$field);
+                }
+
+                
+                $data[$field] = basename($request->file($field)->store('public/gallery'));
+            }
         }
 
-        $galleries->update([
-            'image' => $imageName,
-            'title' => $request->title,
-            'gallery_categories_id' => $request->gallery_categories_id,
-        ]);
+        $gallery->update($data);
 
-        return redirect('gallery_images')->with('message', 'Data berhasil diubah!');
+        return redirect('galleries')->with('message', 'Data berhasil diubah!');
     }
 
     public function destroy($id)
     {
-        $galleries = Gallery::find($id);
-        if ($galleries->image) {
-            Storage::delete('public/gallery/' . $galleries->image);
+        $gallery = Gallery::find($id);
+
+        $fields = ['thumbnail', 'foto_1', 'foto_2', 'foto_3'];
+
+        foreach ($fields as $field) {
+            if ($gallery->$field && Storage::exists('public/gallery/' . $gallery->$field)) {
+                Storage::delete('public/gallery/' . $gallery->$field);
+            }
         }
 
-        $galleries->delete();
-        return response()->json(['status' => 'Data berhasil dihapus!']);
+        $gallery->delete();
+
+        return response()->json(['message' => 'Data berhasil dihapus!']);
     }
 }

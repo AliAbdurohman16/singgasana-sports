@@ -22,8 +22,8 @@ class SettingController extends Controller
             'name' => 'required',
             'logo' => 'mimes:jpg,png,jpeg,webp|image|max:2048',
             'favicon' => 'mimes:jpg,png,jpeg,webp|image|max:2048',
-            'hero' => 'mimes:jpg,png,jpeg,webp|image|max:2048',
-            'slogan' => 'required',
+            // 'hero' => 'mimes:jpg,png,jpeg,webp|image|max:2048',
+            // 'slogan' => 'required',
             'visitors' => 'required',
             'event' => 'required',
             'venue' => 'required',
@@ -52,20 +52,20 @@ class SettingController extends Controller
             $faviconName = $setting->favicon;
         }
 
-        if ($request->hasFile('hero')) {
-            Storage::delete('public/setting/' . $setting->hero);
-            $heroPath = $request->file('hero')->store('public/setting');
-            $heroName = basename($heroPath);
-        } else {
-            $heroName = $setting->hero;
-        }
+        // if ($request->hasFile('hero')) {
+        //     Storage::delete('public/setting/' . $setting->hero);
+        //     $heroPath = $request->file('hero')->store('public/setting');
+        //     $heroName = basename($heroPath);
+        // } else {
+        //     $heroName = $setting->hero;
+        // }
 
         $setting->update([
             'name' => $request->name,
             'logo' => $logoName,
             'favicon' => $faviconName,
-            'hero' => $heroName,
-            'slogan' => $request->slogan,
+            // 'hero' => $heroName,
+            // 'slogan' => $request->slogan,
             'visitors' => $request->visitors,
             'event' => $request->event,
             'venue' => $request->venue,

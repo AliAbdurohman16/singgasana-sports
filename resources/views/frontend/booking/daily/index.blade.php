@@ -47,22 +47,22 @@
                                             {{ Session::get('error') }}
                                         </div>
                                     @endif
-                                    <!-- <div class="col-md-6">
+                                    <div class="col-md-6">
                                         <input type="text" name="first_name" class="form-control"
                                             placeholder="Nama Depan" required>
                                     </div>
                                     <div class="col-md-6">
                                         <input type="text" name="last_name" class="form-control"
                                             placeholder="Nama Belakang">
-                                    </div> -->
+                                    </div>
                                     <div class="col-md-12">
                                         <input type="email" class="form-control" name="email" placeholder="Email"
                                             required>
                                     </div>
-                                    <!-- <div class="col-md-6">
+                                    <div class="col-md-6">
                                         <input type="number" class="form-control" name="telephone" placeholder="No Telepon"
                                             required>
-                                    </div> -->
+                                    </div>
                                     <div class="col-md-12">
                                         <select name="service" class="form-control" required>
                                             <option value="">Pilih Layanan</option>
