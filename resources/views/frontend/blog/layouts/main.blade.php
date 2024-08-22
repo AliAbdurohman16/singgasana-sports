@@ -35,6 +35,18 @@
                             </ul>
                         </div><!-- End sidebar categories-->
 
+                        <h3 class="sidebar-title">Postingan Terpopuler</h3>
+                        <div class="sidebar-item recent-posts">
+                            @foreach ($popularPosts as $row)
+                            <div class="post-item clearfix">
+                                <img src="{{ asset('storage/article/' . $row->image) }}" alt="image-blog">
+                                <h4><a href="{{ route('blog.single', $row->slug) }}">{{ $row->title }}</a></h4>
+                                <time datetime="{{ date('d-M-Y', strtotime($row->created_at)) }}">{{ date('d-M-Y', strtotime($row->created_at)) }}</time>
+                            </div>
+                            @endforeach
+
+                        </div><!-- End sidebar popular posts-->
+
                         <h3 class="sidebar-title">Postingan Terbaru</h3>
                         <div class="sidebar-item recent-posts">
                             @foreach ($recentPosts as $row)

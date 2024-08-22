@@ -15,123 +15,128 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $articles = Article::where('status', 'Publish')->orderBy('created_at', 'desc')->paginate(5);
+        $data = [
+            'articles' => Article::where('status', 'Publish')->orderBy('created_at', 'desc')->paginate(5),
+            'categories' => Category::all(),
+            'recentPosts' => Article::where('status', 'Publish')->latest()->take(3)->get(),
+            'popularPosts' => Article::where('status', 'Publish')->orderBy('viewers', 'desc')->take(3)->get(),
+            'tags' => Tag::select('name', 'slug')->distinct()->get(),
+        ];
 
-        $categories = Category::all();
-
-        $recentPosts = Article::where('status', 'Publish')->latest()->take(5)->get();
-
-        $tags = Tag::select('name', 'slug')->distinct()->get();
-
-        return view('frontend.blog.index', compact('articles', 'categories', 'recentPosts', 'tags'));
+        return view('frontend.blog.index', $data);
     }
 
     public function single($slug)
     {
-        $article = Article::where(['slug' => $slug, 'status' => 'Publish'])->firstOrFail();
+        $article = Article::where(['slug' => $slug, 'status' => 'Publish'])->first();
 
-        $categories = Category::all();
-
-        $recentPosts = Article::where('status', 'Publish')->latest()->take(5)->get();
-
-        $tags = Tag::select('name', 'slug')->distinct()->get();
+        $data = [
+            'article' => $article,
+            'categories' => Category::all(),
+            'recentPosts' => Article::where('status', 'Publish')->latest()->take(3)->get(),
+            'popularPosts' => Article::where('status', 'Publish')->orderBy('viewers', 'desc')->take(3)->get(),
+            'tags' => Tag::select('name', 'slug')->distinct()->get(),
+        ];
 
         $article->update([
             'viewers' => $article->viewers + 1,
         ]);
 
-        return view('frontend.blog.single', compact('article', 'categories', 'recentPosts', 'tags'));
+        return view('frontend.blog.single', $data);
     }
 
     public function author($encryptedId)
     {
         $id = Crypt::decrypt($encryptedId);
 
-        $articles = Article::where(['user_id' => $id, 'status' => 'Publish'])->orderBy('created_at', 'desc')->paginate(5);
+        $data = [
+            'articles' => Article::where(['user_id' => $id, 'status' => 'Publish'])->orderBy('created_at', 'desc')->paginate(5),
+            'categories' => Category::all(),
+            'recentPosts' => Article::where('status', 'Publish')->latest()->take(3)->get(),
+            'popularPosts' => Article::where('status', 'Publish')->orderBy('viewers', 'desc')->take(3)->get(),
+            'tags' => Tag::select('name', 'slug')->distinct()->get(),
+            'author' => User::find($id),
+        ];
 
-        $categories = Category::all();
-
-        $recentPosts = Article::where('status', 'Publish')->latest()->take(5)->get();
-
-        $tags = Tag::select('name', 'slug')->distinct()->get();
-
-        $author = User::findOrFail($id);
-
-        return view('frontend.blog.author', compact('articles', 'categories', 'recentPosts', 'tags', 'author'));
+        return view('frontend.blog.author', $data);
     }
 
     public function date($date)
     {
-        $articles = Article::whereDate('created_at', $date)->where('status', 'Publish')->orderBy('created_at', 'desc')->paginate(5);
+        $data = [
+            'date' => $date,
+            'articles' => Article::whereDate('created_at', $date)->where('status', 'Publish')->orderBy('created_at', 'desc')->paginate(5),
+            'categories' => Category::all(),
+            'recentPosts' => Article::where('status', 'Publish')->latest()->take(3)->get(),
+            'popularPosts' => Article::where('status', 'Publish')->orderBy('viewers', 'desc')->take(3)->get(),
+            'tags' => Tag::select('name', 'slug')->distinct()->get(),
+        ];
 
-        $categories = Category::all();
-
-        $recentPosts = Article::where('status', 'Publish')->latest()->take(5)->get();
-
-        $tags = Tag::select('name', 'slug')->distinct()->get();
-
-        return view('frontend.blog.date', compact('articles', 'categories', 'recentPosts', 'tags', 'date'));
+        return view('frontend.blog.date', $data);
     }
 
     public function category($slug)
     {
-        $category = Category::where('slug', $slug)->firstOrFail();
+        $category = Category::where('slug', $slug)->first();
 
-        $articles = $category->article()->where('status', 'Publish')->orderBy('created_at', 'desc')->paginate(5);
+        $data = [
+            'category' => $category,
+            'articles' => $category->article()->where('status', 'Publish')->orderBy('created_at', 'desc')->paginate(5),
+            'categories' => Category::all(),
+            'recentPosts' => Article::where('status', 'Publish')->latest()->take(3)->get(),
+            'popularPosts' => Article::where('status', 'Publish')->orderBy('viewers', 'desc')->take(3)->get(),
+            'tags' => Tag::select('name', 'slug')->distinct()->get(),
+        ];
 
-        $categories = Category::all();
-
-        $recentPosts = Article::where('status', 'Publish')->latest()->take(5)->get();
-
-        $tags = Tag::select('name', 'slug')->distinct()->get();
-
-        return view('frontend.blog.category', compact('articles', 'categories', 'recentPosts', 'tags', 'category'));
+        return view('frontend.blog.category', $data);
     }
 
     public function tag($slug)
     {
-        $tag = Tag::where('slug', $slug)->firstOrFail();
+        $tag = Tag::where('slug', $slug)->first();
 
-        $articles = Article::withAnyTag([$slug])->where('status', 'Publish')->paginate(5);
+        $data = [
+            'tag' => $tag,
+            'articles' => Article::withAnyTag([$slug])->where('status', 'Publish')->orderBy('created_at', 'desc')->paginate(5),
+            'categories' => Category::all(),
+            'recentPosts' => Article::where('status', 'Publish')->latest()->take(3)->get(),
+            'popularPosts' => Article::where('status', 'Publish')->orderBy('viewers', 'desc')->take(3)->get(),
+            'tags' => Tag::select('name', 'slug')->distinct()->get(),
+        ];
 
-        $categories = Category::all();
-
-        $recentPosts = Article::where('status', 'Publish')->latest()->take(5)->get();
-
-        $tags = Tag::select('name', 'slug')->distinct()->get();
-
-        return view('frontend.blog.tag', compact('articles', 'categories', 'recentPosts', 'tags', 'tag'));
+        return view('frontend.blog.tag', $data);
     }
 
     public function search(Request $request)
     {
         $search = $request->input('keyword');
 
-        $articles = Article::where('status', 'Publish')
-                            ->where(function($query) use ($search) {
-                                $query->where('title', 'LIKE', "%$search%")
-                                    ->orWhere('content', 'LIKE', "%$search%")
-                                    ->orWhere('created_at', 'LIKE', "%$search%");
-                            })
-                            ->where(function ($query) use ($search) {
-                                $query->whereHas('category', function ($query) use ($search) {
+        $data = [
+            'search' => $search,
+            'articles' => Article::where('status', 'Publish')
+                                ->where(function($query) use ($search) {
                                     $query->where('title', 'LIKE', "%$search%")
-                                        ->orWhere('slug', 'LIKE', "%$search%");
+                                        ->orWhere('content', 'LIKE', "%$search%")
+                                        ->orWhere('created_at', 'LIKE', "%$search%");
                                 })
-                                ->orWhereHas('tagged', function ($query) use ($search) {
-                                    $query->where('tag_name', 'LIKE', "%$search%")
-                                        ->orWhere('slug', 'LIKE', "%$search%");
-                                });
-                            })
-                            ->paginate(5);
+                                ->where(function ($query) use ($search) {
+                                    $query->whereHas('category', function ($query) use ($search) {
+                                        $query->where('title', 'LIKE', "%$search%")
+                                            ->orWhere('slug', 'LIKE', "%$search%");
+                                    })
+                                    ->orWhereHas('tagged', function ($query) use ($search) {
+                                        $query->where('tag_name', 'LIKE', "%$search%")
+                                            ->orWhere('slug', 'LIKE', "%$search%");
+                                    });
+                                })
+                                ->paginate(5),
+            'categories' => Category::all(),
+            'recentPosts' => Article::where('status', 'Publish')->latest()->take(3)->get(),
+            'popularPosts' => Article::where('status', 'Publish')->orderBy('viewers', 'desc')->take(3)->get(),
+            'tags' => Tag::select('name', 'slug')->distinct()->get(),
+        ];
 
-        $categories = Category::all();
-
-        $recentPosts = Article::where('status', 'Publish')->latest()->take(5)->get();
-
-        $tags = Tag::select('name', 'slug')->distinct()->get();
-
-        return view('frontend.blog.search', compact('articles', 'categories', 'tags', 'recentPosts', 'search'));
+        return view('frontend.blog.search', $data);
     }
 
 }
