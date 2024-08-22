@@ -2027,21 +2027,13 @@ section {
 
 .blog .entry {
   padding: 30px;
-  height: 500px;
   margin-bottom: 60px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .blog .entry .entry-img {
   margin: -30px -30px 20px -30px;
-  height: 300px;
   overflow: hidden;
-}
-
-.blog .entry .entry-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
 }
 
 .blog .entry .entry-title {

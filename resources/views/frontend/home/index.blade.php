@@ -196,7 +196,7 @@
                 <div class="row">
                     @foreach ($recentPosts as $row)
                         <div class="col-lg-4 entries">
-                            <article class="entry">
+                            <article class="entry"  style="height: 530px">
 
                                 <div class="entry-img">
                                     <img src="{{ asset('storage/article/' . $row->image) }}" alt="image-blog" class="img-blog">
