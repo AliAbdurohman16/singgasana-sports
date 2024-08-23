@@ -56,7 +56,7 @@
                 <td><img src="{{ asset('storage/article/' . $row->image) }}" width="100%" alt="image"></td>
                 <td>{{ $row->title }}</td>
                 <td>{{ $row->slug }}</td>
-                <td>{{ $row->user->name }}</td>
+                <td>{{ $row->user->first_name }} {{ $row->user->last_name }}</td>
                 <td>{{ $row->category->title }}</td>
                 <td>
                     @foreach ($row->tags as $tag)

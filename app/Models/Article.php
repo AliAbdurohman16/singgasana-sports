@@ -9,7 +9,7 @@ use \Conner\Tagging\Taggable;
 class Article extends Model
 {
     use HasFactory, Taggable;
-    public $fillable = ['image', 'title', 'content', 'slug', 'viewers', 'user_id', 'category_id', 'status'];
+    protected $guarded = [];
 
     public function user()
     {

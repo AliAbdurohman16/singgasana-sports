@@ -60,6 +60,21 @@
                     </ul>
                 </li>
 
+                <li class="sidebar-item has-sub {{ Request::is(['event*', 'event-category*']) ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="far fa-calendar-plus"></i>
+                        <span>Event</span>
+                    </a>
+                    <ul class="submenu {{ Request::is(['event*', 'event-category*']) ? 'active' : '' }}">
+                        <li class="submenu-item {{ Request::is('event*') ? 'active' : '' }}">
+                            <a href="{{ route('event.index') }}">Data Event</a>
+                        </li>
+                        <li class="submenu-item {{ Request::is('event-category*') ? 'active' : '' }}">
+                            <a href="{{ route('event-category.index') }}">Kategori Event</a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="sidebar-item {{ Request::is('page*') ? 'active' : '' }}">
                     <a href="{{ route('page.index') }}" class="sidebar-link">
                         <i class="bi bi-grid-1x2-fill"></i>

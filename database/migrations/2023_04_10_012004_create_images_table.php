@@ -18,9 +18,11 @@ return new class extends Migration
             $table->string('path');
             $table->unsignedBigInteger('facility_id')->nullable();
             $table->unsignedBigInteger('page_id')->nullable();
+            $table->unsignedBigInteger('event_id')->nullable();
             $table->timestamps();
             $table->foreign('facility_id')->references('id')->on('facilities')->onDelete('cascade');
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
+            $table->foreign('event_id')->references('id')->on('pages')->onDelete('cascade');
         });
     }
 

@@ -130,6 +130,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'category' => App\Http\Controllers\Backend\CategoryController::class,
             'write_articles' => App\Http\Controllers\Backend\WriteArticlesController::class,
             'article' => App\Http\Controllers\Backend\ArticleController::class,
+            'event-category' => App\Http\Controllers\Backend\EventCategoryController::class,
+            'event' => App\Http\Controllers\Backend\EventController::class,
             'page' => App\Http\Controllers\Backend\PageController::class,
             'facility' => App\Http\Controllers\Backend\FacilityController::class,
             'galleries' => App\Http\Controllers\Backend\GalleryController::class,
