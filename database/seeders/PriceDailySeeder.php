@@ -112,5 +112,19 @@ class PriceDailySeeder extends Seeder
             'weekday' => 550000.00,
             'weekend' => 550000.00,
         ]);
+
+        PriceDaily::create([
+            'service_id' => 7,
+            'category' => 'Retail Paket 1',
+            'package' => 'Fitness, Whirlpool, Steam',
+            'price' => 125000.00,
+        ]);
+
+        PriceDaily::create([
+            'service_id' => 7,
+            'category' => 'Retail Paket 2',
+            'package' => 'Fitness, Whirlpool, Steam & Swimming',
+            'price' => 150000.00,
+        ]);
     }
 }

@@ -55,7 +55,7 @@
                                         <input type="text" name="last_name" class="form-control"
                                             placeholder="Nama Belakang">
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <input type="email" class="form-control" name="email" placeholder="Email"
                                             required>
                                     </div>

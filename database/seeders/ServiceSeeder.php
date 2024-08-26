@@ -50,10 +50,10 @@ class ServiceSeeder extends Seeder
             'field_counts' => 2,
         ]);
 
-        // Service::create([
-        //     'name' => 'Fitness',
-        //     'slug' => 'fitness',
-        // ]);
+        Service::create([
+            'name' => 'Fitness',
+            'slug' => 'fitness',
+        ]);
 
         // Service::create([
         //     'name' => 'Aerobic',
