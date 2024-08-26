@@ -94,7 +94,7 @@
                                         @enderror
                                     </div>
                                     <input type="submit" class="btn btn-primary me-1 mb-1 btn-block" name="status" value="Publish">
-                                    <input type="submit" class="btn btn-danger me-1 mb-1 btn-block" name="status" value="Draft">
+                                    <input type="submit" class="btn btn-danger me-1 mb-1 btn-block" name="status" value="Selesai">
                                 </div>
 
                             </div>

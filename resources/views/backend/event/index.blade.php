@@ -66,7 +66,7 @@
                 <td>{{ $row->slug }}</td>
                 <td>{{ $row->user->first_name }} {{ $row->user->last_name }}</td>
                 <td>{{ $row->eventCategory->title }}</td>
-                <td><span class="badge bg-{{ $row->status == 'Publish' ? 'success' : 'danger' }}">{{ $row->status == 'Publish' ? 'Publish' : 'Draft' }}</span></td>
+                <td><span class="badge bg-{{ $row->status == 'Publish' ? 'success' : 'danger' }}">{{ $row->status == 'Publish' ? 'Publish' : 'Selesai' }}</span></td>
                 <td>
                   <button class="btn btn-info btn-sm mb-2" onclick="window.location='{{ route('blog.single', $row->slug) }}'"><i class="fas fa-eye"></i> Detail</button>
                   <button class="btn btn-warning btn-sm mb-2" onclick="window.location='/event/{{ $row->id }}/edit'"><i class="fas fa-edit"></i> Edit</button>

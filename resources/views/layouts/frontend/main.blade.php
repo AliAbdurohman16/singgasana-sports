@@ -84,7 +84,12 @@
                         <li><a class="{{ request()->is('pages/aerobik') ? 'active' : '' }}" href="{{ route('pages.index', 'aerobik') }}">Aerobik</a></li>
                     </ul>
                 </li>
-                <li><a class="nav-link scrollto {{ request()->is('blog') ? 'active' : '' }}" href="{{ route('blog.index') }}">Blog</a></li>
+                <li class="dropdown"><a class="{{ request()->is('events/*') || request()->is('blog/*') ? 'active' : '' }}" href=""><span>Event & Blog</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        <li><a class="{{ request()->is('events') ? 'active' : '' }}" href="{{ route('events.index') }}">Event</a></li>
+                        <li><a class="{{ request()->is('blog') ? 'active' : '' }}" href="{{ route('blog.index') }}">Blog</a></li>
+                    </ul>
+                </li>
                 <li class="dropdown"><a class="{{ request()->is('booking/*') ? 'active' : '' }}" href=""><span>Booking</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
                         <li><a class="{{ request()->is('booking/daily') ? 'active' : '' }}" href="{{ route('booking.daily') }}">Harian</a></li>

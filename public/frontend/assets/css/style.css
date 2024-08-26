@@ -2036,6 +2036,23 @@ section {
   overflow: hidden;
 }
 
+.entry-slider .swiper-pagination {
+  margin-top: 20px;
+  position: relative;
+}
+
+.entry-slider .swiper-pagination .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  opacity: 1;
+  border: 1px solid #4154f1;
+}
+
+.entry-slider .swiper-pagination .swiper-pagination-bullet-active {
+  background-color: #4154f1;
+}
+
 .blog .entry .entry-title {
   font-size: 28px;
   font-weight: bold;

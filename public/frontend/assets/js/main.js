@@ -246,6 +246,22 @@
   });
 
   /**
+   * blog slider
+   */
+  new Swiper('.entry-slider', {
+    speed: 400,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      type: 'bullets',
+      clickable: true
+    }
+  });
+
+  /**
    * Gallery isotope and filter
    */
   window.addEventListener('load', () => {
