@@ -78,7 +78,7 @@
                         <div class="count-box">
                             <i class="bi bi-emoji-smile"></i>
                             <div>
-                                <span data-purecounter-start="0" data-purecounter-end="232"
+                                <span data-purecounter-start="0" data-purecounter-end="{{ $setting->visitors }}"
                                       data-purecounter-duration="1" class="purecounter"></span>
                                 <p>Pengunjung</p>
                             </div>
@@ -89,7 +89,7 @@
                         <div class="count-box">
                             <i class="bi bi-journal-richtext" style="color: #ee6c20;"></i>
                             <div>
-                                <span data-purecounter-start="0" data-purecounter-end="521"
+                                <span data-purecounter-start="0" data-purecounter-end="{{ $setting->event }}"
                                       data-purecounter-duration="1" class="purecounter"></span>
                                 <p>Event</p>
                             </div>
@@ -100,7 +100,7 @@
                         <div class="count-box">
                             <i class="bi bi-pin-map-fill" style="color: #15be56;"></i>
                             <div>
-                                <span data-purecounter-start="0" data-purecounter-end="1463"
+                                <span data-purecounter-start="0" data-purecounter-end="{{ $setting->venue }}"
                                       data-purecounter-duration="1" class="purecounter"></span>
                                 <p>Tempat Fasilitas</p>
                             </div>
