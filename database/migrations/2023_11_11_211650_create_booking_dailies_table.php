@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('email')->nullable();
             $table->string('telephone')->nullable();
+            $table->string('identity')->nullable();
             $table->unsignedBigInteger('service_id');
             $table->datetime('datetime');
             $table->string('duration');

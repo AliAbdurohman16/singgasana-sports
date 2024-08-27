@@ -79,6 +79,10 @@
                                 <div class="col-md-12" id="hideStudent">
                                     <input type="number" name="student" class="form-control" placeholder="Jumlah Siswa">
                                 </div>
+                                <div class="col-md-12" id="hideIdentity">
+                                    <input type="file" name="indentity" class="form-control mb-2">
+                                    <small>Syarat harga khusus penghuni harus upload bukti identitas/KTP *</small>
+                                </div>
                                 <div class="col-md-12">
                                     <table class="table table-borderless">
                                         <tr>
@@ -157,6 +161,7 @@
         var hideSchool = $('#hideSchool').hide();
         var hideStudent = $('#hideStudent').hide();
         var hidePrice = $('.hidePrice').hide();
+        var hideIdentity = $('#hideIdentity').hide();
 
         $('select[name="service"]').change(function() {
             hideMember.show();
@@ -169,6 +174,7 @@
             if (selectedService == 1) {
                 hideCategory.hide();
                 hidePackage.hide();
+                hideIdentity.hide();
 
                 memberSelect.empty().append(
                     '<option value="">Pilih Member</option>' +
@@ -292,12 +298,23 @@
                 hideStudent.hide();
                 hideCategory.show();
                 hidePackage.show();
+                hideIdentity.hide();
 
                 categorySelect.empty().append(
                     '<option value="">Pilih Kategori</option>' +
                     '<option value="Umum">Umum</option>' +
                     '<option value="Penghuni">Penghuni</option>'
                 );
+
+                categorySelect.on('change', function() {
+                    var selectedValue = $(this).val();
+                        
+                    if (selectedValue === 'Penghuni') {
+                        hideIdentity.show();
+                    } else {
+                        hideIdentity.hide();
+                    }
+                });
 
                 packageSelect.empty().append(
                     '<option value="">Pilih Paket</option>' +
@@ -312,12 +329,23 @@
                 hideStudent.hide();
                 hideCategory.show();
                 hidePackage.show();
+                hideIdentity.hide();
 
                 categorySelect.empty().append(
                     '<option value="">Pilih Kategori</option>' +
                     '<option value="Umum">Umum</option>' +
                     '<option value="Penghuni">Penghuni</option>'
                 );
+
+                categorySelect.on('change', function() {
+                    var selectedValue = $(this).val();
+                        
+                    if (selectedValue === 'Penghuni') {
+                        hideIdentity.show();
+                    } else {
+                        hideIdentity.hide();
+                    }
+                });
 
                 packageSelect.empty().append(
                     '<option value="">Pilih Paket</option>' +
@@ -331,6 +359,7 @@
                 hideStudent.hide();
                 hideCategory.show();
                 hidePackage.show();
+                hideIdentity.hide();
 
                 categorySelect.empty().append(
                     '<option value="">Pilih Kategori</option>' +
@@ -338,6 +367,16 @@
                     '<option value="Penghuni">Penghuni</option>'
                 );
 
+                categorySelect.on('change', function() {
+                    var selectedValue = $(this).val();
+                        
+                    if (selectedValue === 'Penghuni') {
+                        hideIdentity.show();
+                    } else {
+                        hideIdentity.hide();
+                    }
+                });
+                
                 packageSelect.empty().append(
                     '<option value="">Pilih Paket</option>' +
                     '<option value="Per 2 Jam 1x Seminggu">Per 2 Jam 1x Seminggu</option>' +
@@ -352,6 +391,7 @@
                 hideStudent.hide();
                 hideCategory.show();
                 hidePackage.show();
+                hideIdentity.hide();
 
                 categorySelect.empty().append(
                     '<option value="">Pilih Kategori</option>' +
@@ -369,6 +409,7 @@
                 hideStudent.hide();
                 hideCategory.show();
                 hidePackage.hide();
+                hideIdentity.hide();
 
                 memberSelect.empty().append(
                     '<option value="">Pilih Member</option>' +
@@ -382,6 +423,7 @@
                     '<option value="Go Strong Be Macho">Go Strong Be Macho</option>'
                 );
             } else {
+                hideIdentity.hide();
                 hideMember.hide();
                 hideCategory.hide();
                 hidePackage.hide();

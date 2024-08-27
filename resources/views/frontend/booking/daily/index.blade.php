@@ -150,6 +150,10 @@
                                             <option value="2 Jam">2 Jam</option>
                                         </select>
                                     </div>
+                                    <div class="col-md-12" id="hideIdentity">
+                                        <input type="file" name="indentity" class="form-control mb-2">
+                                        <small>Syarat harga khusus penghuni harus upload bukti identitas/KTP *</small>
+                                    </div>
                                     <div class="col-md-12">
                                         <table class="table-borderless table">
                                             <tr>
@@ -350,6 +354,7 @@
             var hideDuration = $('#hideDuration').hide();
             var hidePackageBtn = $('#hidePackageBtn').hide();
             var hideFitnessPackage = $('#hideFitnessPackage').hide();
+            var hideIdentity = $('#hideIdentity').hide();
 
             $('select[name="service"]').change(function() {
                 var selectedService = $(this).val();
@@ -385,6 +390,7 @@
                         });
                     });
 
+                    hideIdentity.hide();
                     hideUsage.hide();
                     hideDuration.hide();
                     hideFitnessPackage.hide();
@@ -397,11 +403,22 @@
                         '<option value="Penghuni">Penghuni</option>'
                     );
 
+                    categorySelect.on('change', function() {
+                        var selectedValue = $(this).val();
+                        
+                        if (selectedValue === 'Penghuni') {
+                            hideIdentity.show();
+                        } else {
+                            hideIdentity.hide();
+                        }
+                    });
+
                     var usageSelect = $('select[name="usage"]');
                     usageSelect.empty().append(
                         '<option value="">Pilih Lapangan</option>'
                     );
 
+                    hideIdentity.hide();
                     hideUsage.hide();
                     hideDuration.show();
                     hidePackage.hide();
@@ -417,6 +434,16 @@
                         '<option value="Penghuni">Penghuni</option>'
                     );
 
+                    categorySelect.on('change', function() {
+                        var selectedValue = $(this).val();
+                        
+                        if (selectedValue === 'Penghuni') {
+                            hideIdentity.show();
+                        } else {
+                            hideIdentity.hide();
+                        }
+                    });
+
                     var usageSelect = $('select[name="usage"]');
                     usageSelect.empty().append(
                         '<option value="">Pilih Lapangan</option>' +
@@ -424,6 +451,7 @@
                         '<option value="Lapang (SIANG)">Lapang (SIANG)</option>'
                     );
 
+                    hideIdentity.hide();
                     hideUsage.show();
                     hideDuration.show();
                     hidePackage.hide();
@@ -474,14 +502,14 @@
                         updateTotal(total);
                     });
 
-
-
+                    hideIdentity.hide();
                     hideUsage.hide();
                     hideDuration.hide();
                     hidePackage.hide();
                     hideSchedule.hide();
                     hidePackageBtn.hide();
                 } else {
+                    hideIdentity.hide();
                     hideCategory.hide();
                     hideUsage.hide();
                     hidePackage.hide();
