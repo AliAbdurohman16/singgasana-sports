@@ -22,11 +22,10 @@ class SettingController extends Controller
             'name' => 'required',
             'logo' => 'mimes:jpg,png,jpeg,webp|image|max:2048',
             'favicon' => 'mimes:jpg,png,jpeg,webp|image|max:2048',
-            // 'hero' => 'mimes:jpg,png,jpeg,webp|image|max:2048',
-            // 'slogan' => 'required',
             'visitors' => 'required',
             'event' => 'required',
             'venue' => 'required',
+            'ppn' => 'required',
             'telephone1' => 'required|max:15',
             'telephone2' => 'max:15',
             'email' => 'required|email',
@@ -52,23 +51,14 @@ class SettingController extends Controller
             $faviconName = $setting->favicon;
         }
 
-        // if ($request->hasFile('hero')) {
-        //     Storage::delete('public/setting/' . $setting->hero);
-        //     $heroPath = $request->file('hero')->store('public/setting');
-        //     $heroName = basename($heroPath);
-        // } else {
-        //     $heroName = $setting->hero;
-        // }
-
         $setting->update([
             'name' => $request->name,
             'logo' => $logoName,
             'favicon' => $faviconName,
-            // 'hero' => $heroName,
-            // 'slogan' => $request->slogan,
             'visitors' => $request->visitors,
             'event' => $request->event,
             'venue' => $request->venue,
+            'ppn' => $request->ppn,
             'telephone1' => $request->telephone1,
             'telephone2' => $request->telephone2,
             'email' => $request->email,

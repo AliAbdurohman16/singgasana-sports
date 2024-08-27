@@ -9,6 +9,7 @@ use App\Models\Service;
 use App\Models\BookingDaily;
 use App\Models\BookingMember;
 use App\Models\BookingSchool;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,7 @@ class BookingController extends Controller
         $data = [
             'services' => Service::all(),
             'prices' => PriceDaily::all(),
+            'setting' => Setting::find(1),
         ];
 
         return view('frontend.booking.daily.index', $data);
@@ -123,6 +125,7 @@ class BookingController extends Controller
             'services' => Service::all(),
             'prices' => PriceMember::all(),
             'schools' => PriceMember::where('member', 'Sekolah')->get(),
+            'setting' => Setting::find(1),
         ];
 
         return view('frontend.booking.member.index', $data);

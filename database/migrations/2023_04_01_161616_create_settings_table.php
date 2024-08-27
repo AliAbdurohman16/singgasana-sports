@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('visitors');
             $table->string('event');
             $table->string('venue');
+            $table->string('ppn')->nullable();
             $table->string('telephone1', 15);
             $table->string('telephone2', 15)->nullable();
             $table->string('email');

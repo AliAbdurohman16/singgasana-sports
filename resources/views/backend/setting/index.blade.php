@@ -80,32 +80,6 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                        {{-- <div class="col-md-2">
-                                            <label>Hero</label>
-                                        </div>
-                                        <div class="col-md-2 mb-2">
-                                            <img src="{{ asset('storage/setting/' . $setting->hero) }}"
-                                                    alt="image"class="img-thumbnail hero-preview">
-                                        </div>
-                                        <div class="col-md-8 form-group">
-                                            <input type="file" id="hero" class="form-control @error('hero') is-invalid @enderror" name="hero" accept="image/*" onchange="previewHero()">
-                                            @error('hero')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div> --}}
-                                        {{-- <div class="col-md-4">
-                                            <label>Slogan</label>
-                                        </div>
-                                        <div class="col-md-8 form-group">
-                                            <input type="text" id="slogan" class="form-control @error('slogan') is-invalid @enderror" value="{{ $setting->slogan }}" name="slogan">
-                                            @error('slogan')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div> --}}
                                         <div class="col-md-4">
                                             <label>Pengunjung</label>
                                         </div>
@@ -139,6 +113,21 @@
                                                 </div>
                                             @enderror
                                         </div>
+                                        <div class="col-md-4">
+                                            <label>PPN</label>
+                                        </div>
+                                        <div class="col-md-8 form-group">
+                                            <div class="input-group">
+                                                <input type="number" id="ppn" class="form-control @error('ppn') is-invalid @enderror" value="{{ $setting->ppn }}" name="ppn" aria-describedby="basic-addon2">
+                                                <span class="input-group-text" id="basic-addon2">%</span>
+                                                @error('ppn')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        
                                         <div class="col-md-4">
                                             <label>Email</label>
                                         </div>

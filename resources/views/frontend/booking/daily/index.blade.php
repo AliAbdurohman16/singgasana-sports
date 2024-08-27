@@ -130,6 +130,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-12" id="hideFitnessPackage">
+                                        <select name="fitnessPackage" id="fitnessPackage" class="form-control" disabled></select>
+                                    </div>
                                     <div class="col-md-12" id="hideSchedule">
                                         <select name="scheduleOption" id="scheduleOption" class="form-control" disabled>
                                             <option value="">Pilih Jadwal</option>
@@ -153,6 +156,18 @@
                                                 <td class="fw-bold">Pembayaran</td>
                                                 <td>:</td>
                                                 <td>Transfer</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Subtotal</td>
+                                                <td>:</td>
+                                                <td class="subtotal">Rp 0</td>
+                                                <input type="hidden" name="subtotal">
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">PPN {{ $setting->ppn }}%</td>
+                                                <td>:</td>
+                                                <td class="ppn">Rp 0</td>
+                                                <input type="hidden" name="ppn">
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">Total</td>
@@ -334,10 +349,12 @@
             var hideSchedule = $('#hideSchedule').hide();
             var hideDuration = $('#hideDuration').hide();
             var hidePackageBtn = $('#hidePackageBtn').hide();
+            var hideFitnessPackage = $('#hideFitnessPackage').hide();
 
             $('select[name="service"]').change(function() {
                 var selectedService = $(this).val();
                 var categorySelect = $('select[name="category"]');
+                var fitnessPackage = $('select[name="fitnessPackage"]');
 
                 if (selectedService == 1) {
                     hideCategory.hide();
@@ -370,6 +387,7 @@
 
                     hideUsage.hide();
                     hideDuration.hide();
+                    hideFitnessPackage.hide();
                 } else if (selectedService == 5 || selectedService == 6) {
                     hideCategory.show();
 
@@ -389,6 +407,7 @@
                     hidePackage.hide();
                     hideSchedule.hide();
                     hidePackageBtn.hide();
+                    hideFitnessPackage.hide();
                 } else if (selectedService == 2 || selectedService == 3 || selectedService == 4) {
                     hideCategory.show();
 
@@ -410,6 +429,58 @@
                     hidePackage.hide();
                     hideSchedule.hide();
                     hidePackageBtn.hide();
+                    hideFitnessPackage.hide();
+                } else if (selectedService == 7) {
+                    hideCategory.show();
+                    hideFitnessPackage.show();
+
+                    categorySelect.empty().append(
+                        '<option value="">Pilih Kategori</option>' +
+                        '<option value="Retail Paket 1">Retail Paket 1</option>' +
+                        '<option value="Retail Paket 2">Retail Paket 2</option>'
+                    );
+
+                    fitnessPackage.empty().append('<option value="">Paket</option>');
+
+                    categorySelect.on('change', function() {
+                        var selectedCategory = $(this).val();
+
+                        fitnessPackage.empty();
+
+                        if (selectedCategory === 'Retail Paket 1') {
+                            fitnessPackage.append(
+                                '<option value="Fitness, Whirlpool, Steam">Fitness, Whirlpool, Steam</option>'
+                            );
+                        } else if (selectedCategory === 'Retail Paket 2') {
+                            fitnessPackage.append(
+                                '<option value="Fitness, Whirlpool, Steam & Swimming">Fitness, Whirlpool, Steam & Swimming</option>'
+                            );
+                        } else {
+                            fitnessPackage.append('<option value="">Paket</option>');
+                        }
+
+                        var category = categorySelect.val();
+                        var fitness = fitnessPackage.val();
+                        var total = 0;
+
+                        if (category) {
+                            prices.forEach(function(price) {
+                                if (price.category === category) {
+                                    total = price.price;
+                                }
+                            });
+                        }
+    
+                        updateTotal(total);
+                    });
+
+
+
+                    hideUsage.hide();
+                    hideDuration.hide();
+                    hidePackage.hide();
+                    hideSchedule.hide();
+                    hidePackageBtn.hide();
                 } else {
                     hideCategory.hide();
                     hideUsage.hide();
@@ -417,11 +488,22 @@
                     hideSchedule.hide();
                     hideDuration.hide();
                     hidePackageBtn.hide();
+                    hideFitnessPackage.hide();
                 }
             });
 
-            function updateTotal(total) {
-                total = total || 0;
+            function updateTotal(subtotal) {
+                subtotal = Math.round(subtotal) || 0;
+
+                var ppn = (subtotal * {{ $setting->ppn }}) / 100;
+                var total = subtotal + ppn;
+
+                $('.subtotal').text('Rp ' + subtotal.toLocaleString('id-ID'));
+                $('input[name="subtotal"]').val(subtotal);
+
+                $('.ppn').text('Rp ' + ppn.toLocaleString('id-ID'));
+                $('input[name="ppn"]').val(ppn);
+
                 $('.total').text('Rp ' + total.toLocaleString('id-ID'));
                 $('input[name="total"]').val(total);
             }

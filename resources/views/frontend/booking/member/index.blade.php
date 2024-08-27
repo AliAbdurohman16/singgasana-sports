@@ -92,6 +92,18 @@
                                             <td class="priceStudent">Rp 0</td>
                                         </tr>
                                         <tr>
+                                            <td class="fw-bold">Subtotal</td>
+                                            <td>:</td>
+                                            <td class="subtotal">Rp 0</td>
+                                            <input type="hidden" name="subtotal">
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">PPN {{ $setting->ppn }}%</td>
+                                            <td>:</td>
+                                            <td class="ppn">Rp 0</td>
+                                            <input type="hidden" name="ppn">
+                                        </tr>
+                                        <tr>
                                             <td class="fw-bold">Total</td>
                                             <td>:</td>
                                             <td class="total">Rp 0</td>
@@ -155,10 +167,6 @@
             var schoolSelect = $('select[name="school"]');
 
             if (selectedService == 1) {
-                var total = 0;
-                $('.total').text('Rp ' + total);
-                $('input[name="total"]').val(total);
-
                 hideCategory.hide();
                 hidePackage.hide();
 
@@ -265,10 +273,6 @@
                             '<option value="Iuran Membership Pelatih Club + Fitness 2 Bulan">Iuran Membership Pelatih Club + Fitness 2 Bulan</option>'
                         );
                     } else if ($(this).val() === "Sekolah") {
-                        var total = 0;
-                        $('.total').text('Rp ' + total);
-                        $('input[name="total"]').val(total);
-
                         hideSchool.show();
                         hideStudent.show();
                         hideCategory.hide();
@@ -283,10 +287,6 @@
                     }
                 });
             } else if (selectedService == 2 || selectedService == 3) {
-                var total = 0;
-                $('.total').text('Rp ' + total);
-                $('input[name="total"]').val(total);
-
                 hideMember.hide();
                 hideSchool.hide();
                 hideStudent.hide();
@@ -363,6 +363,24 @@
                     '<option value="">Pilih Paket</option>' +
                     '<option value="Per 1 Jam 1x Seminggu">Per 1 Jam 1x Seminggu</option>'
                 );
+            } else if (selectedService == 7) {
+                hideMember.show();
+                hideSchool.hide();
+                hideStudent.hide();
+                hideCategory.show();
+                hidePackage.hide();
+
+                memberSelect.empty().append(
+                    '<option value="">Pilih Member</option>' +
+                    '<option value="Private Fitness">Private Fitness</option>'
+                );
+
+                categorySelect.empty().append(
+                    '<option value="">Pilih Kategori</option>' +
+                    '<option value="Go Fun Enjoy Fitness">Go Fun Enjoy Fitness</option>' +
+                    '<option value="Go Slim & Healthy">Go Slim & Healthy</option>' +
+                    '<option value="Go Strong Be Macho">Go Strong Be Macho</option>'
+                );
             } else {
                 hideMember.hide();
                 hideCategory.hide();
@@ -378,62 +396,64 @@
             var member = $('select[name="member"]').val();
             var category = $('select[name="category"]').val();
             var package = $('select[name="package"]').val();
-            var total = 0;
+            var subtotal = 0;
 
             prices.forEach(function (price) {
                 if (price.service_id == service) {
                     if (price.category == category) {
                         if (price.member == member) {
                             if (package === "Iuran Membership 2 Bulan") {
-                                total = price.two_months;
+                                subtotal = price.two_months;
                             } else if (package === "Iuran Membership 6 Bulan") {
-                                total = price.six_months;
+                                subtotal = price.six_months;
                             } else if (package === "Iuran Membership 12 Bulan") {
-                                total = price.twelve_months;
+                                subtotal = price.twelve_months;
                             } else if (package === "Paket A - Pemula") {
-                                total = price.package_a;
+                                subtotal = price.package_a;
                             } else if (package === "Paket B - Prestasi Non Fitness") {
-                                total = price.package_b;
+                                subtotal = price.package_b;
                             } else if (package === "Paket C - Prestasi + Fitness") {
-                                total = price.package_c;
+                                subtotal = price.package_c;
                             } else if (package === "Paket D - Pra Prestasi") {
-                                total = price.package_d;
+                                subtotal = price.package_d;
                             } else if (package === "Iuran Membership 2 Bulan (5 Orang)") {
-                                total = price.two_months;
+                                subtotal = price.two_months;
                             } else if (package === "Iuran Membership 2 Bulan (10 Orang)") {
-                                total = price.two_months_ten_people;
+                                subtotal = price.two_months_ten_people;
                             } else if (package === "Iuran Membership 6 Bulan (5 Orang)") {
-                                total = price.six_months;
+                                subtotal = price.six_months;
                             } else if (package === "Iuran Membership 6 Bulan (10 Orang)") {
-                                total = price.six_months_ten_people;
+                                subtotal = price.six_months_ten_people;
                             } else if (package === "Iuran Membership Pelatih Club 2 Bulan") {
-                                total = price.member_coach_club_two_months;
+                                subtotal = price.member_coach_club_two_months;
                             } else if (package === "Iuran Membership Pelatih Club + Fitness 2 Bulan") {
-                                total = price.member_coach_club_two_months_plus_fitness;
+                                subtotal = price.member_coach_club_two_months_plus_fitness;
+                            } else if (price.member == "Private Fitness") {
+                                subtotal = price.price;
                             }
                         } else {
                             if (package === "Per 2 Jam 1x Seminggu (PAGI)") {
-                                total = price.two_hours_morning;
+                                subtotal = price.two_hours_morning;
                             } else if (package === "Per 3 Jam 1x Seminggu (PAGI)") {
-                                total = price.three_hours_morning;
+                                subtotal = price.three_hours_morning;
                             } else if (package === "Per 2 Jam 1x Seminggu (SIANG)") {
-                                total = price.two_hours_afternoon;
+                                subtotal = price.two_hours_afternoon;
                             } else if (package === "Per 4 Jam 1x Seminggu (SIANG)") {
-                                total = price.four_hours_afternoon;
+                                subtotal = price.four_hours_afternoon;
                             } else if (package === "Per 3 Jam 1x Seminggu (SIANG)") {
-                                total = price.three_hours_afternoon;
+                                subtotal = price.three_hours_afternoon;
                             } else if (package === "Per 1 Jam 1x Seminggu") {
-                                total = price.one_hours;
+                                subtotal = price.one_hours;
                             } else if (package === "Per 2 Jam 1x Seminggu") {
-                                total = price.two_hours;
+                                subtotal = price.two_hours;
                             } else if (package === "Per 3 Jam 1x Seminggu") {
-                                total = price.three_hours;
+                                subtotal = price.three_hours;
                             } else if (package === "Paket Suka - Suka 10 Jam") {
-                                total = price.ten_hours;
+                                subtotal = price.ten_hours;
                             } else if (package === "Paket Suka - Suka 12 Jam") {
-                                total = price.twelve_hours;
+                                subtotal = price.twelve_hours;
                             } else if (package === "Paket Suka - Suka 15 Jam") {
-                                total = price.fifteen_hours;
+                                subtotal = price.fifteen_hours;
                             }
                         }
                     }
@@ -441,29 +461,55 @@
             });
 
             hidePrice.hide();
-            $('.total').text(formattedPrice(total));
+
+            subtotal = Math.round(subtotal) || 0;
+            var ppn = (subtotal * {{ $setting->ppn }}) / 100;
+            var total = subtotal + ppn;
+
             $('.metode').text('Transfer');
+
+            $('.subtotal').text(formattedPrice(subtotal));
+            $('input[name="subtotal"]').val(subtotal);
+
+            $('.ppn').text(formattedPrice(ppn));
+            $('input[name="ppn"]').val(ppn);
+
+
+            $('.total').text(formattedPrice(total));
             $('input[name="total"]').val(total);
         });
 
         $('select[name="school"], input[name="student"]').on('change input', function () {
             var school = $('select[name="school"]').val();
             var student = $('input[name="student"]').val();
-            var total = 0;
+            var subtotal = 0;
             var priceStudent = 0;
 
             prices.forEach(function (data) {
                 if (data.category == school) {
                     priceStudent = data.price;
-                    total = priceStudent * student;
+                    subtotal = priceStudent * student;
                 }
             });
 
             hidePrice.show();
 
-            $('.priceStudent').text(formattedPrice(priceStudent));
-            $('.total').text(formattedPrice(total));
+            subtotal = Math.round(subtotal) || 0;
+            var ppn = (subtotal * {{ $setting->ppn }}) / 100;
+            var total = subtotal + ppn;
+
             $('.metode').text('Tagihan diakhir bulan');
+            
+            $('.priceStudent').text(formattedPrice(priceStudent));
+
+            $('.subtotal').text(formattedPrice(subtotal));
+            $('input[name="subtotal"]').val(subtotal);
+
+            $('.ppn').text(formattedPrice(ppn));
+            $('input[name="ppn"]').val(ppn);
+
+
+            $('.total').text(formattedPrice(total));
             $('input[name="total"]').val(total);
         });
 
