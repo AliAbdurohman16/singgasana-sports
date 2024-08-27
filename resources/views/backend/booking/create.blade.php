@@ -35,7 +35,7 @@
                                     </div>
                                     @endif
                                     <div class="form-group">
-                                        <label for="first-name-column">Layanan</label>
+                                        <label class="mb-2">Layanan</label>
                                         <select name="service" class="form-control @error('service') is-invalid @enderror">
                                             <option value="">Pilih Layanan</option>
                                             @foreach ($services as $service)
@@ -49,7 +49,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="first-name-column">Tanggal Mulai</label>
+                                        <label class="mb-2">Tanggal Mulai</label>
                                         <input type="text" name="datetime" id="datetime" class="form-control @error('datetime') is-invalid @enderror" value="{{ old('datetime') }}" placeholder="Tanggal Mulai" />
                                         @error('datetime')
                                             <div class="invalid-feedback">
@@ -58,34 +58,39 @@
                                         @enderror
                                     </div>
                                     <div class="form-group" id="hideMember">
-                                        <label for="first-name-column">Member</label>
+                                        <label class="mb-2">Member</label>
                                         <select name="member" class="form-control">
                                             <option value="">Pilih Member</option>
                                         </select>
                                     </div>
                                     <div class="form-group" id="hideCategory">
-                                        <label for="first-name-column">Kategori</label>
+                                        <label class="mb-2">Kategori</label>
                                         <select name="category" class="form-control">
                                             <option value="">Pilih Kategori</option>
                                         </select>
                                     </div>
                                     <div class="form-group" id="hidePackage">
-                                        <label for="first-name-column">Paket</label>
+                                        <label class="mb-2">Paket</label>
                                         <select name="package" class="form-control">
                                             <option value="">Pilih Paket</option>
                                         </select>
                                     </div>
                                     <div class="col-md-12" id="hideSchool">
-                                        <label for="first-name-column">Sekolah</label>
+                                        <label class="mb-2">Sekolah</label>
                                         <select name="school" class="form-control">
                                             <option value="">Pilih Sekolah</option>
                                         </select>
                                     </div>
                                     <div class="col-md-12" id="hideStudent">
-                                        <label for="first-name-column">Jumlah Siswa</label>
+                                        <label class="mb-2">Jumlah Siswa</label>
                                         <input type="number" name="student" class="form-control" placeholder="Jumlah Siswa">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="col-md-12" id="hideIdentity">
+                                        <label class="mb-2">Indetitas/KTP</label>
+                                        <input type="file" name="indentity" class="form-control mb-2">
+                                        <small>Syarat harga khusus penghuni harus upload bukti identitas/KTP *</small>
+                                    </div>
+                                    <div class="col-md-12">
                                         <table class="table table-borderless">
                                             <tr>
                                                 <td class="fw-bold">Pembayaran</td>
@@ -96,6 +101,18 @@
                                                 <td class="fw-bold">Harga Persiswa</td>
                                                 <td>:</td>
                                                 <td class="priceStudent">Rp 0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Subtotal</td>
+                                                <td>:</td>
+                                                <td class="subtotal">Rp 0</td>
+                                                <input type="hidden" name="subtotal">
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">PPN {{ $setting->ppn }}%</td>
+                                                <td>:</td>
+                                                <td class="ppn">Rp 0</td>
+                                                <input type="hidden" name="ppn">
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">Total</td>
@@ -124,6 +141,7 @@
 <script src="{{ asset('frontend') }}/assets/vendor/flatpickr/flatpickr.min.js"></script>
 <script>
     var prices = {!! json_encode($prices) !!};
+    var schools = {!! json_encode($schools) !!}
 </script>
 <script>
     flatpickr("#datetime", {
@@ -151,6 +169,7 @@
         var hideSchool = $('#hideSchool').hide();
         var hideStudent = $('#hideStudent').hide();
         var hidePrice = $('.hidePrice').hide();
+        var hideIdentity = $('#hideIdentity').hide();
 
         $('select[name="service"]').change(function() {
             hideMember.show();
@@ -161,12 +180,9 @@
             var schoolSelect = $('select[name="school"]');
 
             if (selectedService == 1) {
-                var total = 0;
-                $('.total').text('Rp ' + total);
-                $('input[name="total"]').val(total);
-
                 hideCategory.hide();
                 hidePackage.hide();
+                hideIdentity.hide();
 
                 memberSelect.empty().append(
                     '<option value="">Pilih Member</option>' +
@@ -271,48 +287,42 @@
                             '<option value="Iuran Membership Pelatih Club + Fitness 2 Bulan">Iuran Membership Pelatih Club + Fitness 2 Bulan</option>'
                         );
                     } else if ($(this).val() === "Sekolah") {
-                        var total = 0;
-                        $('.total').text('Rp ' + total);
-                        $('input[name="total"]').val(total);
-
                         hideSchool.show();
                         hideStudent.show();
                         hideCategory.hide();
                         hidePackage.hide();
 
                         schoolSelect.empty().append(
-                            '<option value="">Pilih Sekolah</option>' +
-                            '<option value="SD Bintang Mulia">SD Bintang Mulia</option>' +
-                            '<option value="SMP Bintang Mulia">SMP Bintang Mulia</option>' +
-                            '<option value="SMA Bintang Mulia">SMA Bintang Mulia</option>' +
-                            '<option value="TK BPK Penabur Singgasana">TK BPK Penabur Singgasana</option>' +
-                            '<option value="SD BPK Penabur Singgasana">SD BPK Penabur Singgasana</option>' +
-                            '<option value="SMP BPK Penabur Singgasana">SMP BPK Penabur Singgasana</option>' +
-                            '<option value="SMA BPK Penabur Singgasana">SMA BPK Penabur Singgasana</option>' +
-                            '<option value="TK Harapan Kasih">TK Harapan Kasih</option>' +
-                            '<option value="SD Harapan Kasih">SD Harapan Kasih</option>' +
-                            '<option value="SMP Harapan Kasih">SMP Harapan Kasih</option>' +
-                            '<option value="SD Kalam Kudus">SD Kalam Kudus</option>' +
-                            '<option value="Starbright">Starbright</option>'
-                        )
+                            '<option value="">Pilih Sekolah</option>'
+                        );
+                        schools.forEach(function (school) {
+                            schoolSelect.append('<option value="' + school.category + '">' + school.category + '</option>');
+                        });
                     }
                 });
             } else if (selectedService == 2 || selectedService == 3) {
-                var total = 0;
-                $('.total').text('Rp ' + total);
-                $('input[name="total"]').val(total);
-
                 hideMember.hide();
                 hideSchool.hide();
                 hideStudent.hide();
                 hideCategory.show();
                 hidePackage.show();
+                hideIdentity.hide();
 
                 categorySelect.empty().append(
                     '<option value="">Pilih Kategori</option>' +
                     '<option value="Umum">Umum</option>' +
                     '<option value="Penghuni">Penghuni</option>'
                 );
+
+                categorySelect.on('change', function() {
+                    var selectedValue = $(this).val();
+                        
+                    if (selectedValue === 'Penghuni') {
+                        hideIdentity.show();
+                    } else {
+                        hideIdentity.hide();
+                    }
+                });
 
                 packageSelect.empty().append(
                     '<option value="">Pilih Paket</option>' +
@@ -327,12 +337,23 @@
                 hideStudent.hide();
                 hideCategory.show();
                 hidePackage.show();
+                hideIdentity.hide();
 
                 categorySelect.empty().append(
                     '<option value="">Pilih Kategori</option>' +
                     '<option value="Umum">Umum</option>' +
                     '<option value="Penghuni">Penghuni</option>'
                 );
+
+                categorySelect.on('change', function() {
+                    var selectedValue = $(this).val();
+                        
+                    if (selectedValue === 'Penghuni') {
+                        hideIdentity.show();
+                    } else {
+                        hideIdentity.hide();
+                    }
+                });
 
                 packageSelect.empty().append(
                     '<option value="">Pilih Paket</option>' +
@@ -346,6 +367,7 @@
                 hideStudent.hide();
                 hideCategory.show();
                 hidePackage.show();
+                hideIdentity.hide();
 
                 categorySelect.empty().append(
                     '<option value="">Pilih Kategori</option>' +
@@ -353,6 +375,16 @@
                     '<option value="Penghuni">Penghuni</option>'
                 );
 
+                categorySelect.on('change', function() {
+                    var selectedValue = $(this).val();
+                        
+                    if (selectedValue === 'Penghuni') {
+                        hideIdentity.show();
+                    } else {
+                        hideIdentity.hide();
+                    }
+                });
+                
                 packageSelect.empty().append(
                     '<option value="">Pilih Paket</option>' +
                     '<option value="Per 2 Jam 1x Seminggu">Per 2 Jam 1x Seminggu</option>' +
@@ -367,6 +399,7 @@
                 hideStudent.hide();
                 hideCategory.show();
                 hidePackage.show();
+                hideIdentity.hide();
 
                 categorySelect.empty().append(
                     '<option value="">Pilih Kategori</option>' +
@@ -378,7 +411,27 @@
                     '<option value="">Pilih Paket</option>' +
                     '<option value="Per 1 Jam 1x Seminggu">Per 1 Jam 1x Seminggu</option>'
                 );
+            } else if (selectedService == 7) {
+                hideMember.show();
+                hideSchool.hide();
+                hideStudent.hide();
+                hideCategory.show();
+                hidePackage.hide();
+                hideIdentity.hide();
+
+                memberSelect.empty().append(
+                    '<option value="">Pilih Member</option>' +
+                    '<option value="Private Fitness">Private Fitness</option>'
+                );
+
+                categorySelect.empty().append(
+                    '<option value="">Pilih Kategori</option>' +
+                    '<option value="Go Fun Enjoy Fitness">Go Fun Enjoy Fitness</option>' +
+                    '<option value="Go Slim & Healthy">Go Slim & Healthy</option>' +
+                    '<option value="Go Strong Be Macho">Go Strong Be Macho</option>'
+                );
             } else {
+                hideIdentity.hide();
                 hideMember.hide();
                 hideCategory.hide();
                 hidePackage.hide();
@@ -393,62 +446,64 @@
             var member = $('select[name="member"]').val();
             var category = $('select[name="category"]').val();
             var package = $('select[name="package"]').val();
-            var total = 0;
+            var subtotal = 0;
 
             prices.forEach(function (price) {
                 if (price.service_id == service) {
                     if (price.category == category) {
                         if (price.member == member) {
                             if (package === "Iuran Membership 2 Bulan") {
-                                total = price.two_months;
+                                subtotal = price.two_months;
                             } else if (package === "Iuran Membership 6 Bulan") {
-                                total = price.six_months;
+                                subtotal = price.six_months;
                             } else if (package === "Iuran Membership 12 Bulan") {
-                                total = price.twelve_months;
+                                subtotal = price.twelve_months;
                             } else if (package === "Paket A - Pemula") {
-                                total = price.package_a;
+                                subtotal = price.package_a;
                             } else if (package === "Paket B - Prestasi Non Fitness") {
-                                total = price.package_b;
+                                subtotal = price.package_b;
                             } else if (package === "Paket C - Prestasi + Fitness") {
-                                total = price.package_c;
+                                subtotal = price.package_c;
                             } else if (package === "Paket D - Pra Prestasi") {
-                                total = price.package_d;
+                                subtotal = price.package_d;
                             } else if (package === "Iuran Membership 2 Bulan (5 Orang)") {
-                                total = price.two_months;
+                                subtotal = price.two_months;
                             } else if (package === "Iuran Membership 2 Bulan (10 Orang)") {
-                                total = price.two_months_ten_people;
+                                subtotal = price.two_months_ten_people;
                             } else if (package === "Iuran Membership 6 Bulan (5 Orang)") {
-                                total = price.six_months;
+                                subtotal = price.six_months;
                             } else if (package === "Iuran Membership 6 Bulan (10 Orang)") {
-                                total = price.six_months_ten_people;
+                                subtotal = price.six_months_ten_people;
                             } else if (package === "Iuran Membership Pelatih Club 2 Bulan") {
-                                total = price.member_coach_club_two_months;
+                                subtotal = price.member_coach_club_two_months;
                             } else if (package === "Iuran Membership Pelatih Club + Fitness 2 Bulan") {
-                                total = price.member_coach_club_two_months_plus_fitness;
+                                subtotal = price.member_coach_club_two_months_plus_fitness;
+                            } else if (price.member == "Private Fitness") {
+                                subtotal = price.price;
                             }
                         } else {
                             if (package === "Per 2 Jam 1x Seminggu (PAGI)") {
-                                total = price.two_hours_morning;
+                                subtotal = price.two_hours_morning;
                             } else if (package === "Per 3 Jam 1x Seminggu (PAGI)") {
-                                total = price.three_hours_morning;
+                                subtotal = price.three_hours_morning;
                             } else if (package === "Per 2 Jam 1x Seminggu (SIANG)") {
-                                total = price.two_hours_afternoon;
+                                subtotal = price.two_hours_afternoon;
                             } else if (package === "Per 4 Jam 1x Seminggu (SIANG)") {
-                                total = price.four_hours_afternoon;
+                                subtotal = price.four_hours_afternoon;
                             } else if (package === "Per 3 Jam 1x Seminggu (SIANG)") {
-                                total = price.three_hours_afternoon;
+                                subtotal = price.three_hours_afternoon;
                             } else if (package === "Per 1 Jam 1x Seminggu") {
-                                total = price.one_hours;
+                                subtotal = price.one_hours;
                             } else if (package === "Per 2 Jam 1x Seminggu") {
-                                total = price.two_hours;
+                                subtotal = price.two_hours;
                             } else if (package === "Per 3 Jam 1x Seminggu") {
-                                total = price.three_hours;
+                                subtotal = price.three_hours;
                             } else if (package === "Paket Suka - Suka 10 Jam") {
-                                total = price.ten_hours;
+                                subtotal = price.ten_hours;
                             } else if (package === "Paket Suka - Suka 12 Jam") {
-                                total = price.twelve_hours;
+                                subtotal = price.twelve_hours;
                             } else if (package === "Paket Suka - Suka 15 Jam") {
-                                total = price.fifteen_hours;
+                                subtotal = price.fifteen_hours;
                             }
                         }
                     }
@@ -456,29 +511,55 @@
             });
 
             hidePrice.hide();
-            $('.total').text(formattedPrice(total));
+
+            subtotal = Math.round(subtotal) || 0;
+            var ppn = (subtotal * {{ $setting->ppn }}) / 100;
+            var total = subtotal + ppn;
+
             $('.metode').text('Transfer');
+
+            $('.subtotal').text(formattedPrice(subtotal));
+            $('input[name="subtotal"]').val(subtotal);
+
+            $('.ppn').text(formattedPrice(ppn));
+            $('input[name="ppn"]').val(ppn);
+
+
+            $('.total').text(formattedPrice(total));
             $('input[name="total"]').val(total);
         });
 
         $('select[name="school"], input[name="student"]').on('change input', function () {
             var school = $('select[name="school"]').val();
             var student = $('input[name="student"]').val();
-            var total = 0;
+            var subtotal = 0;
             var priceStudent = 0;
 
             prices.forEach(function (data) {
                 if (data.category == school) {
                     priceStudent = data.price;
-                    total = priceStudent * student;
+                    subtotal = priceStudent * student;
                 }
             });
 
             hidePrice.show();
 
-            $('.priceStudent').text(formattedPrice(priceStudent));
-            $('.total').text(formattedPrice(total));
+            subtotal = Math.round(subtotal) || 0;
+            var ppn = (subtotal * {{ $setting->ppn }}) / 100;
+            var total = subtotal + ppn;
+
             $('.metode').text('Tagihan diakhir bulan');
+            
+            $('.priceStudent').text(formattedPrice(priceStudent));
+
+            $('.subtotal').text(formattedPrice(subtotal));
+            $('input[name="subtotal"]').val(subtotal);
+
+            $('.ppn').text(formattedPrice(ppn));
+            $('input[name="ppn"]').val(ppn);
+
+
+            $('.total').text(formattedPrice(total));
             $('input[name="total"]').val(total);
         });
 

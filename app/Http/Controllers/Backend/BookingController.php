@@ -8,6 +8,7 @@ use App\Models\BookingMember;
 use App\Models\PriceMember;
 use App\Models\Service;
 use App\Models\BookingSchool;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -37,6 +38,8 @@ class BookingController extends Controller
         $data = [
             'services' => Service::all(),
             'prices' => PriceMember::all(),
+            'schools' => PriceMember::where('member', 'Sekolah')->get(),
+            'setting' => Setting::find(1),
         ];
 
         return view('backend.booking.create', $data);
