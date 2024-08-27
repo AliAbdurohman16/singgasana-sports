@@ -65,11 +65,14 @@
         </div>
 
         <div class="form-group position-relative has-icon-left mb-4">
-            <input type="password" name="password"
+            <input type="password" name="password" id="password"
                 class="form-control form-control-xl @error('password')is-invalid @enderror"
                 required autocomplete="password" placeholder="{{ __('Kata Sandi') }}">
             <div class="form-control-icon">
                 <i class="bi bi-shield-lock"></i>
+            </div>
+            <div class="position-absolute" style="right: 15px; top: 12px;">
+                <i id="togglePassword" class="bi bi-eye-slash" style="cursor: pointer; font-weight: bold; font-size: 1.4rem;"></i>
             </div>
             @error('password')
                 <span class="invalid-feedback" role="alert">
@@ -79,11 +82,14 @@
         </div>
 
         <div class="form-group position-relative has-icon-left mb-4">
-            <input type="password" name="password_confirmation"
+            <input type="password" name="password_confirmation" id="password_confirmation"
                 class="form-control form-control-xl @error('password_confirmation')is-invalid @enderror"
                 required autocomplete="password_confirmation" placeholder="{{ __('Konfirmasi Kata Sandi') }}">
             <div class="form-control-icon">
                 <i class="bi bi-shield-lock"></i>
+            </div>
+            <div class="position-absolute" style="right: 15px; top: 12px;">
+                <i id="togglePasswordConfirmation" class="bi bi-eye-slash" style="cursor: pointer; font-weight: bold; font-size: 1.4rem;"></i>
             </div>
         </div>
 
@@ -97,4 +103,28 @@
           <a href="{{ route('login') }}" class="font-bold">Masuk</a>.
         </p>
     </div>
+
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function (e) {
+            // Toggle the type attribute for password
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            // Toggle the icon for password
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        });
+
+        document.getElementById('togglePasswordConfirmation').addEventListener('click', function (e) {
+            // Toggle the type attribute for password confirmation
+            const passwordConfirmationInput = document.getElementById('password_confirmation');
+            const type = passwordConfirmationInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordConfirmationInput.setAttribute('type', type);
+
+            // Toggle the icon for password confirmation
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        });
+    </script>
 @endsection

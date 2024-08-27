@@ -27,10 +27,13 @@
         </div>
 
         <div class="form-group position-relative has-icon-left mb-4">
-            <input type="password" name="password"
+            <input type="password" name="password" id="password"
                 class="form-control form-control-xl @error('password')is-invalid @enderror" placeholder="{{ __('Kata Sandi') }}">
             <div class="form-control-icon">
                 <i class="bi bi-shield-lock"></i>
+            </div>
+            <div class="position-absolute" style="right: 15px; top: 12px;">
+                <i id="togglePassword" class="bi bi-eye-slash" style="cursor: pointer; font-weight: bold; font-size: 1.4rem;"></i>
             </div>
             @error('password')
                 <span class="invalid-feedback" role="alert">
@@ -58,4 +61,17 @@
           <a class="font-bold" href="{{ route('password.request') }}">Lupa Kata Sandi?</a>
         </p>
     </div>
+
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function (e) {
+            // Toggle the type attribute
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+    
+            // Toggle the icon
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        });
+    </script>
 @endsection
