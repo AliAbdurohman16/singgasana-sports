@@ -36,7 +36,7 @@ class BookingController extends Controller
     public function create()
     {
         $data = [
-            'services' => Service::all(),
+            'services' => Service::whereNot('id', 7)->get(),
             'prices' => PriceMember::all(),
             'schools' => PriceMember::where('member', 'Sekolah')->get(),
             'setting' => Setting::find(1),

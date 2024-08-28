@@ -310,26 +310,5 @@ class PriceMemberSeeder extends Seeder
             'category' => 'Starbright',
             'price' => 17000.00,
         ]);
-
-        PriceMember::create([
-            'service_id' => 7,
-            'member' => 'Private Fitness',
-            'category' => 'Go Fun Enjoy Fitness',
-            'price' => 400000.00,
-        ]);
-
-        PriceMember::create([
-            'service_id' => 7,
-            'member' => 'Private Fitness',
-            'category' => 'Go Slim & Healthy',
-            'price' => 450000.00,
-        ]);
-
-        PriceMember::create([
-            'service_id' => 7,
-            'member' => 'Private Fitness',
-            'category' => 'Go Strong Be Macho',
-            'price' => 500000.00,
-        ]);
     }
 }

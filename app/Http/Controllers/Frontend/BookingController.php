@@ -7,6 +7,7 @@ use App\Models\PriceDaily;
 use App\Models\PriceMember;
 use App\Models\Service;
 use App\Models\BookingDaily;
+use App\Models\BookingDailyDetail;
 use App\Models\BookingMember;
 use App\Models\BookingSchool;
 use App\Models\Setting;
@@ -41,7 +42,16 @@ class BookingController extends Controller
         $anak = $request->anak;
         $pengantar = $request->pengantar;
         $buku = $request->buku;
+        $identity = $request->identity;
+        $subtotal = $request->subtotal;
+        $ppn = $request->ppn;
         $total = $request->total;
+        
+        if ($category === 'Penghuni') {
+            if (empty($identity)) {
+                return redirect('booking/daily')->with('error', 'Booking gagal! Silahkan isi bukti identitas terlebih dahulu.');
+            }
+        }
 
         if ($total == 0) {
             return redirect('booking/daily')->with('error', 'Booking gagal! Silahkan lengkapi form isian tersebut.');
@@ -122,7 +132,7 @@ class BookingController extends Controller
     public function member()
     {
         $data = [
-            'services' => Service::all(),
+            'services' => Service::whereNot('id', 7)->get(),
             'prices' => PriceMember::all(),
             'schools' => PriceMember::where('member', 'Sekolah')->get(),
             'setting' => Setting::find(1),

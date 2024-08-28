@@ -126,5 +126,65 @@ class PriceDailySeeder extends Seeder
             'package' => 'Fitness, Whirlpool, Steam & Swimming',
             'price' => 150000.00,
         ]);
+
+        PriceDaily::create([
+            'service_id' => 7,
+            'category' => 'Go Fun Enjoy Fitness',
+            'price' => 400000.00,
+        ]);
+
+        PriceDaily::create([
+            'service_id' => 7,
+            'category' => 'Go Slim & Healthy',
+            'price' => 450000.00,
+        ]);
+
+        PriceDaily::create([
+            'service_id' => 7,
+            'category' => 'Go Strong Be Macho',
+            'price' => 500000.00,
+        ]);
+
+        PriceDaily::create([
+            'service_id' => 7,
+            'category' => 'Private Fitness',
+            'price' => 227727.00,
+        ]);
+
+        PriceDaily::create([
+            'service_id' => 2,
+            'category' => 'Lampu Lapang Basket',
+            'price' => 36363.00,
+        ]);
+
+        PriceDaily::create([
+            'service_id' => 2,
+            'category' => 'Sewa Bola Basket',
+            'price' => 18182.00,
+        ]);
+
+        PriceDaily::create([
+            'service_id' => 3,
+            'category' => 'Lampu Lapang Badminton',
+            'price' => 13636.00,
+        ]);
+
+        PriceDaily::create([
+            'service_id' => 4,
+            'category' => 'Lampu Lapang Tennis',
+            'price' => 22727.00,
+        ]);
+
+        PriceDaily::create([
+            'service_id' => 5,
+            'category' => 'Sewa Bet Tennis Meja',
+            'price' => 13636.00,
+        ]);
+
+        PriceDaily::create([
+            'service_id' => 6,
+            'category' => 'Sewa Raket',
+            'price' => 18182.00,
+        ]);
     }
 }

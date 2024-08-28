@@ -20,11 +20,16 @@ return new class extends Migration {
             $table->datetime('datetime');
             $table->string('package');
             $table->string('school')->nullable();
-            $table->datetime('expired');
+            $table->datetime('expired_payment');
+            $table->datetime('expired_biometrik');
+            $table->decimal('subtotal', 15, 2);
+            $table->decimal('ppn', 15, 2);
             $table->decimal('total', 15, 2);
+            $table->enum('payment_method', ['Cash', 'Transfer', 'QRIS', 'Kredit Card']);
             $table->string('pin')->nullable();
             $table->text('qr')->nullable();
-            $table->enum('status', ['pending', 'success', 'expired'])->default('pending');
+            $table->enum('statu_payment', ['pending', 'success', 'expired', 'rejected'])->nullable()->default('pending');
+            $table->enum('statu_biometrik', ['pending', 'success', 'expired', 'rejected'])->nullable()->default('pending');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');

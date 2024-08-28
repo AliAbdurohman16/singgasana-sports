@@ -33,4 +33,9 @@ class BookingDaily extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function bookingDailyDetails()
+    {
+        return $this->hasMany(BookingDailyDetail::class);
+    }
 }

@@ -154,6 +154,34 @@
                                         <input type="file" name="indentity" class="form-control mb-2">
                                         <small>Syarat harga khusus penghuni harus upload bukti identitas/KTP *</small>
                                     </div>
+                                    <div class="col-md-12" id="hideLamp">
+                                        <select name="lamp" class="form-control">
+                                            <option value="">Pilih Sewa Lampu</option>
+                                            <option value="Ya">Ya</option>
+                                            <option value="Tidak">Tidak</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12" id="hideBall">
+                                        <select name="ball" class="form-control">
+                                            <option value="">Pilih Sewa Bola</option>
+                                            <option value="Ya">Ya</option>
+                                            <option value="Tidak">Tidak</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12" id="hideRacket">
+                                        <select name="racket" class="form-control">
+                                            <option value="">Pilih Sewa Raket</option>
+                                            <option value="Ya">Ya</option>
+                                            <option value="Tidak">Tidak</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12" id="hideBet">
+                                        <select name="bet" class="form-control">
+                                            <option value="">Pilih Sewa Bet</option>
+                                            <option value="Ya">Ya</option>
+                                            <option value="Tidak">Tidak</option>
+                                        </select>
+                                    </div>
                                     <div class="col-md-12">
                                         <table class="table-borderless table">
                                             <tr>
@@ -166,6 +194,30 @@
                                                 <td>:</td>
                                                 <td class="subtotal">Rp 0</td>
                                                 <input type="hidden" name="subtotal">
+                                            </tr>
+                                            <tr class="hideRentLights">
+                                                <td class="fw-bold">Sewa Lampu</td>
+                                                <td>:</td>
+                                                <td class="rent_lights">Rp 0</td>
+                                                <input type="hidden" name="rent_lights">
+                                            </tr>
+                                            <tr class="hideRentBall">
+                                                <td class="fw-bold">Sewa Bola</td>
+                                                <td>:</td>
+                                                <td class="rent_ball">Rp 0</td>
+                                                <input type="hidden" name="rent_ball">
+                                            </tr>
+                                            <tr class="hideRentRacket">
+                                                <td class="fw-bold">Sewa Raket</td>
+                                                <td>:</td>
+                                                <td class="rent_racket">Rp 0</td>
+                                                <input type="hidden" name="rent_racket">
+                                            </tr>
+                                            <tr class="hideRentBet">
+                                                <td class="fw-bold">Sewa Bet</td>
+                                                <td>:</td>
+                                                <td class="rent_bet">Rp 0</td>
+                                                <input type="hidden" name="rent_bet">
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">PPN {{ $setting->ppn }}%</td>
@@ -355,6 +407,14 @@
             var hidePackageBtn = $('#hidePackageBtn').hide();
             var hideFitnessPackage = $('#hideFitnessPackage').hide();
             var hideIdentity = $('#hideIdentity').hide();
+            var hideLamp = $('#hideLamp').hide();
+            var hideBall = $('#hideBall').hide();
+            var hideRacket = $('#hideRacket').hide();
+            var hideBet = $('#hideBet').hide();
+            var hideRentLights = $('.hideRentLights').hide();
+            var hideRentBall = $('.hideRentBall').hide();
+            var hideRentRacket = $('.hideRentRacket').hide();
+            var hideRentBet = $('.hideRentBet').hide();
 
             $('select[name="service"]').change(function() {
                 var selectedService = $(this).val();
@@ -394,8 +454,91 @@
                     hideUsage.hide();
                     hideDuration.hide();
                     hideFitnessPackage.hide();
+                    hideLamp.hide();
+                    hideRentLights.hide();
+                    hideBall.hide();
+                    hideRentBall.hide();
+                    hideBet.hide();
+                    hideRentBet.hide();
+                    hideRacket.hide();
+                    hideRentRacket.hide();
+                    $('select[name="lamp"]').val('');
+                    $('input[name="rent_lights"]').val('');
+                    $('select[name="ball"]').val('');
+                    $('input[name="rent_ball"]').val('');
+                    $('select[name="racket"]').val('');
+                    $('input[name="rent_racket"]').val('');
+                    $('select[name="bet"]').val('');
+                    $('input[name="rent_bet"]').val('');
                 } else if (selectedService == 5 || selectedService == 6) {
                     hideCategory.show();
+
+                    if (selectedService == 5) {
+                        var selectBet = $('select[name="bet"]');
+
+                        hideBet.show();
+                        hideRacket.hide();
+                        hideRentRacket.hide();
+
+                        function updateRentBet() {
+                            var selectBetValue = selectBet.val();
+
+                            if (selectBetValue === 'Ya') {
+                                hideRentBet.show();
+                                
+                                prices.forEach(function(price) {
+                                    if (price.service_id == selectedService) {
+                                        rentBet = price.price
+    
+                                        $('.rent_bet').text('Rp ' + Math.round(rentBet).toLocaleString('id-ID'));
+                                        $('input[name="rent_bet"]').val(rentBet);
+                                    }
+                                }); 
+                            } else {
+                                hideRentBet.hide();
+                                $('input[name="rent_bet"]').val('');
+                            }
+                        }
+
+                        selectBet.on('change', updateRentBet);
+
+                        updateRentBet();
+                    } else if (selectedService == 6) {
+                        var selectRacket = $('select[name="racket"]');
+
+                        hideBet.hide();
+                        hideRentBet.hide();
+                        hideRacket.show();
+
+                        function updateRentRacket() {
+                            var selectRacketValue = selectRacket.val();
+
+                            if (selectRacketValue === 'Ya') {
+                                hideRentRacket.show();
+                                
+                                prices.forEach(function(price) {
+                                    if (price.service_id == selectedService) {
+                                        rentRacket = price.price
+    
+                                        $('.rent_racket').text('Rp ' + Math.round(rentRacket).toLocaleString('id-ID'));
+                                        $('input[name="rent_racket"]').val(rentRacket);
+                                    }
+                                }); 
+                            } else {
+                                hideRentRacket.hide();
+                                $('input[name="rent_racket"]').val('');
+                            }
+                        }
+
+                        selectRacket.on('change', updateRentRacket);
+
+                        updateRentRacket();
+                    } else {
+                        hideBet.hide();
+                        hideRentBet.hide();
+                        hideRacket.hide();
+                        hideRentRacket.hide();
+                    }
 
                     categorySelect.empty().append(
                         '<option value="">Pilih Kategori</option>' +
@@ -425,8 +568,87 @@
                     hideSchedule.hide();
                     hidePackageBtn.hide();
                     hideFitnessPackage.hide();
+                    hideLamp.hide();
+                    hideRentLights.hide();
+                    hideBall.hide();
+                    hideRentBall.hide();
+                    $('select[name="lamp"]').val('');
+                    $('input[name="rent_lights"]').val('');
+                    $('select[name="ball"]').val('');
+                    $('input[name="rent_ball"]').val('');
+                    $('select[name="racket"]').val('');
+                    $('input[name="rent_racket"]').val('');
+                    $('select[name="bet"]').val('');
+                    $('input[name="rent_bet"]').val('');
                 } else if (selectedService == 2 || selectedService == 3 || selectedService == 4) {
+                    var selectLamp = $('select[name="lamp"]');
+                    var selectBall = $('select[name="ball"]');
+                    var rentLights = 0;
+                    
                     hideCategory.show();
+                    hideLamp.show();
+                    
+                    function updateRentLights() {
+                        var selectLampValue = selectLamp.val();
+
+                        if (selectLampValue === 'Ya') {
+                            hideRentLights.show();
+
+                            prices.forEach(function(price) {
+                                if (price.service_id == selectedService) {
+                                    const validCategories = ['Lampu Lapang Basket', 'Lampu Lapang Badminton', 'Lampu Lapang Tennis'];
+        
+                                    const rentLight = prices.find(price => 
+                                        price.service_id == selectedService && validCategories.includes(price.category)
+                                    );
+
+                                    const rentLights = rentLight ? rentLight.price : 0;
+                                    
+                                    $('.rent_lights').text('Rp ' + Math.round(rentLights).toLocaleString('id-ID'));
+                                    $('input[name="rent_lights"]').val(rentLights);
+                                }
+                            });
+                        } else {
+                            hideRentLights.hide();
+                            $('input[name="rent_lights"]').val('');
+                        }
+                    }
+
+                    selectLamp.on('change', updateRentLights);
+
+                    updateRentLights();
+
+                    function updateRentBall() {
+                        var selectBallValue = selectBall.val();
+
+                        if (selectBallValue === 'Ya') {
+                            hideRentBall.show();
+
+                            prices.forEach(function(price) {
+                                if (price.service_id == selectedService) {
+                                    rentBall = ['Sewa Bola Basket'].includes(price.category) ? price.price : 0;
+                                    
+                                    $('.rent_ball').text('Rp ' + Math.round(rentBall).toLocaleString('id-ID'));
+                                    $('input[name="rent_ball"]').val(rentBall);
+                                }
+                            });
+                        } else {
+                            hideRentBall.hide();
+                            $('input[name="rent_ball"]').val('');
+                        }
+                    }
+                    
+                    selectBall.on('change', updateRentBall);
+                    
+                    if (selectedService == 2) {
+                        hideBall.show();
+                        
+                        updateRentBall();
+                    } else {
+                        hideBall.hide();
+                        hideRentBall.hide();
+                    }
+
 
                     categorySelect.empty().append(
                         '<option value="">Pilih Kategori</option>' +
@@ -458,14 +680,30 @@
                     hideSchedule.hide();
                     hidePackageBtn.hide();
                     hideFitnessPackage.hide();
+                    hideRentLights.hide();
+                    hideBet.hide();
+                    hideRentBet.hide();
+                    hideRacket.hide();
+                    hideRentRacket.hide();
+                    $('select[name="lamp"]').val('');
+                    $('input[name="rent_lights"]').val('');
+                    $('select[name="ball"]').val('');
+                    $('input[name="rent_ball"]').val('');
+                    $('select[name="racket"]').val('');
+                    $('input[name="rent_racket"]').val('');
+                    $('select[name="bet"]').val('');
+                    $('input[name="rent_bet"]').val('');
                 } else if (selectedService == 7) {
                     hideCategory.show();
-                    hideFitnessPackage.show();
 
                     categorySelect.empty().append(
                         '<option value="">Pilih Kategori</option>' +
                         '<option value="Retail Paket 1">Retail Paket 1</option>' +
-                        '<option value="Retail Paket 2">Retail Paket 2</option>'
+                        '<option value="Retail Paket 2">Retail Paket 2</option>' +
+                        '<option value="Go Fun Enjoy Fitness">Go Fun Enjoy Fitness</option>' +
+                        '<option value="Go Slim & Healthy">Go Slim & Healthy</option>' +
+                        '<option value="Go Strong Be Macho">Go Strong Be Macho</option>' +
+                        '<option value="Private Fitness">Private Fitness</option>'
                     );
 
                     fitnessPackage.empty().append('<option value="">Paket</option>');
@@ -476,30 +714,32 @@
                         fitnessPackage.empty();
 
                         if (selectedCategory === 'Retail Paket 1') {
+                            hideFitnessPackage.show();
                             fitnessPackage.append(
                                 '<option value="Fitness, Whirlpool, Steam">Fitness, Whirlpool, Steam</option>'
                             );
                         } else if (selectedCategory === 'Retail Paket 2') {
+                            hideFitnessPackage.show();
                             fitnessPackage.append(
                                 '<option value="Fitness, Whirlpool, Steam & Swimming">Fitness, Whirlpool, Steam & Swimming</option>'
                             );
                         } else {
-                            fitnessPackage.append('<option value="">Paket</option>');
+                            hideFitnessPackage.hide();
                         }
 
                         var category = categorySelect.val();
                         var fitness = fitnessPackage.val();
-                        var total = 0;
+                        var subtotal = 0;
 
                         if (category) {
                             prices.forEach(function(price) {
                                 if (price.category === category) {
-                                    total = price.price;
+                                    subtotal = price.price;
                                 }
                             });
                         }
     
-                        updateTotal(total);
+                        updateTotal(subtotal);
                     });
 
                     hideIdentity.hide();
@@ -508,6 +748,22 @@
                     hidePackage.hide();
                     hideSchedule.hide();
                     hidePackageBtn.hide();
+                    hideLamp.hide();
+                    hideRentLights.hide();
+                    hideBall.hide();
+                    hideRentBall.hide();
+                    hideBet.hide();
+                    hideRentBet.hide();
+                    hideRacket.hide();
+                    hideRentRacket.hide();
+                    $('select[name="lamp"]').val('');
+                    $('input[name="rent_lights"]').val('');
+                    $('select[name="ball"]').val('');
+                    $('input[name="rent_ball"]').val('');
+                    $('select[name="racket"]').val('');
+                    $('input[name="rent_racket"]').val('');
+                    $('select[name="bet"]').val('');
+                    $('input[name="rent_bet"]').val('');
                 } else {
                     hideIdentity.hide();
                     hideCategory.hide();
@@ -517,24 +773,24 @@
                     hideDuration.hide();
                     hidePackageBtn.hide();
                     hideFitnessPackage.hide();
+                    hideLamp.hide();
+                    hideRentLights.hide();
+                    hideBall.hide();
+                    hideRentBall.hide();
+                    hideBet.hide();
+                    hideRentBet.hide();
+                    hideRacket.hide();
+                    hideRentRacket.hide();
+                    $('select[name="lamp"]').val('');
+                    $('input[name="rent_lights"]').val('');
+                    $('select[name="ball"]').val('');
+                    $('input[name="rent_ball"]').val('');
+                    $('select[name="racket"]').val('');
+                    $('input[name="rent_racket"]').val('');
+                    $('select[name="bet"]').val('');
+                    $('input[name="rent_bet"]').val('');
                 }
             });
-
-            function updateTotal(subtotal) {
-                subtotal = Math.round(subtotal) || 0;
-
-                var ppn = (subtotal * {{ $setting->ppn }}) / 100;
-                var total = subtotal + ppn;
-
-                $('.subtotal').text('Rp ' + subtotal.toLocaleString('id-ID'));
-                $('input[name="subtotal"]').val(subtotal);
-
-                $('.ppn').text('Rp ' + ppn.toLocaleString('id-ID'));
-                $('input[name="ppn"]').val(ppn);
-
-                $('.total').text('Rp ' + total.toLocaleString('id-ID'));
-                $('input[name="total"]').val(total);
-            }
 
             $('input[name="datetime"], input[name="dewasa"], input[name="anak"], input[name="pengantar"], input[name="buku"], #minusDewasa, #plusDewasa, #minusAnak, #plusAnak, #minusPengantar, #plusPengantar, #minusBuku, #plusBuku').on('input click', function() {
                 var schedule = $('select[name="scheduleOption"]').val();
@@ -542,54 +798,54 @@
                 var anak = $('input[name="anak"]').val();
                 var pengantar = $('input[name="pengantar"]').val();
                 var buku = $('input[name="buku"]').val();
-                var total = 0;
+                var subtotal = 0;
 
                 prices.forEach(function(price) {
                     if (dewasa != 0 && price.package == "Dewasa") {
                         if (schedule === "Weekday") {
-                            total += price.weekday * dewasa;
+                            subtotal += price.weekday * dewasa;
                         } else if (schedule === "Weekend") {
-                            total += price.weekend * dewasa;
+                            subtotal += price.weekend * dewasa;
                         }
                     } else if (anak != 0 && price.package == "Anak") {
                         if (schedule === "Weekday") {
-                            total += price.weekday * anak;
+                            subtotal += price.weekday * anak;
                         } else if (schedule === "Weekend") {
-                            total += price.weekend * anak;
+                            subtotal += price.weekend * anak;
                         }
                     } else if (pengantar != 0 && price.package == "Pengantar") {
                         if (schedule === "Weekday") {
-                            total += price.weekday * pengantar;
+                            subtotal += price.weekday * pengantar;
                         } else if (schedule === "Weekend") {
-                            total += price.weekend * pengantar;
+                            subtotal += price.weekend * pengantar;
                         }
                     } else if (buku != 0 && price.package == "Tiket Buku (15 Lembar)") {
                         if (schedule === "Weekday") {
-                            total += price.weekday * buku;
+                            subtotal += price.weekday * buku;
                         } else if (schedule === "Weekend") {
-                            total += price.weekend * buku;
+                            subtotal += price.weekend * buku;
                         }
                     } else if (dewasa != 0 && price.package == "Dewasa" && anak != 0 && price.package == "Anak") {
                         if (schedule === "Weekday") {
                             subtotalDewasa += price.weekday * dewasa;
                             subtotalAnak += price.weekday * anak;
-                            total += subtotalDewasa + subtotalAnak;
+                            subtotal += subtotalDewasa + subtotalAnak;
                         } else if (schedule === "Weekend") {
                             subtotalDewasa += price.weekend * dewasa;
                             subtotalAnak += price.weekend * anak;
-                            total += subtotalDewasa + subtotalAnak;
+                            subtotal += subtotalDewasa + subtotalAnak;
                         }
                     } else if (dewasa != 0 && price.package == "Dewasa" && anak != 0 && price.package == "Anak" && pengantar != 0 && price.package == "Pengantar") {
                         if (schedule === "Weekday") {
                             subtotalDewasa += price.weekday * dewasa;
                             subtotalAnak += price.weekday * anak;
                             subtotalPengantar += price.weekday * pengantar;
-                            total += subtotalDewasa + subtotalAnak + subtotalPengantar;
+                            subtotal += subtotalDewasa + subtotalAnak + subtotalPengantar;
                         } else if (schedule === "Weekend") {
                             subtotalDewasa += price.weekend * dewasa;
                             subtotalAnak += price.weekend * anak;
                             subtotalPengantar += price.weekend * pengantar;
-                            total += subtotalDewasa + subtotalAnak + subtotalPengantar;
+                            subtotal += subtotalDewasa + subtotalAnak + subtotalPengantar;
                         }
                     }  else if (dewasa != 0 && price.package == "Dewasa" && anak != 0 && price.package == "Anak" && pengantar != 0 && price.package == "Pengantar" && buku != 0 && price.package == "Tiket Buku (15 Lembar)") {
                         if (schedule === "Weekday") {
@@ -597,49 +853,87 @@
                             subtotalAnak += price.weekday * anak;
                             subtotalPengantar += price.weekday * pengantar;
                             subtotalBuku += price.weekday * buku;
-                            total += subtotalDewasa + subtotalAnak + subtotalPengantar + subtotalBuku;
+                            subtotal += subtotalDewasa + subtotalAnak + subtotalPengantar + subtotalBuku;
                         } else if (schedule === "Weekend") {
                             subtotalDewasa += price.weekend * dewasa;
                             subtotalAnak += price.weekend * anak;
                             subtotalPengantar += price.weekend * pengantar;
                             subtotalBuku += price.weekend * buku;
-                            total += subtotalDewasa + subtotalAnak + subtotalPengantar + subtotalBuku;
+                            subtotal += subtotalDewasa + subtotalAnak + subtotalPengantar + subtotalBuku;
                         }
                     }
                 });
 
-                updateTotal(total);
+                updateTotal(subtotal);
             });
 
-            $('select[name="service"], select[name="category"], select[name="usage"], select[name="duration"]')
-                .change(function() {
-                    var category = $('select[name="category"]').val();
-                    var duration = $('select[name="duration"]').val();
-                    var service = $('select[name="service"]').val();
-                    var usage = $('select[name="usage"]').val();
-                    var durationValue = parseInt(duration);
-                    var total = 0;
-
-                    if (isNaN(durationValue)) {
-                        durationValue = 0;
-                    }
-
-                    prices.forEach(function(price) {
-                        if (price.service_id == service) {
-                            if (price.category == category) {
-                                if (usage == 'Lapang (PAGI)') {
-                                    total = durationValue * price.morning;
-                                } else if (usage == 'Lapang (SIANG)') {
-                                    total = durationValue * price.afternoon;
-                                } else if (usage == '') {
-                                    total = durationValue * price.price;
-                                }
+            $('select[name="service"], select[name="category"], select[name="usage"], select[name="duration"]').change(function () {
+                var service = $('select[name="service"]').val();
+                var category = $('select[name="category"]').val();
+                var duration = $('select[name="duration"]').val();
+                var usage = $('select[name="usage"]').val();
+                var durationValue = parseInt(duration);
+                var subtotal = 0;
+    
+                if (isNaN(durationValue)) {
+                    durationValue = 0;
+                }
+    
+                prices.forEach(function(price) {
+                    if (price.service_id == service) {
+                        if (price.category == category) {
+                            if (usage == 'Lapang (PAGI)') {
+                                subtotal = durationValue * price.morning;
+                            } else if (usage == 'Lapang (SIANG)') {
+                                subtotal = durationValue * price.afternoon;
+                            } else if (usage == '') {
+                                subtotal = durationValue * price.price;
                             }
                         }
-                    });
-
-                    updateTotal(total);
+                    }
                 });
+    
+                updateTotal(subtotal);
+            });
+
+            function updateTotal(subtotal) {
+                subtotal = Math.round(subtotal) || 0;
+
+                const updateRentValues = () => {
+                    return {
+                        rentLights: Math.round($('input[name="rent_lights"]').val()) || 0,
+                        rentBall: Math.round($('input[name="rent_ball"]').val()) || 0,
+                        rentRacket: Math.round($('input[name="rent_racket"]').val()) || 0,
+                        rentBet: Math.round($('input[name="rent_bet"]').val()) || 0
+                    };
+                };
+
+                function calculateTotal(subtotal, rentValues) {
+                    const { rentLights, rentBall, rentRacket, rentBet } = rentValues;
+                    const calculate = subtotal + rentLights + rentBall + rentRacket + rentBet;
+                    const ppn = (calculate * {{ $setting->ppn }}) / 100;
+                    const total = calculate + ppn;
+
+                    $('.subtotal').text('Rp ' + subtotal.toLocaleString('id-ID'));
+                    $('input[name="subtotal"]').val(subtotal);
+
+                    $('.ppn').text('Rp ' + Math.round(ppn).toLocaleString('id-ID'));
+                    $('input[name="ppn"]').val(ppn);
+
+                    $('.total').text('Rp ' + Math.round(total).toLocaleString('id-ID'));
+                    $('input[name="total"]').val(total);
+                }
+
+                $('select[name="service"], select[name="lamp"], select[name="ball"], select[name="racket"], select[name="bet"]').change(function() {
+                    if ($(this).attr('name') === 'service') {
+                        subtotal = 0;
+                    }
+
+                    calculateTotal(subtotal, updateRentValues());
+                });
+
+                calculateTotal(subtotal, updateRentValues());
+            }
         });
     </script>
 @endsection
