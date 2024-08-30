@@ -43,11 +43,13 @@
                             <th width="5%">No</th>
                             <th>Kode Booking</th>
                             <th>Nama Lengkap</th>
-                            <th>Email</th>
-                            <th>No Telp</th>
-                            <th>Layanan</th>
-                            <th>Paket</th>
                             <th>Tanggal Mulai</th>
+                            <th>Layanan</th>
+                            <th>Member</th>
+                            <th>Kategori</th>
+                            <th>Paket</th>
+                            {{-- <th>Subtotal</th>
+                            <th>PPN</th> --}}
                             <th>Total</th>
                             <th>Status</th>
                             <th width="20%">Aksi</th>
@@ -60,16 +62,18 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $row->id }}</td>
                                 <td>{{ $row->user->first_name }} {{ $row->user->last_name }}</td>
-                                <td>{{ $row->user->email }}</td>
-                                <td>{{ $row->user->telephone }}</td>
-                                <td>{{ $row->service->name }}</td>
-                                <td>{{ $row->package }}</td>
                                 <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
+                                <td>{{ $row->service->name }}</td>
+                                <td>{{ $row->member }}</td>
+                                <td>{{ $row->category }}</td>
+                                <td>{{ $row->package }}</td>
+                                {{-- <td>Rp {{ number_format($row->subtotal, 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($row->ppn, 0, ',', '.') }}</td> --}}
                                 <td>Rp {{ number_format($row->total, 0, ',', '.') }}</td>
                                 <td>
-                                    @if ($row->status == 'pending')
+                                    @if ($row->status_payment == 'pending')
                                         <span class="badge bg-secondary">Pending</span>
-                                    @elseif ($row->status == 'success')
+                                    @elseif ($row->status_payment == 'success')
                                         <span class="badge bg-success">Success</span>
                                     @else
                                         <span class="badge bg-danger">Expired</span>
@@ -77,7 +81,7 @@
                                 </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm mb-2" onclick="window.location='members/{{ $row->id }}'"><i class="fas fa-eye"></i> Detail</button>
-                                    @if ($row->status == 'pending')
+                                    @if ($row->status_payment == 'pending')
                                         <button class="btn btn-success btn-validation btn-sm mb-2" data-id="{{ $row->id }}"><i class="fas fa-check"></i> Validasi</button>
                                     @endif
                                 </td>

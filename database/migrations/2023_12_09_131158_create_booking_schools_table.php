@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('not_present')->nullable();
             $table->string('lock')->nullable();
             $table->decimal('subtotal', 15, 2);
+            $table->decimal('ppn', 15, 2);
+            $table->decimal('total', 15, 2);
             $table->timestamps();
             $table->foreign('booking_member_id')->references('id')->on('booking_members')->onDelete('cascade');
         });

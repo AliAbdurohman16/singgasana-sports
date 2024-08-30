@@ -27,7 +27,7 @@ class BookingController extends Controller
     public function index()
     {
         $histories = BookingMember::where('user_id', Auth::user()->id)
-                        ->orderBy('status', 'asc')
+                        ->orderBy('status_payment', 'asc')
                         ->get();
 
         return view('backend.booking.histories.index', compact('histories'));
@@ -122,7 +122,7 @@ class BookingController extends Controller
 
         $existingBooking = BookingMember::where('school', $school)
                             ->whereNotNull('school')
-                            ->where('status_biometrik', 'Pending')
+                            ->where('status_biometrik', 'success')
                             ->first();
 
         if ($request->hasFile('identity')) {
@@ -131,6 +131,24 @@ class BookingController extends Controller
         }
 
         $expired_payment = $package != 'Sekolah' ? Carbon::now()->addMinutes(20)->toDateTimeString() : null;
+        $status_biometrik = $package == 'Sekolah' ? 'success' : 'pending';
+
+        $subtotal = 0;
+        $ppn = 0;
+        $totalBook = 0;
+        $subtotalSchool = 0;
+        $ppnSchool = 0;
+        $subtotalSchool = 0;
+
+        if ($package == 'Sekolah') {
+            $subtotalSchool = $request->subtotal;
+            $ppnSchool = $request->ppn;
+            $totalSchool = $total;
+        } else {
+            $subtotal = $request->subtotal;
+            $ppn = $request->ppn;
+            $totalBook = $total;
+        }
 
         if (!$existingBooking) {
             $data = BookingMember::create([
@@ -142,20 +160,21 @@ class BookingController extends Controller
                 'category' => $category,
                 'package' => $package,
                 'school' => $school,
-                'subtotal' => $request->subtotal,
-                'ppn' => $request->ppn,
-                'total' => $total,
+                'subtotal' => $subtotal,
+                'ppn' => $ppn,
+                'total' => $totalBook,
+                'total_for_school' => $total,
                 'expired_payment' => $expired_payment,
                 'expired_biometrik' => $expired_biometrik,
                 'payment_method' => 'Transfer',
+                'status_biometrik' => $status_biometrik,
                 'app_name' => 'web',
             ]);
         } else {
-            $existingBooking->total += $total;
+            $existingBooking->total_for_school += $totalSchool;
             $existingBooking->save();
             $data = $existingBooking;
         }
-
 
         if (!empty($student)) {
             $bookingSchool = BookingSchool::create([
@@ -163,7 +182,9 @@ class BookingController extends Controller
                 'start_date' => $datetime,
                 'student_counts' => $student,
                 'lock' => $student,
-                'subtotal' => $total,
+                'subtotal' => $subtotalSchool,
+                'ppn' => $ppnSchool,
+                'total' => $totalSchool,
             ]);
 
             Mail::to($user->email)->send(new InvoiceBookingSchoolMail($bookingSchool));
@@ -179,6 +200,7 @@ class BookingController extends Controller
         $data = [
             'schools' => BookingSchool::where('booking_member_id', $id)->get(),
             'member' => BookingMember::find($id),
+            'setting' => Setting::find(1),
         ];
 
         return view('backend.booking.histories.detail', $data);
@@ -186,7 +208,7 @@ class BookingController extends Controller
 
     public function daily()
     {
-        $dailies = BookingDaily::orderBy('status', 'asc')->get();
+        $dailies = BookingDaily::orderBy('status_payment', 'asc')->get();
 
         return view('backend.booking.dailies.index', compact('dailies'));
     }
@@ -208,15 +230,11 @@ class BookingController extends Controller
         // Save QR code as PNG
         QrCode::size(300)->format('png')->backgroundColor(255, 255, 255)->margin(10)->generate($pin, $qrPath . $qrFileName);
 
-        $expired = ($daily->service_id == 1)
-                    ? Carbon::parse($daily->datetime)->addDay()
-                    : Carbon::parse($daily->datetime)->addHours(intval($daily->duration));
-
         $daily->update([
-            'expired' => $expired,
             'pin' => $pin,
             'qr' => $qrFileName,
-            'status' => 'success',
+            'status_payment' => 'success',
+            'status_biometrik' => 'success',
         ]);
 
         Mail::to($daily->email)->send(new ValidationBookingDailyMail($daily));
@@ -227,13 +245,14 @@ class BookingController extends Controller
     public function showDaily($id)
     {
         $daily = BookingDaily::find($id);
+        $setting = Setting::find(1);
 
-        return view('backend.booking.dailies.detail', compact('daily'));
+        return view('backend.booking.dailies.detail', compact('daily', 'setting'));
     }
 
     public function member()
     {
-        $members = BookingMember::orderBy('status', 'asc')->whereNot('package', 'Sekolah')->get();
+        $members = BookingMember::orderBy('status_payment', 'asc')->whereNot('package', 'Sekolah')->get();
 
         return view('backend.booking.members.index', compact('members'));
     }
@@ -258,7 +277,8 @@ class BookingController extends Controller
         $member->update([
             'pin' => $pin,
             'qr' => $qrFileName,
-            'status' => 'success',
+            'status_payment' => 'success',
+            'status_biometrik' => 'success',
         ]);
 
         Mail::to($member->user->email)->send(new ValidationBookingMemberMail($member));
@@ -269,18 +289,21 @@ class BookingController extends Controller
     public function showMember($id)
     {
         $member = BookingMember::find($id);
+        $setting = Setting::find(1);
 
-        return view('backend.booking.members.detail', compact('member'));
+        return view('backend.booking.members.detail', compact('member', 'setting'));
     }
 
     public function school()
     {
-        $schools = BookingSchool::orderBy('status', 'asc')
+        $schools = BookingSchool::orderBy('status_payment', 'asc')
                         ->join('booking_members', 'booking_schools.booking_member_id', '=', 'booking_members.id')
-                        ->orderBy('booking_members.status', 'asc')
-                        ->get(['booking_schools.*', 'booking_members.status']);
+                        ->orderBy('booking_members.status_payment', 'asc')
+                        ->get(['booking_schools.*', 'booking_members.status_payment']);
 
-        return view('backend.booking.schools.index', compact('schools'));
+        $validations = BookingMember::orderBy('status_payment', 'asc')->where('package', 'Sekolah')->get();
+
+        return view('backend.booking.schools.index', compact('schools', 'validations'));
     }
 
     public function validationSchool(Request $request, $id)
@@ -303,7 +326,8 @@ class BookingController extends Controller
         $member->update([
             'pin' => $pin,
             'qr' => $qrFileName,
-            'status' => 'success',
+            'status_payment' => 'success',
+            'status_biometrik' => 'success',
         ]);
 
         Mail::to($member->user->email)->send(new ValidationBookingSchoolMail($member));
@@ -314,8 +338,9 @@ class BookingController extends Controller
     public function showSchool($id)
     {
         $schools = BookingSchool::where('booking_member_id', $id)->get();
+        $setting = Setting::find(1);
 
-        return view('backend.booking.schools.detail', compact('schools'));
+        return view('backend.booking.schools.detail', compact('schools', 'setting'));
     }
 
     public function notPresent(Request $request, $id)

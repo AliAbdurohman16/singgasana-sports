@@ -33,9 +33,6 @@
         <!-- Basic Tables start -->
         <section class="section">
             <div class="card">
-                {{-- <div class="card-header">
-                    <button class="btn btn-primary btn-validation btn-sm mb-2"><i class="fas fa-qrcode"></i> Scan QR</button>
-                </div> --}}
                 <div class="card-body">
                     <table class="table categories-table" id="table1">
                         <thead>
@@ -43,14 +40,15 @@
                             <th width="5%">No</th>
                             <th>Kode Booking</th>
                             <th>Nama Lengkap</th>
-                            <th>Email</th>
-                            <th>No Telp</th>
+                            <th>Tanggal Dibooking</th>
                             <th>Layanan</th>
                             <th>Waktu</th>
-                            <th>Tanggal Dibooking</th>
-                            <th>Informasi</th>
+                            <th>Kategori x qty</th>
+                            <th>Lapang</th>
+                            {{-- <th>Subtotal</th>
+                            <th>PPN</th> --}}
                             <th>Total</th>
-                            <th>Status</th>
+                            <th>Status Pembayaran</th>
                             <th width="20%">Aksi</th>
                         </tr>
                         </thead>
@@ -64,25 +62,32 @@
                                     {{ isset($row->first_name) ? $row->first_name : $row->user->first_name}}
                                     {{ isset($row->last_name) && $row->last_name !== null ? $row->last_name : ($row->user->last_name ?? '') }}
                                 </td>
-                                <td>{{ isset($row->email) ? $row->email : $row->user->email }}</td>
-                                <td>{{ isset($row->telephone) ? $row->telephone : $row->user->telephone }}</td>
-                                <td>{{ $row->service->name }}</td>
-                                <td>{{ $row->duration }}</td>
                                 <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
-                                <td>{{ $row->information }}</td>
+                                <td>{{ $row->service->name }}</td>
+                                <td>{{ $row->bookingDailyDetails()->first()->duration }}</td>
+                                <td>
+                                    @foreach ($row->bookingDailyDetails as $detail)
+                                        <p>{{ $detail->kategori }} x {{ $detail->qty }}</p>
+                                    @endforeach
+                                </td>
+                                <td>{{ $row->bookingDailyDetails()->first()->roomy }}</td>
+                                {{-- <td>Rp {{ number_format($row->subtotal, 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($row->ppn, 0, ',', '.') }}</td> --}}
                                 <td>Rp {{ number_format($row->total, 0, ',', '.') }}</td>
                                 <td>
-                                    @if ($row->status == 'pending')
+                                    @if ($row->status_payment == 'pending')
                                         <span class="badge bg-secondary">Pending</span>
-                                    @elseif ($row->status == 'success')
+                                    @elseif ($row->status_payment == 'success')
                                         <span class="badge bg-success">Success</span>
+                                    @elseif ($row->status_payment == 'rejected')
+                                        <span class="badge bg-danger">Ditolak</span>
                                     @else
                                         <span class="badge bg-danger">Expired</span>
                                     @endif
                                 </td>
                                 <td>
                                     <button class="btn btn-primary btn-sm mb-2" onclick="window.location='dailies/{{ $row->id }}'"><i class="fas fa-eye"></i> Detail</button>
-                                    @if ($row->status == 'pending')
+                                    @if ($row->status_payment == 'pending')
                                         <button class="btn btn-success btn-validation btn-sm mb-2" data-id="{{ $row->id }}"><i class="fas fa-check"></i> Validasi</button>
                                     @endif
                                 </td>

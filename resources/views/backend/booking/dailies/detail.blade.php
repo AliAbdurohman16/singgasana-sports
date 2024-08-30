@@ -56,9 +56,9 @@
                             <td>{{ $daily->service->name }}</td>
                         </tr>
                         <tr>
-                            <td class="fw-bold">Durasi</td>
+                            <td class="fw-bold">Waktu</td>
                             <td>:</td>
-                            <td>{{ $daily->duration }}</td>
+                            <td>{{ $daily->bookingDailyDetails()->first()->duration }}</td>
                         </tr>
                         <tr>
                             <td class="fw-bold">Tanggal Mulai</td>
@@ -68,25 +68,100 @@
                         <tr>
                             <td class="fw-bold">Informasi</td>
                             <td>:</td>
-                            <td>{{ $daily->information }}</td>
+                            <td>
+                                @foreach ($daily->bookingDailyDetails as $detail)
+                                    <p>{{ $detail->kategori }} x {{ $detail->qty }} {{ $daily->service_id == 1 ? ' = ' . number_format($detail->amount_price_swimming, 0, ',', '.') : '' }}</p>
+                                @endforeach
+                            </td>
                         </tr>
+                        @if ($daily->service_id == 2 || $daily->service_id == 3 || $daily->service_id == 4)
                         <tr>
-                            <td class="fw-bold">Expired</td>
+                            <td class="fw-bold">Lapangan</td>
                             <td>:</td>
-                            <td>{{ date('d-m-Y H:i:s', strtotime($daily->expired)) }}</td>
+                            <td>{{ $daily->bookingDailyDetails()->first()->roomy }}</td>
+                        </tr>
+                        @endif
+                        @if ($daily->bookingDailyDetails()->first()->kategori == 'Penghuni')
+                        <tr>
+                            <td class="fw-bold">Bukti Identitas Penghuni</td>
+                            <td>:</td>
+                            <td>
+                                <img src="{{ asset('storage/booking-daily/' . $daily->identity) }}" width="50%" alt="identitas">
+                            </td>
+                        </tr>
+                        @endif
+                        <tr>
+                            <td class="fw-bold">Subtotal</td>
+                            <td>:</td>
+                            <td>{{ number_format($daily->subtotal, 0, ',', '.') }}</td>
+                        </tr>
+                        @if (!empty($daily->rent_lights))
+                        <tr>
+                            <td class="fw-bold">Sewa Lampu</td>
+                            <td>:</td>
+                            <td>{{ number_format($daily->rent_lights, 0, ',', '.') }}</td>
+                        </tr>
+                        @endif
+                        @if (!empty($daily->rent_ball))
+                        <tr>
+                            <td class="fw-bold">Sewa Bola</td>
+                            <td>:</td>
+                            <td>{{ number_format($daily->rent_ball, 0, ',', '.') }}</td>
+                        </tr>
+                        @endif
+                        @if (!empty($daily->rent_racket))
+                        <tr>
+                            <td class="fw-bold">Sewa Raket</td>
+                            <td>:</td>
+                            <td>{{ number_format($daily->rent_racket, 0, ',', '.') }}</td>
+                        </tr>
+                        @endif
+                        @if (!empty($daily->rent_bet))
+                        <tr>
+                            <td class="fw-bold">Sewa Bet</td>
+                            <td>:</td>
+                            <td>{{ number_format($daily->rent_bet, 0, ',', '.') }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                            <td class="fw-bold">PPN {{ $setting->ppn }}%</td>
+                            <td>:</td>
+                            <td>{{ number_format($daily->ppn, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
                             <td class="fw-bold">Total</td>
                             <td>:</td>
                             <td>{{ number_format($daily->total, 0, ',', '.') }}</td>
                         </tr>
-                        @if ($daily->status == 'success')
+                        @if ($daily->status_payment == 'pending')
+                        <tr>
+                            <td class="fw-bold">Expired Pembayaran</td>
+                            <td>:</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($daily->expired_payment)) }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                            <td class="fw-bold">Status Pembayaran</td>
+                            <td>:</td>
+                            <td>{{ ucfirst($daily->status_payment) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Expired Biometrik (QR dan PIN)</td>
+                            <td>:</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($daily->expired_biometrik)) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Status Biometrik (QR dan PIN)</td>
+                            <td>:</td>
+                            <td>{{ ucfirst($daily->status_biometrik) }}</td>
+                        </tr>
+                        @if ($daily->status_biometrik == 'success')
                             @if ($daily->service_id == 1)
                                 <tr>
                                     <td class="fw-bold">QR Code</td>
                                     <td>:</td>
                                     <td>
-                                        <img src="{{ asset('singgasana-sport/public/qr_codes/' . $daily->qr) }}" width="20%" alt="QR Code">
+                                        <img src="{{ asset('qr_codes/' . $daily->qr) }}" width="20%" alt="QR Code">
                                     </td>
                                 </tr>
                             @else

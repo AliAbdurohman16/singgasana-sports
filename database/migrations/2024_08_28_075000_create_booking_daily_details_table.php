@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('booking_daily_details', function (Blueprint $table) {
             $table->id();
-            $table->string('booking_id');
+            $table->string('booking_daily_id');
             $table->string('duration');
             $table->string('kategori');
             $table->string('roomy')->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('qty');
             $table->decimal('amount_price_swimming', 15, 2)->nullable();
             $table->timestamps();
-            $table->foreign('booking_id')->references('id')->on('booking_dailies')->onDelete('cascade');
+            $table->foreign('booking_daily_id')->references('id')->on('booking_dailies')->onDelete('cascade');
         });
     }
 

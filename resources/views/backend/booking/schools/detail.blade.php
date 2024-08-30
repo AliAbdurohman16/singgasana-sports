@@ -59,11 +59,6 @@
                                 <td>{{ date('d-m-Y H:i:s', strtotime($row->start_date)) }}</td>
                             </tr>
                             <tr>
-                                <td class="fw-bold">Expired</td>
-                                <td>:</td>
-                                <td>{{ date('d-m-Y H:i:s', strtotime($row->bookingMember->expired)) }}</td>
-                            </tr>
-                            <tr>
                                 <td class="fw-bold">Sekolah</td>
                                 <td>:</td>
                                 <td>{{ $row->bookingMember->school }}</td>
@@ -74,14 +69,29 @@
                                 <td>{{ $row->student_counts }}</td>
                             </tr>
                             <tr>
-                                <td class="fw-bold">Expired</td>
+                                <td class="fw-bold">Expired Biometrik (QR)</td>
                                 <td>:</td>
-                                <td>{{ date('d-m-Y H:i:s', strtotime($row->bookingMember->expired)) }}</td>
+                                <td>{{ date('d-m-Y H:i:s', strtotime($row->bookingMember->expired_biometrik)) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Status Biometrik (QR)</td>
+                                <td>:</td>
+                                <td>{{ ucfirst($row->bookingMember->status_biometrik) }}</td>
                             </tr>
                             <tr>
                                 <td class="fw-bold">Subtotal</td>
                                 <td>:</td>
                                 <td>Rp {{ number_format($row->subtotal, 0, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">PPN {{ $setting->ppn }}%</td>
+                                <td>:</td>
+                                <td>Rp {{ number_format($row->ppn, 0, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">Total</td>
+                                <td>:</td>
+                                <td>Rp {{ number_format($row->total, 0, ',', '.') }}</td>
                             </tr>
                         </table>
                     </div>

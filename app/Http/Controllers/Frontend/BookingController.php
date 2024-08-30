@@ -135,7 +135,7 @@ class BookingController extends Controller
                     $amount_price_swimming = $service_price * $qty;
         
                     BookingDailyDetail::create([
-                        'booking_id' => $data->id,
+                        'booking_daily_id' => $data->id,
                         'duration' => $request->schedule,
                         'kategori' => $category,
                         'service_price' => $service_price,
@@ -146,7 +146,7 @@ class BookingController extends Controller
             }            
         } else {
             BookingDailyDetail::create([
-                'booking_id' => $data->id,
+                'booking_daily_id' => $data->id,
                 'duration' => $request->duration,
                 'kategori' => $category,
                 'roomy' => $request->usage,
@@ -247,7 +247,7 @@ class BookingController extends Controller
         
         $existingBooking = BookingMember::where('school', $school)
                             ->whereNotNull('school')
-                            ->where('status_biometrik', 'Pending')
+                            ->where('status_biometrik', 'success')
                             ->first();
 
         if ($request->hasFile('identity')) {
@@ -256,6 +256,24 @@ class BookingController extends Controller
         }
 
         $expired_payment = $package != 'Sekolah' ? Carbon::now()->addMinutes(20)->toDateTimeString() : null;
+        $status_biometrik = $package == 'Sekolah' ? 'success' : 'pending';
+
+        $subtotal = 0;
+        $ppn = 0;
+        $totalBook = 0;
+        $subtotalSchool = 0;
+        $ppnSchool = 0;
+        $subtotalSchool = 0;
+
+        if ($package == 'Sekolah') {
+            $subtotalSchool = $request->subtotal;
+            $ppnSchool = $request->ppn;
+            $totalSchool = $total;
+        } else {
+            $subtotal = $request->subtotal;
+            $ppn = $request->ppn;
+            $totalBook = $total;
+        }
 
         if (!$existingBooking) {
             $data = BookingMember::create([
@@ -267,16 +285,18 @@ class BookingController extends Controller
                 'category' => $category,
                 'package' => $package,
                 'school' => $school,
-                'subtotal' => $request->subtotal,
-                'ppn' => $request->ppn,
-                'total' => $total,
+                'subtotal' => $subtotal,
+                'ppn' => $ppn,
+                'total' => $totalBook,
+                'total_for_school' => $total,
                 'expired_payment' => $expired_payment,
                 'expired_biometrik' => $expired_biometrik,
                 'payment_method' => 'Transfer',
+                'status_biometrik' => $status_biometrik,
                 'app_name' => 'web',
             ]);
         } else {
-            $existingBooking->total += $total;
+            $existingBooking->total_for_school += $totalSchool;
             $existingBooking->save();
             $data = $existingBooking;
         }
@@ -287,7 +307,9 @@ class BookingController extends Controller
                 'start_date' => $datetime,
                 'student_counts' => $student,
                 'lock' => $student,
-                'subtotal' => $total,
+                'subtotal' => $subtotalSchool,
+                'ppn' => $ppnSchool,
+                'total' => $totalSchool,
             ]);
 
             Mail::to($user->email)->send(new InvoiceBookingSchoolMail($bookingSchool));

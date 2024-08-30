@@ -42,7 +42,7 @@
                             <th>Layanan</th>
                             <th>Paket</th>
                             <th>Total</th>
-                            <th>Status</th>
+                            <th>Status Pembayaran</th>
                             <th>aksi</th>
                         </tr>
                         </thead>
@@ -57,11 +57,13 @@
                                 <td>{{ $row->user->telephone }}</td>
                                 <td>{{ $row->service->name }}</td>
                                 <td>{{ $row->package }}</td>
-                                <td>Rp {{ number_format($row->total, 0, ',', '.') }}</td>
                                 <td>
-                                    @if ($row->status == 'pending')
+                                    Rp {{ $row->package == 'Sekolah' ? number_format($row->total_for_school, 0, ',', '.') : number_format($row->total, 0, ',', '.') }}
+                                </td>
+                                <td>
+                                    @if ($row->status_payment == 'pending')
                                         <span class="badge bg-secondary">Pending</span>
-                                    @elseif ($row->status == 'success')
+                                    @elseif ($row->status_payment == 'success')
                                         <span class="badge bg-success">Success</span>
                                     @else
                                         <span class="badge bg-danger">Expired</span>

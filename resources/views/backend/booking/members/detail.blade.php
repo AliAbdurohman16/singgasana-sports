@@ -48,37 +48,85 @@
                             <td>{{ $member->user->telephone }}</td>
                         </tr>
                         <tr>
-                            <td class="fw-bold">Layanan</td>
-                            <td>:</td>
-                            <td>{{ $member->service->name }}</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">Paket</td>
-                            <td>:</td>
-                            <td>{{ $member->package }}</td>
-                        </tr>
-                        <tr>
                             <td class="fw-bold">Tanggal Mulai</td>
                             <td>:</td>
                             <td>{{ date('d-m-Y H:i:s', strtotime($member->datetime)) }}</td>
                         </tr>
                         <tr>
-                            <td class="fw-bold">Expired</td>
+                            <td class="fw-bold">Layanan</td>
                             <td>:</td>
-                            <td>{{ date('d-m-Y H:i:s', strtotime($member->expired)) }}</td>
+                            <td>{{ $member->service->name }}</td>
+                        </tr>
+                        @if (!empty($member->member))
+                        <tr>
+                            <td class="fw-bold">Member</td>
+                            <td>:</td>
+                            <td>{{ $member->member }}</td>
+                        </tr>
+                        @endif
+                        @if (!empty($member->category))
+                        <tr>
+                            <td class="fw-bold">Kategori</td>
+                            <td>:</td>
+                            <td>{{ $member->category }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                            <td class="fw-bold">Paket</td>
+                            <td>:</td>
+                            <td>{{ $member->package }}</td>
+                        </tr>
+                        @if ($member->category == 'Penghuni')
+                        <tr>
+                            <td class="fw-bold">Bukti Identitas Penghuni</td>
+                            <td>:</td>
+                            <td>
+                                <img src="{{ asset('storage/booking-member/' . $member->identity) }}" width="50%" alt="identitas">
+                            </td>
+                        </tr>
+                        @endif
+                        <tr>
+                          <td class="fw-bold">Subtotal</td>
+                          <td>:</td>
+                          <td>{{ number_format($member->subtotal, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
-                            <td class="fw-bold">Total</td>
-                            <td>:</td>
-                            <td>{{ number_format($member->total, 0, ',', '.') }}</td>
+                          <td class="fw-bold">PPN {{ $setting->ppn }}%</td>
+                          <td>:</td>
+                          <td>{{ number_format($member->ppn, 0, ',', '.') }}</td>
                         </tr>
-                        @if ($member->status == 'success')
+                        <tr>
+                          <td class="fw-bold">Total</td>
+                          <td>:</td>
+                          <td>{{ number_format($member->total, 0, ',', '.') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Expired Pembayaran</td>
+                            <td>:</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($member->expired_payment)) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Status Pembayaran</td>
+                            <td>:</td>
+                            <td>{{ ucfirst($member->status_payment) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Expired Biometrik (QR dan PIN)</td>
+                            <td>:</td>
+                            <td>{{ date('d-m-Y H:i:s', strtotime($member->expired_biometrik)) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Status Biometrik (QR dan PIN)</td>
+                            <td>:</td>
+                            <td>{{ ucfirst($member->status_biometrik) }}</td>
+                        </tr>
+                        @if ($member->status_biometrik == 'success')
                             @if ($member->service_id == 1)
                                 <tr>
                                     <td class="fw-bold">QR Code</td>
                                     <td>:</td>
                                     <td>
-                                        <img src="{{ asset('singgasana-sport/public/qr_codes/' . $member->qr) }}" width="20%" alt="QR Code">
+                                        <img src="{{ asset('qr_codes/' . $member->qr) }}" width="20%" alt="QR Code">
                                     </td>
                                 </tr>
                             @else

@@ -15,15 +15,28 @@ class AutoExpiredController extends Controller
     {
         $now = Carbon::now();
 
-        // Retrieve data that has expired daily
-        $expiredDaily = BookingDaily::where('expired_biometrik', '<=', $now)
+        // Retrieve data that has expired biometrik daily
+        $expiredBiometrikDaily = BookingDaily::where('expired_biometrik', '<=', $now)
             ->where('status_biometrik', 'pending')
             ->orWhere('status_biometrik', 'success')
             ->get();
 
-        // Status update becomes expired daily
-        foreach ($expiredDaily as $daily) {
+        // Status update becomes expired biometrik daily
+        foreach ($expiredBiometrikDaily as $daily) {
             $daily->update(['status_biometrik' => 'expired']);
+        }
+
+        // Retrieve data that has expired payment daily
+        $expiredPaymentDaily = BookingDaily::where('expired_payment', '<=', $now)
+            ->where('status_payment', 'pending')
+            ->get();
+
+        // Status update becomes expired payment daily
+        foreach ($expiredPaymentDaily as $daily) {
+            $daily->update([
+                'status_biometrik' => 'expired',
+                'status_payment' => 'expired'
+            ]);
         }
 
         // Retrieve data that has expired member
@@ -35,6 +48,19 @@ class AutoExpiredController extends Controller
         // Status update becomes expired member
         foreach ($expiredMember as $member) {
             $member->update(['status_biometrik' => 'expired']);
+        }
+
+        // Retrieve data that has expired payment member
+        $expiredPaymentMember = BookingMember::where('expired_payment', '<=', $now)
+            ->where('status_payment', 'pending')
+            ->get();
+
+        // Status update becomes expired payment member
+        foreach ($expiredPaymentMember as $member) {
+            $member->update([
+                'status_biometrik' => 'expired',
+                'status_payment' => 'expired'
+            ]);
         }
 
         // Retrieve data that has expired school

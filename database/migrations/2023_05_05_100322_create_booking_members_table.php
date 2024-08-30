@@ -27,6 +27,7 @@ return new class extends Migration {
             $table->decimal('subtotal', 15, 2);
             $table->decimal('ppn', 15, 2);
             $table->decimal('total', 15, 2);
+            $table->decimal('total_for_school', 15, 2);
             $table->enum('payment_method', ['Cash', 'Transfer', 'QRIS', 'Kredit Card']);
             $table->string('pin')->nullable();
             $table->text('qr')->nullable();

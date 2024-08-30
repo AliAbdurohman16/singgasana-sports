@@ -120,34 +120,34 @@
                                     <th>Tanggal Dibooking</th>
                                     <th>Sekolah</th>
                                     <th>Total</th>
-                                    <th>Status</th>
+                                    <th>Status Pembayaran</th>
                                     <th width="20%">Aksi</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($schools as $row)
+                                @foreach ($validations as $row)
                                     <tr>
                                         <input type="hidden" class="delete_id" value="{{ $row->id }}">
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $row->booking_member_id }}</td>
-                                        <td>{{ $row->bookingMember->user->first_name }} {{ $row->bookingMember->user->last_name }}</td>
-                                        <td>{{ $row->bookingMember->service->name }}</td>
-                                        <td>{{ date('d-m-Y H:i:s', strtotime($row->bookingMember->datetime)) }}</td>
-                                        <td>{{ $row->bookingMember->school }}</td>
-                                        <td>Rp {{ number_format($row->bookingMember->total, 0, ',', '.') }}</td>
+                                        <td>{{ $row->id }}</td>
+                                        <td>{{ $row->user->first_name }} {{ $row->user->last_name }}</td>
+                                        <td>{{ $row->service->name }}</td>
+                                        <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
+                                        <td>{{ $row->school }}</td>
+                                        <td>Rp {{ number_format($row->total_for_school, 0, ',', '.') }}</td>
                                         <td>
-                                            @if ($row->bookingMember->status == 'pending')
+                                            @if ($row->status_payment == 'pending')
                                                 <span class="badge bg-secondary">Belum Bayar</span>
-                                            @elseif ($row->bookingMember->status == 'success')
+                                            @elseif ($row->status_payment == 'success')
                                                 <span class="badge bg-success">Sudah Bayar</span>
-                                            @elseif ($row->bookingMember->status == 'expired')
+                                            @elseif ($row->status_payment == 'expired')
                                                 <span class="badge bg-danger">Expired</span>
                                             @endif
                                         </td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm mb-2" onclick="window.location='schools/{{ $row->booking_member_id }}'"><i class="fas fa-eye"></i> Detail</button>
-                                            @if ($row->bookingMember->status == 'pending')
-                                                <button class="btn btn-success btn-validation btn-sm mb-2" data-id="{{ $row->booking_member_id }}"><i class="fas fa-check"></i> Validasi</button>
+                                            <button class="btn btn-primary btn-sm mb-2" onclick="window.location='schools/{{ $row->id }}'"><i class="fas fa-eye"></i> Detail</button>
+                                            @if ($row->status_payment == 'pending')
+                                                <button class="btn btn-success btn-validation btn-sm mb-2" data-id="{{ $row->id }}"><i class="fas fa-check"></i> Validasi</button>
                                             @endif
                                         </td>
                                     </tr>
