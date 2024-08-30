@@ -66,8 +66,6 @@ class BookingController extends Controller
                     ? Carbon::parse($datetime)->addHours(23)->endOfDay()->min(Carbon::parse($datetime)->endOfDay())
                     : Carbon::parse($datetime)->addHours(intval($request->duration))->endOfDay()->min(Carbon::parse($datetime)->endOfDay());
 
-        $expired_biometrik = Carbon::now()->addMinutes(20);
-
         if ($service != 1) {
             // Check if there is an existing booking with the same service and overlapping datetime-expired range
             $existingBooking = BookingDaily::whereHas('service', function ($query) use ($service, $datetime, $expired_biometrik) {
