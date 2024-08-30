@@ -28,8 +28,8 @@ return new class extends Migration {
             $table->enum('payment_method', ['Cash', 'Transfer', 'QRIS', 'Kredit Card']);
             $table->string('pin')->nullable();
             $table->text('qr')->nullable();
-            $table->enum('statu_payment', ['pending', 'success', 'expired', 'rejected'])->nullable()->default('pending');
-            $table->enum('statu_biometrik', ['pending', 'success', 'expired', 'rejected'])->nullable()->default('pending');
+            $table->enum('status_payment', ['pending', 'success', 'expired', 'rejected'])->nullable()->default('pending');
+            $table->enum('status_biometrik', ['pending', 'success', 'expired', 'rejected'])->nullable()->default('pending');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');

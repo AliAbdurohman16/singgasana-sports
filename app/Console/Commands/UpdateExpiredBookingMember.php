@@ -21,7 +21,7 @@ class UpdateExpiredBookingMember extends Command
      *
      * @var string
      */
-    protected $description = 'Update status for expired data';
+    protected $description = 'Update status payment for expired data';
 
     /**
      * Execute the console command.
@@ -34,15 +34,15 @@ class UpdateExpiredBookingMember extends Command
 
         // Retrieve data that has expired
         $expiredData = BookingMember::where('expired', '<=', $now)
-            ->where('status', '!=', 'expired')
+            ->where('status_payment', '!=', 'expired')
             ->get();
 
-        // Status update becomes expired
+        // status payment update becomes expired
         foreach ($expiredData as $data) {
-            $data->update(['status' => 'expired']);
+            $data->update(['status_payment' => 'expired']);
         }
 
-        $this->info('Expired status updated successfully.');
+        $this->info('Expired status payment updated successfully.');
     }
 
     protected function schedule(Schedule $schedule)
