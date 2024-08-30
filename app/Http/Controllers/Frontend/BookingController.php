@@ -44,7 +44,6 @@ class BookingController extends Controller
         $buku = $request->buku;
         $identity = $request->identity;
         $subtotal = $request->subtotal;
-        $ppn = $request->ppn;
         $total = $request->total;
         
         if ($category === 'Penghuni') {
@@ -61,45 +60,21 @@ class BookingController extends Controller
             return redirect('booking/daily')->with('error', 'Booking gagal! Tanggal Mulai wajib diisi!.');
         }
 
-        if ($service == 1) {
-            if ($dewasa != 0 && $anak != 0 && $pengantar != 0 && $buku != 0) {
-                $information = 'Dewasa ' . $dewasa . ' Orang, Anak ' . $anak . ' Orang, Pengantar ' . $pengantar . ' Orang, Tiket Buku (15 Lembar) ' . $buku . ' Buah';
-            } else if ($dewasa != 0 && $anak != 0 && $pengantar != 0) {
-                $information = 'Dewasa ' . $dewasa . ' Orang, Anak ' . $anak . ' Orang, Pengantar ' . $pengantar . ' Orang';
-            } else if ($dewasa != 0 && $anak != 0) {
-                $information = 'Dewasa ' . $dewasa . ' Orang, Anak ' . $anak . ' Orang';
-            } else if ($dewasa != 0) {
-                $information = 'Dewasa ' . $dewasa . ' Orang';
-            } else if ($anak != 0) {
-                $information = 'Anak ' . $anak . ' Orang';
-            } else if ($pengantar != 0) {
-                $information = 'Pengantar ' . $pengantar . ' Orang';
-            } else if ($buku != 0) {
-                $information = 'Tiket Buku (15 Lembar) ' . $buku . ' Buah';
-            }
+        $expired_payment = Carbon::now()->addMinutes(20)->toDateTimeString();
 
-            $time = $request->schedule;
-        } else if ($service == 5 || $service == 6) {
-            $information = $category;
-            $time = $request->duration;
-        } else {
-            $information = $category."(".$request->usage.")";
-            $time = $request->duration;
-        }
+        $expired_biometrik = $service == 1
+                    ? Carbon::parse($datetime)->addHours(23)->endOfDay()->min(Carbon::parse($datetime)->endOfDay())
+                    : Carbon::parse($datetime)->addHours(intval($request->duration))->endOfDay()->min(Carbon::parse($datetime)->endOfDay());
 
-        // $expired = ($service == 1)
-        //             ? Carbon::parse($datetime)->addHours(23)->endOfDay()->min(Carbon::parse($datetime)->endOfDay())
-        //             : Carbon::parse($datetime)->addHours(intval($request->duration))->endOfDay()->min(Carbon::parse($datetime)->endOfDay());
-
-        $expired = Carbon::now()->addMinutes(20);
+        $expired_biometrik = Carbon::now()->addMinutes(20);
 
         if ($service != 1) {
             // Check if there is an existing booking with the same service and overlapping datetime-expired range
-            $existingBooking = BookingDaily::whereHas('service', function ($query) use ($service, $datetime, $expired) {
+            $existingBooking = BookingDaily::whereHas('service', function ($query) use ($service, $datetime, $expired_biometrik) {
                                     $query->where('service_id', $service)
-                                            ->where(function ($query) use ($datetime, $expired) {
-                                                $query->whereBetween('datetime', [$datetime, $expired])
-                                                    ->orWhereBetween('expired', [$datetime, $expired]);
+                                            ->where(function ($query) use ($datetime, $expired_biometrik) {
+                                                $query->whereBetween('datetime', [$datetime, $expired_biometrik])
+                                                    ->orWhereBetween('expired_biometrik', [$datetime, $expired_biometrik]);
                                             });
                                     })->count();
 
@@ -111,19 +86,73 @@ class BookingController extends Controller
             }
         }
 
+        if ($request->hasFile('identity')) {
+            $imagePath = $request->file('identity')->store('public/booking-daily');
+            $identity = basename($imagePath);
+        } 
+
         $data = BookingDaily::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'telephone' => $request->telephone,
+            'identity' => $identity,
             'service_id' => $service,
+            'rent_lights' => $request->rent_lights,
+            'rent_ball' => $request->rent_ball,
+            'rent_racket' => $request->rent_racket,
+            'rent_bet' => $request->rent_bet,
             'datetime' => $datetime,
-            'information' => $information,
-            'duration' => $time,
+            'expired_payment' => $expired_payment,
+            'expired_biometrik' => $expired_biometrik,
+            'subtotal' => $request->subtotal,
+            'ppn' => $request->ppn,
             'total' => $total,
-            'expired' => $expired,
+            'payment_method' => 'Transfer',
             'app_name' => 'web',
         ]);
+
+        if ($service == 1) {
+            $categories = [
+                'Dewasa' => $dewasa,
+                'Anak' => $anak,
+                'Pengantar' => $pengantar,
+                'Tiket Buku (15 Lembar)' => $buku,
+            ];
+
+            foreach ($categories as $category => $qty) {
+                if ($qty > 0) {
+                    $priceDaily = PriceDaily::where('service_id', 1)->where('package', $category)->first();
+
+                    $now = Carbon::now();
+        
+                    if ($now->isWeekend()) {
+                        $service_price = $priceDaily->weekend;
+                    } else {
+                        $service_price = $priceDaily->weekday;
+                    }
+        
+                    $amount_price_swimming = $service_price * $qty;
+        
+                    BookingDailyDetail::create([
+                        'booking_id' => $data->id,
+                        'duration' => $request->schedule,
+                        'kategori' => $category,
+                        'service_price' => $service_price,
+                        'qty' => $qty,
+                        'amount_price_swimming' => $amount_price_swimming,
+                    ]);
+                }
+            }            
+        } else {
+            BookingDailyDetail::create([
+                'booking_id' => $data->id,
+                'duration' => $request->duration,
+                'kategori' => $category,
+                'roomy' => $request->usage,
+                'qty' => 1,
+            ]);
+        }
 
         Mail::to($request->email)->send(new InvoiceBookingDailyMail($data));
         return redirect('booking/daily')->with('message', 'Booking berhasil! Mohon periksa email yang telah Anda daftarkan pada formulir yang tadi diisi.');
@@ -155,6 +184,14 @@ class BookingController extends Controller
         $school = $request->school;
         $student = $request->student;
         $total = $request->total;
+        $category = $request->category;
+        $identity = $request->identity;
+
+        if ($category === 'Penghuni') {
+            if (empty($identity)) {
+                return redirect('booking/member')->with('error', 'Booking gagal! Silahkan isi bukti identitas terlebih dahulu.');
+            }
+        }
 
         if ($total == 0) {
             return redirect('booking/member')->with('error', 'Booking gagal! Silahkan lengkapi form isian tersebut.');
@@ -198,36 +235,44 @@ class BookingController extends Controller
 
         $duration = $packageExpiration[$package];
 
-        // if (is_numeric($duration)) {
-        //     $expired = Carbon::parse($datetime)->addMonths($duration);
-        // } elseif ($duration === "week") {
-        //     $expired = Carbon::parse($datetime)->addWeeks();
-        // } elseif (is_numeric($duration)) {
-        //     $expired = Carbon::parse($datetime)->addHours($duration);
-        // } else {
-        //     $expired = Carbon::parse($datetime)->addMonths(1);
-        // }
-
-        if ($package == 'Sekolah') {
-            $expired = '';
+        if (is_numeric($duration)) {
+            $expired_biometrik = Carbon::parse($datetime)->addMonths($duration);
+        } elseif ($duration === "week") {
+            $expired_biometrik = Carbon::parse($datetime)->addWeeks();
+        } elseif (is_numeric($duration)) {
+            $expired_biometrik = Carbon::parse($datetime)->addHours($duration);
         } else {
-            $expired = Carbon::now()->addMinutes(20);
+            $expired_biometrik = Carbon::parse($datetime)->addMonths(1);
         }
-
+        
         $existingBooking = BookingMember::where('school', $school)
                             ->whereNotNull('school')
-                            ->where('status', 'Pending')
+                            ->where('status_biometrik', 'Pending')
                             ->first();
+
+        if ($request->hasFile('identity')) {
+            $imagePath = $request->file('identity')->store('public/booking-member');
+            $identity = basename($imagePath);
+        }
+
+        $expired_payment = $package != 'Sekolah' ? Carbon::now()->addMinutes(20)->toDateTimeString() : null;
 
         if (!$existingBooking) {
             $data = BookingMember::create([
                 'user_id' => $user->id,
+                'identity' => $identity,
                 'service_id' => $request->service,
                 'datetime' => $datetime,
+                'member' => $request->member,
+                'category' => $category,
                 'package' => $package,
                 'school' => $school,
+                'subtotal' => $request->subtotal,
+                'ppn' => $request->ppn,
                 'total' => $total,
-                'expired' => $expired,
+                'expired_payment' => $expired_payment,
+                'expired_biometrik' => $expired_biometrik,
+                'payment_method' => 'Transfer',
                 'app_name' => 'web',
             ]);
         } else {

@@ -44,7 +44,7 @@
         <div class="dashed mb-2 mt-2"></div>
         <div class="foot">1. Pembayaran dapat dilakukan secara transfer</div>
         <div class="foot">2. Silahkan kirimkan bukti pembayaran ke nomor telepon 087737268080</div>
-        <div class="foot">3. Invoice ini akan berakhir pada {{ date('d-m-Y H:i:s', strtotime($data->expired)) }}</div>
+        <div class="foot">3. Invoice ini akan berakhir pada {{ date('d-m-Y H:i:s', strtotime($data->expired_payment)) }}</div>
         <div class="foot">4. Apabila terjadi pembatalan transaksi, uang yang sudah diserahkan tidak dapat dikembalikan</div>
     </div>
 </div>

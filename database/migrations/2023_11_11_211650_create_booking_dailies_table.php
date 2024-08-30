@@ -20,11 +20,11 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('telephone')->nullable();
             $table->string('identity')->nullable();
+            $table->unsignedBigInteger('service_id');
             $table->string('rent_lights')->nullable();
             $table->string('rent_ball')->nullable();
             $table->string('rent_racket')->nullable();
             $table->string('rent_bet')->nullable();
-            $table->unsignedBigInteger('service_id');
             $table->datetime('datetime');
             $table->datetime('expired_payment');
             $table->datetime('expired_biometrik');

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('duration');
             $table->string('kategori');
             $table->string('roomy')->nullable();
+            $table->decimal('service_price', 15, 2)->nullable();
             $table->string('qty');
             $table->decimal('amount_price_swimming', 15, 2)->nullable();
             $table->timestamps();

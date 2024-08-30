@@ -59,6 +59,14 @@ class BookingController extends Controller
         $school = $request->school;
         $student = $request->student;
         $total = $request->total;
+        $category = $request->category;
+        $identity = $request->identity;
+
+        if ($category === 'Penghuni') {
+            if (empty($identity)) {
+                return redirect('booking/member')->with('error', 'Booking gagal! Silahkan isi bukti identitas terlebih dahulu.');
+            }
+        }
 
         if ($total == 0) {
             return redirect('booking/create')->with('error', 'Booking gagal! Silahkan lengkapi form isian tersebut.');
@@ -102,36 +110,44 @@ class BookingController extends Controller
 
         $duration = $packageExpiration[$package];
 
-        // if (is_numeric($duration)) {
-        //     $expired = Carbon::parse($datetime)->addMonths($duration);
-        // } elseif ($duration === "week") {
-        //     $expired = Carbon::parse($datetime)->addWeeks();
-        // } elseif (is_numeric($duration)) {
-        //     $expired = Carbon::parse($datetime)->addHours($duration);
-        // } else {
-        //     $expired = Carbon::parse($datetime)->addMonths(1);
-        // }
-
-        if ($package == 'Sekolah') {
-            $expired = '';
+        if (is_numeric($duration)) {
+            $expired_biometrik = Carbon::parse($datetime)->addMonths($duration);
+        } elseif ($duration === "week") {
+            $expired_biometrik = Carbon::parse($datetime)->addWeeks();
+        } elseif (is_numeric($duration)) {
+            $expired_biometrik = Carbon::parse($datetime)->addHours($duration);
         } else {
-            $expired = Carbon::now()->addMinutes(20);
+            $expired_biometrik = Carbon::parse($datetime)->addMonths(1);
         }
 
         $existingBooking = BookingMember::where('school', $school)
                             ->whereNotNull('school')
-                            ->where('status', 'Pending')
+                            ->where('status_biometrik', 'Pending')
                             ->first();
+
+        if ($request->hasFile('identity')) {
+            $imagePath = $request->file('identity')->store('public/booking-member');
+            $identity = basename($imagePath);
+        }
+
+        $expired_payment = $package != 'Sekolah' ? Carbon::now()->addMinutes(20)->toDateTimeString() : null;
 
         if (!$existingBooking) {
             $data = BookingMember::create([
                 'user_id' => $user->id,
+                'identity' => $identity,
                 'service_id' => $request->service,
                 'datetime' => $datetime,
+                'member' => $request->member,
+                'category' => $category,
                 'package' => $package,
                 'school' => $school,
+                'subtotal' => $request->subtotal,
+                'ppn' => $request->ppn,
                 'total' => $total,
-                'expired' => $expired,
+                'expired_payment' => $expired_payment,
+                'expired_biometrik' => $expired_biometrik,
+                'payment_method' => 'Transfer',
                 'app_name' => 'web',
             ]);
         } else {

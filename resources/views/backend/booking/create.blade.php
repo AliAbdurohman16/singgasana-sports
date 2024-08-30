@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form action="{{ route('booking.storeMembers') }}" method="POST" class="form" data-parsley-validate>
+                        <form action="{{ route('booking.storeMembers') }}" method="POST" class="form" enctype="multipart/form-data" data-parsley-validate>
                             @csrf
                             <div class="row">
                                 <div class="col-12">
@@ -87,7 +87,7 @@
                                     </div>
                                     <div class="col-md-12" id="hideIdentity">
                                         <label class="mb-2">Indetitas/KTP</label>
-                                        <input type="file" name="indentity" class="form-control mb-2">
+                                        <input type="file" name="identity" class="form-control mb-2">
                                         <small>Syarat harga khusus penghuni harus upload bukti identitas/KTP *</small>
                                     </div>
                                     <div class="col-md-12">
@@ -205,12 +205,23 @@
                         hidePackage.show();
                         hideSchool.hide();
                         hideStudent.hide();
+                        hideIdentity.hide();
 
                         categorySelect.empty().append(
                             '<option value="">Pilih Kategori</option>' +
                             '<option value="Umum">Umum</option>' +
                             '<option value="Penghuni">Penghuni</option>'
                         );
+
+                        categorySelect.on('change', function() {
+                            var selectedValue = $(this).val();
+                                
+                            if (selectedValue === 'Penghuni') {
+                                hideIdentity.show();
+                            } else {
+                                hideIdentity.hide();
+                            }
+                        });
 
                         packageSelect.empty().append(
                             '<option value="">Pilih Paket</option>' +
@@ -223,6 +234,7 @@
                         hidePackage.show();
                         hideSchool.hide();
                         hideStudent.hide();
+                        hideIdentity.hide();
 
                         categorySelect.empty().append(
                             '<option value="">Pilih Kategori</option>' +
@@ -239,6 +251,7 @@
                         hidePackage.show();
                         hideSchool.hide();
                         hideStudent.hide();
+                        hideIdentity.hide();
 
                         categorySelect.empty().append(
                             '<option value="">Pilih Kategori</option>' +
@@ -257,6 +270,7 @@
                         hidePackage.show();
                         hideSchool.hide();
                         hideStudent.hide();
+                        hideIdentity.hide();
 
                         categorySelect.empty().append(
                             '<option value="">Pilih Kategori</option>' +
@@ -275,6 +289,7 @@
                         hidePackage.show();
                         hideSchool.hide();
                         hideStudent.hide();
+                        hideIdentity.hide();
 
                         categorySelect.empty().append(
                             '<option value="">Pilih Kategori</option>' +
@@ -291,6 +306,7 @@
                         hideStudent.show();
                         hideCategory.hide();
                         hidePackage.hide();
+                        hideIdentity.hide();
 
                         schoolSelect.empty().append(
                             '<option value="">Pilih Sekolah</option>'

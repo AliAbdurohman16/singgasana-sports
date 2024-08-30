@@ -26,7 +26,7 @@ class DashboardController extends Controller
                             ->join('services', 'booking_dailies.service_id', '=', 'services.id')
                             ->get(),
             'histories' => BookingMember::where('user_id', Auth::user()->id)
-                            ->where('status', 'success')
+                            ->where('status_payment', 'success')
                             ->get(),
         ];
 

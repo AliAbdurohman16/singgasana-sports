@@ -16,36 +16,37 @@ class AutoExpiredController extends Controller
         $now = Carbon::now();
 
         // Retrieve data that has expired daily
-        $expiredDaily = BookingDaily::where('expired', '<=', $now)
-            // ->where('status', '!=', 'expired')
-            ->where('status', 'pending')
+        $expiredDaily = BookingDaily::where('expired_biometrik', '<=', $now)
+            ->where('status_biometrik', 'pending')
+            ->orWhere('status_biometrik', 'success')
             ->get();
 
         // Status update becomes expired daily
         foreach ($expiredDaily as $daily) {
-            $daily->update(['status' => 'expired']);
+            $daily->update(['status_biometrik' => 'expired']);
         }
 
         // Retrieve data that has expired member
-        $expiredMember = BookingMember::where('expired', '<=', $now)
-            // ->where('status', '!=', 'expired')
-            ->where('status', 'pending')
+        $expiredMember = BookingMember::where('expired_biometrik', '<=', $now)
+            ->where('status_biometrik', 'pending')
+            ->orWhere('status_biometrik', 'success')
             ->get();
 
         // Status update becomes expired member
         foreach ($expiredMember as $member) {
-            $member->update(['status' => 'expired']);
+            $member->update(['status_biometrik' => 'expired']);
         }
 
         // Retrieve data that has expired school
-        $expiredSchool = BookingMember::where('expired', '<=', $now)
+        $expiredSchool = BookingMember::where('expired_biometrik', '<=', $now)
             ->where('package', 'Sekolah')
-            ->where('status', 'success')
+            ->where('status_biometrik', 'pending')
+            ->where('status_biometrik', 'success')
             ->get();
 
         // Status update becomes expired school
         foreach ($expiredSchool as $school) {
-            $school->update(['status' => 'expired']);
+            $school->update(['status_biometrik' => 'expired']);
         }
     }
 
@@ -54,7 +55,7 @@ class AutoExpiredController extends Controller
         // Send monthly invoice for School package at the end of the month
         if (Carbon::now()->endOfMonth()->isToday()) {
 
-            $pendingBookings = BookingMember::where('status', 'pending')
+            $pendingBookings = BookingMember::where('status_payment', 'pending')
                 ->where('package', 'Sekolah')
                 ->get();
 

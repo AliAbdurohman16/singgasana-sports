@@ -28,7 +28,7 @@
                 <div class="container">
                     <div class="row gy-4 justify-content-center">
                         <div class="col-lg-8 mb-3">
-                            <form action="{{ route('booking.store') }}" method="post" id="member" class="form-booking">
+                            <form action="{{ route('booking.store') }}" method="post" id="member" class="form-booking" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row gy-4">
                                     <h4 class="text-center">Form Booking Harian</h4>
@@ -151,7 +151,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-12" id="hideIdentity">
-                                        <input type="file" name="indentity" class="form-control mb-2">
+                                        <input type="file" name="identity" class="form-control mb-2">
                                         <small>Syarat harga khusus penghuni harus upload bukti identitas/KTP *</small>
                                     </div>
                                     <div class="col-md-12" id="hideLamp">

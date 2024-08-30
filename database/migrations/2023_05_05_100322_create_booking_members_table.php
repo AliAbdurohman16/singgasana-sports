@@ -18,9 +18,11 @@ return new class extends Migration {
             $table->string('identity')->nullable();
             $table->unsignedBigInteger('service_id');
             $table->datetime('datetime');
+            $table->string('member')->nullable();
+            $table->string('category')->nullable();
             $table->string('package');
             $table->string('school')->nullable();
-            $table->datetime('expired_payment');
+            $table->datetime('expired_payment')->nullable();
             $table->datetime('expired_biometrik');
             $table->decimal('subtotal', 15, 2);
             $table->decimal('ppn', 15, 2);

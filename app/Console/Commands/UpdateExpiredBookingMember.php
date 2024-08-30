@@ -34,12 +34,13 @@ class UpdateExpiredBookingMember extends Command
 
         // Retrieve data that has expired
         $expiredData = BookingMember::where('expired_biometrik', '<=', $now)
-            ->where('status_payment', '!=', 'expired')
+            ->where('status_biometrik', 'pending')
+            ->orWhere('status_biometrik', 'success')
             ->get();
 
         // status payment update becomes expired
         foreach ($expiredData as $data) {
-            $data->update(['status_payment' => 'expired']);
+            $data->update(['status_biometrik' => 'expired']);
         }
 
         $this->info('Expired status payment updated successfully.');
