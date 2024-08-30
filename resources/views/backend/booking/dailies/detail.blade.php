@@ -161,7 +161,7 @@
                                     <td class="fw-bold">QR Code</td>
                                     <td>:</td>
                                     <td>
-                                        <img src="{{ asset('qr_codes/' . $daily->qr) }}" width="20%" alt="QR Code">
+                                        <img src="{{ asset('singgasana-sport/public/qr_codes/' . $daily->qr) }}" width="20%" alt="QR Code">
                                     </td>
                                 </tr>
                             @else
