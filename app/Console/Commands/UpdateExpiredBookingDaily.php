@@ -33,7 +33,7 @@ class UpdateExpiredBookingDaily extends Command
         $now = Carbon::now();
 
         // Retrieve data that has expired
-        $expiredData = BookingDaily::where('expired', '<=', $now)
+        $expiredData = BookingDaily::where('expired_biometrik', '<=', $now)
             ->where('status_payment', '!=', 'expired')
             ->get();
 
