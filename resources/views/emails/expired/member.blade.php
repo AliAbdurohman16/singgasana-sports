@@ -1,6 +1,6 @@
 @component('mail::message')
 
-<h1 class="text-center mb-4">Invoice Booking Member</h1>
+<h1 class="text-center mb-4">Pembayaran Booking Member Expired</h1>
 <div class="row">
     <div class="col-12">
         <h2 class="mt-4 mb-2">Booking ID : <b>{{ $data->id }}</b></h2>
@@ -28,18 +28,10 @@
         </div>
         <div class="dashed mb-2"></div>
         <div class="row mb-2">
-            <div class="col-4"><b>Transfer :</b></div>
-            <div class="col-8 total"><b>45333 20328 (BCA)</b></div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-4"><b></b></div>
-            <div class="col-8"><b>a/n PT. Singgasana Sarana Sejahtera</b></div>
+            <div class="col-4"><b>Status :</b></div>
+            <div class="col-8 total"><b>{{ ucfirst($data->status_payment) }}</b></div>
         </div>
         <div class="dashed mb-2 mt-2"></div>
-        <div class="foot">1. Pembayaran dapat dilakukan secara transfer</div>
-        <div class="foot">2. Silahkan kirimkan bukti pembayaran ke nomor telepon 087737268080</div>
-        <div class="foot">3. Invoice ini akan berakhir pada {{ date('d-m-Y H:i:s', strtotime($data->expired_payment)) }}</div>
-        <div class="foot">4. Apabila terjadi pembatalan transaksi, uang yang sudah diserahkan tidak dapat dikembalikan</div>
     </div>
 </div>
 @endcomponent

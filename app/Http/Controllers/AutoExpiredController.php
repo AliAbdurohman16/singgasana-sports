@@ -7,6 +7,8 @@ use App\Models\BookingMember;
 use App\Models\BookingDaily;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\PaymentBookingDailyExpiredMail;
+use App\Mail\PaymentBookingMemberExpiredMail;
 use App\Mail\InvoiceMonthlyMail;
 
 class AutoExpiredController extends Controller
@@ -37,6 +39,8 @@ class AutoExpiredController extends Controller
                 'status_biometrik' => 'expired',
                 'status_payment' => 'expired'
             ]);
+
+            Mail::to($daily->email)->send(new PaymentBookingDailyExpiredMail($daily));
         }
 
         // Retrieve data that has expired member
@@ -61,13 +65,15 @@ class AutoExpiredController extends Controller
                 'status_biometrik' => 'expired',
                 'status_payment' => 'expired'
             ]);
+            
+            Mail::to($member->user->email)->send(new PaymentBookingMemberExpiredMail($member));
         }
 
         // Retrieve data that has expired school
         $expiredSchool = BookingMember::where('expired_biometrik', '<=', $now)
             ->where('package', 'Sekolah')
             ->where('status_biometrik', 'pending')
-            ->where('status_biometrik', 'success')
+            ->orWhere('status_biometrik', 'success')
             ->get();
 
         // Status update becomes expired school
