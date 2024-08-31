@@ -93,7 +93,7 @@ class BookingController extends Controller
         $expired_payment = Carbon::now()->addMinutes(20)->toDateTimeString();
 
         $expired_biometrik = $service == 1
-                            ? Carbon::parse($datetime)->addHours(24)->endOfDay()
+                            ? Carbon::parse($datetime)->setTime(21, 0, 0)
                             : Carbon::parse($datetime)->addHours(intval($request->duration))->min(Carbon::parse($datetime)->endOfDay());
 
         if ($service != 1) {
@@ -481,9 +481,63 @@ class BookingController extends Controller
 
     public function schedule()
     {
-        $schedules = BookingDaily::select('booking_dailies.*', 'services.name as service_name')
-                        ->join('services', 'booking_dailies.service_id', '=', 'services.id')
-                        ->get();
+        // Ambil jadwal harian
+        $dailySchedules = BookingDaily::select(
+                                'booking_dailies.id', 
+                                'booking_dailies.service_id as service_id',
+                                'services.name as service_name', 
+                                'booking_dailies.datetime as start', 
+                                'booking_dailies.expired_biometrik as end'
+                            )
+                            ->join('services', 'booking_dailies.service_id', '=', 'services.id')
+                            ->where('booking_dailies.status_biometrik', 'success')
+                            ->orderBy('start');
+
+        // Ambil jadwal member
+        $memberSchedules = BookingMember::select(
+                                'booking_members.id', 
+                                'booking_members.service_id as service_id',
+                                'services.name as service_name', 
+                                'booking_members.play_start as start', 
+                                'booking_members.play_end as end'
+                            )
+                            ->join('services', 'booking_members.service_id', '=', 'services.id')
+                            ->where('booking_members.status_biometrik', 'success')
+                            ->orderBy('start');
+
+        // Gabungkan jadwal
+        $schedules = $dailySchedules
+                        ->union($memberSchedules)
+                        ->get()
+                        ->map(function ($schedule) {
+                            $startDate = Carbon::parse($schedule->start);
+                            $endDate = $schedule->end ? Carbon::parse($schedule->end) : null;
+                            $dayOfWeek = $startDate->dayOfWeek;
+
+                            // Atur ulang start berdasarkan hari
+                            if ($schedule->service_id == 1) {
+                                if ($dayOfWeek == Carbon::MONDAY) {
+                                    $schedule->start = $startDate->setTime(14, 0, 0)->toDateTimeString();
+                                }
+                            }
+
+                            // Atur ulang end jika null atau tidak valid
+                            if ($schedule->service_id == 1) {
+                                if ($endDate === null || $endDate->lt($startDate)) {
+                                    $schedule->end = $startDate->copy()->setTime(21, 0, 0)->toDateTimeString();
+                                } else {
+                                    $schedule->end = $endDate->toDateTimeString();
+                                }
+                            } else {
+                                if ($endDate === null || $endDate->lt($startDate)) {
+                                    $schedule->end = $startDate->copy()->setTime(22, 0, 0)->toDateTimeString();
+                                } else {
+                                    $schedule->end = $endDate->toDateTimeString();
+                                }
+                            }
+
+                            return $schedule;
+                        });
 
         return view('frontend.schedule.index', compact('schedules'));
     }

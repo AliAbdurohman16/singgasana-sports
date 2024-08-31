@@ -168,8 +168,8 @@
             events: schedules.map(function(schedule) {
                 return {
                     title: schedule.service_name,
-                    start: schedule.datetime,
-                    end: schedule.expired,
+                    start: schedule.start,
+                    end: schedule.end,
                     eventColor: 'blue',
                 };
             }),
