@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('booking_dailies', function (Blueprint $table) {
-            $table->enum('app_name', ['web', 'mobile'])->after('statu_biometrik')->nullable();
+            $table->enum('app_name', ['web', 'mobile'])->after('status_biometrik')->nullable();
         });
     }
 

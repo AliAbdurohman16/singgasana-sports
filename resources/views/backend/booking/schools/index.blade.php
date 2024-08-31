@@ -65,7 +65,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $row->booking_member_id }}</td>
                                         <td>{{ $row->bookingMember->service->name }}</td>
-                                        <td>{{ date('d-m-Y H:i:s', strtotime($row->start_date)) }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($row->start_date)) }}</td>
                                         <td>{{ $row->bookingMember->school }}</td>
                                         <td>{{ $row->student_counts }}</td>
                                         <td>

@@ -43,13 +43,13 @@
                             <th width="5%">No</th>
                             <th>Kode Booking</th>
                             <th>Nama Lengkap</th>
-                            <th>Tanggal Mulai</th>
+                            <th>Tanggal</th>
+                            <th>Waktu Mulai</th>
+                            <th>Waktu Selesai</th>
                             <th>Layanan</th>
                             <th>Member</th>
                             <th>Kategori</th>
                             <th>Paket</th>
-                            {{-- <th>Subtotal</th>
-                            <th>PPN</th> --}}
                             <th>Total</th>
                             <th>Status</th>
                             <th width="20%">Aksi</th>
@@ -62,13 +62,13 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $row->id }}</td>
                                 <td>{{ $row->user->first_name }} {{ $row->user->last_name }}</td>
-                                <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
+                                <td>{{ date('d-m-Y', strtotime($row->date)) }}</td>
+                                <td>{{ date('H:s', strtotime($row->play_start)) }}</td>
+                                <td>{{ date('H:s', strtotime($row->play_end)) }}</td>
                                 <td>{{ $row->service->name }}</td>
                                 <td>{{ $row->member }}</td>
                                 <td>{{ $row->category }}</td>
                                 <td>{{ $row->package }}</td>
-                                {{-- <td>Rp {{ number_format($row->subtotal, 0, ',', '.') }}</td>
-                                <td>Rp {{ number_format($row->ppn, 0, ',', '.') }}</td> --}}
                                 <td>Rp {{ number_format($row->total, 0, ',', '.') }}</td>
                                 <td>
                                     @if ($row->status_payment == 'pending')

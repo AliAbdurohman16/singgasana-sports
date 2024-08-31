@@ -17,10 +17,13 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id');
             $table->string('identity')->nullable();
             $table->unsignedBigInteger('service_id');
-            $table->datetime('datetime');
+            $table->date('date');
+            $table->time('play_start')->nullable();
+            $table->time('play_end')->nullable();
             $table->string('member')->nullable();
             $table->string('category')->nullable();
             $table->string('package');
+            $table->string('play_duration')->nullable();
             $table->string('school')->nullable();
             $table->datetime('expired_payment')->nullable();
             $table->datetime('expired_biometrik');

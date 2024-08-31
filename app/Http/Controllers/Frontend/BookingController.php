@@ -45,6 +45,36 @@ class BookingController extends Controller
         $identity = $request->identity;
         $subtotal = $request->subtotal;
         $total = $request->total;
+
+        // Define operational hours
+        $dayOfWeek = Carbon::parse($datetime)->dayOfWeek;
+        $operationalHours = [
+            1 => ['start' => '14:00', 'end' => '21:00'], // Monday
+            2 => ['start' => '06:00', 'end' => '21:00'], // Tuesday
+            3 => ['start' => '06:00', 'end' => '21:00'], // Wednesday
+            4 => ['start' => '06:00', 'end' => '21:00'], // Thursday
+            5 => ['start' => '06:00', 'end' => '21:00'], // Friday
+            6 => ['start' => '06:00', 'end' => '21:00'], // Saturday
+            0 => ['start' => '06:00', 'end' => '21:00'], // Sunday
+        ];
+
+        if ($service != 1) {
+            // Adjust operational hours for service != 1
+            $operationalHours = array_fill(0, 7, ['start' => '06:00', 'end' => '22:00']);
+        }
+
+        // Get operational hours for the current day
+        $start = $operationalHours[$dayOfWeek]['start'];
+        $end = $operationalHours[$dayOfWeek]['end'];
+        
+        // Create Carbon instances for start and end of the operational hours
+        $startOfDay = Carbon::parse($datetime)->setTimeFromTimeString($start);
+        $endOfDay = Carbon::parse($datetime)->setTimeFromTimeString($end);
+        
+        // Check if the datetime is within operational hours
+        if (!Carbon::parse($datetime)->between($startOfDay, $endOfDay)) {
+            return redirect('booking/daily')->with('error', 'Booking gagal! Waktu yang dipilih berada di luar jam operasional.');
+        }
         
         if ($category === 'Penghuni') {
             if (empty($identity)) {
@@ -63,23 +93,51 @@ class BookingController extends Controller
         $expired_payment = Carbon::now()->addMinutes(20)->toDateTimeString();
 
         $expired_biometrik = $service == 1
-                    ? Carbon::parse($datetime)->addHours(23)->endOfDay()->min(Carbon::parse($datetime)->endOfDay())
-                    : Carbon::parse($datetime)->addHours(intval($request->duration))->endOfDay()->min(Carbon::parse($datetime)->endOfDay());
+                            ? Carbon::parse($datetime)->addHours(24)->endOfDay()
+                            : Carbon::parse($datetime)->addHours(intval($request->duration))->min(Carbon::parse($datetime)->endOfDay());
 
         if ($service != 1) {
-            // Check if there is an existing booking with the same service and overlapping datetime-expired range
-            $existingBooking = BookingDaily::whereHas('service', function ($query) use ($service, $datetime, $expired_biometrik) {
+            $existingDailyBooking = BookingDaily::whereHas('service', function ($query) use ($service, $datetime, $expired_biometrik) {
                                     $query->where('service_id', $service)
                                             ->where(function ($query) use ($datetime, $expired_biometrik) {
                                                 $query->whereBetween('datetime', [$datetime, $expired_biometrik])
                                                     ->orWhereBetween('expired_biometrik', [$datetime, $expired_biometrik]);
                                             });
-                                    })->count();
+                                    })
+                                    ->where(function ($query) {
+                                        $query->where('status_payment', '!=', 'expired')
+                                              ->where('status_payment', '!=', 'rejected')
+                                              ->where('status_biometrik', '!=', 'expired')
+                                              ->where('status_biometrik', '!=', 'rejected');
+                                    })
+                                    ->count();
+            
+            $carbonDateTime = Carbon::parse($datetime);
+            $play_start = $carbonDateTime->toTimeString();
+            $play_end = $carbonDateTime->copy()->addMinutes(10)->toTimeString();
+
+            $existingMemberBooking = BookingMember::where('service_id', $service)
+                                    ->where(function ($query) use ($play_start, $play_end) {
+                                        $query->whereBetween('play_start', [$play_start, $play_end])
+                                            ->orWhereBetween('play_end', [$play_start, $play_end])
+                                            ->orWhere(function ($query) use ($play_start, $play_end) {
+                                                $query->where('play_start', '<=', $play_start)
+                                                        ->where('play_end', '>=', $play_end);
+                                            });
+                                    })
+                                    ->where(function ($query) {
+                                        $query->where('status_payment', '!=', 'expired')
+                                            ->where('status_payment', '!=', 'rejected')
+                                            ->where('status_biometrik', '!=', 'expired')
+                                            ->where('status_biometrik', '!=', 'rejected');
+                                    })
+                                    ->count();                              
+
+            $totalExistingBookings = $existingDailyBooking + $existingMemberBooking;
 
             $serviceData = Service::find($service);
 
-            if ($existingBooking >= $serviceData->field_counts) {
-                // If there are already bookings, return a failure message
+            if ($totalExistingBookings >= $serviceData->field_counts) {
                 return redirect('booking/daily')->with('error', 'Maaf, sudah mencapai batas maksimal booking untuk jam tersebut.');
             }
         }
@@ -184,6 +242,37 @@ class BookingController extends Controller
         $total = $request->total;
         $category = $request->category;
         $identity = $request->identity;
+        $service = $request->service;
+
+        // Define operational hours
+        $dayOfWeek = Carbon::parse($datetime)->dayOfWeek;
+        $operationalHours = [
+            1 => ['start' => '14:00', 'end' => '21:00'], // Monday
+            2 => ['start' => '06:00', 'end' => '21:00'], // Tuesday
+            3 => ['start' => '06:00', 'end' => '21:00'], // Wednesday
+            4 => ['start' => '06:00', 'end' => '21:00'], // Thursday
+            5 => ['start' => '06:00', 'end' => '21:00'], // Friday
+            6 => ['start' => '06:00', 'end' => '21:00'], // Saturday
+            0 => ['start' => '06:00', 'end' => '21:00'], // Sunday
+        ];
+
+        if ($service != 1) {
+            // Adjust operational hours for service != 1
+            $operationalHours = array_fill(0, 7, ['start' => '06:00', 'end' => '22:00']);
+        }
+
+        // Get operational hours for the current day
+        $start = $operationalHours[$dayOfWeek]['start'];
+        $end = $operationalHours[$dayOfWeek]['end'];
+        
+        // Create Carbon instances for start and end of the operational hours
+        $startOfDay = Carbon::parse($datetime)->setTimeFromTimeString($start);
+        $endOfDay = Carbon::parse($datetime)->setTimeFromTimeString($end);
+        
+        // Check if the datetime is within operational hours
+        if (!Carbon::parse($datetime)->between($startOfDay, $endOfDay)) {
+            return redirect('booking/member')->with('error', 'Booking gagal! Waktu yang dipilih berada di luar jam operasional.');
+        }
 
         if ($category === 'Penghuni') {
             if (empty($identity)) {
@@ -242,6 +331,30 @@ class BookingController extends Controller
         } else {
             $expired_biometrik = Carbon::parse($datetime)->addMonths(1);
         }
+
+        $packageTime = [
+            "Per 2 Jam 1x Seminggu (PAGI)" => 2,
+            "Per 3 Jam 1x Seminggu (PAGI)" => 3,
+            "Per 2 Jam 1x Seminggu (SIANG)" => 2,
+            "Per 4 Jam 1x Seminggu (SIANG)" => 4,
+            "Per 3 Jam 1x Seminggu (SIANG)" => 3,
+            "Per 1 Jam 1x Seminggu" => 1,
+            "Per 2 Jam 1x Seminggu" => 2,
+            "Per 3 Jam 1x Seminggu" => 3,
+            "Paket Suka - Suka 10 Jam" => 10,
+            "Paket Suka - Suka 12 Jam" => 12,
+            "Paket Suka - Suka 15 Jam" => 15,
+        ];
+
+        $carbonDateTime = Carbon::parse($datetime);
+        $date = $carbonDateTime->toDateString();
+        $play_start = $carbonDateTime->toTimeString();
+
+        if (array_key_exists($package, $packageTime)) {
+            $play_end = $carbonDateTime->addHours($packageTime[$package])->format('H:i:s');
+        } else {
+            $play_end = null;
+        }
         
         $existingBooking = BookingMember::where('school', $school)
                             ->whereNotNull('school')
@@ -273,12 +386,60 @@ class BookingController extends Controller
             $totalBook = $total;
         }
 
+        if ($service != 1) {
+            $existingDailyBooking = BookingDaily::whereHas('service', function ($query) use ($service, $datetime, $expired_biometrik) {
+                                    $query->where('service_id', $service)
+                                            ->where(function ($query) use ($datetime, $expired_biometrik) {
+                                                $query->whereBetween('datetime', [$datetime, $expired_biometrik])
+                                                    ->orWhereBetween('expired_biometrik', [$datetime, $expired_biometrik]);
+                                            });
+                                    })
+                                    ->where(function ($query) {
+                                        $query->where('status_payment', '!=', 'expired')
+                                              ->where('status_payment', '!=', 'rejected')
+                                              ->where('status_biometrik', '!=', 'expired')
+                                              ->where('status_biometrik', '!=', 'rejected');
+                                    })
+                                    ->count();
+            
+            $carbonDateTime = Carbon::parse($datetime);
+            $playStart = $carbonDateTime->toTimeString();
+            $playEnd = $carbonDateTime->copy()->addMinutes(10)->toTimeString();
+
+            $existingMemberBooking = BookingMember::where('service_id', $service)
+                                    ->where(function ($query) use ($playStart, $playEnd) {
+                                        $query->whereBetween('play_start', [$playStart, $playEnd])
+                                            ->orWhereBetween('play_end', [$playStart, $playEnd])
+                                            ->orWhere(function ($query) use ($playStart, $playEnd) {
+                                                $query->where('play_start', '<=', $playStart)
+                                                        ->where('play_end', '>=', $playEnd);
+                                            });
+                                    })
+                                    ->where(function ($query) {
+                                        $query->where('status_payment', '!=', 'expired')
+                                            ->where('status_payment', '!=', 'rejected')
+                                            ->where('status_biometrik', '!=', 'expired')
+                                            ->where('status_biometrik', '!=', 'rejected');
+                                    })
+                                    ->count();                              
+
+            $totalExistingBookings = $existingDailyBooking + $existingMemberBooking;
+
+            $serviceData = Service::find($service);
+
+            if ($totalExistingBookings >= $serviceData->field_counts) {
+                return redirect('booking/member')->with('error', 'Maaf, sudah mencapai batas maksimal booking untuk jam tersebut.');
+            }
+        }
+
         if (!$existingBooking) {
             $data = BookingMember::create([
                 'user_id' => $user->id,
                 'identity' => $identity,
-                'service_id' => $request->service,
-                'datetime' => $datetime,
+                'service_id' => $service,
+                'date' => $date,
+                'play_start' => $play_start,
+                'play_end' => $play_end,
                 'member' => $request->member,
                 'category' => $category,
                 'package' => $package,
