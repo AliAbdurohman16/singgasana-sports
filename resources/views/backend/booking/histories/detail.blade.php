@@ -120,10 +120,22 @@
                                     <td>{{ $member->user->telephone }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold">Tanggal Mulai</td>
+                                    <td class="fw-bold">Tanggal</td>
                                     <td>:</td>
-                                    <td>{{ date('d-m-Y H:i:s', strtotime($member->datetime)) }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($member->date)) }}</td>
                                 </tr>
+                                <tr>
+                                    <td class="fw-bold">Waktu Mulai</td>
+                                    <td>:</td>
+                                    <td>{{ date('H:i:s', strtotime($member->play_start)) }}</td>
+                                </tr>
+                                @if (!empty($member->play_end))
+                                <tr>
+                                    <td class="fw-bold">Waktu Selesai</td>
+                                    <td>:</td>
+                                    <td>{{ date('H:i:s', strtotime($member->play_end)) }}</td>
+                                </tr>
+                                @endif
                                 <tr>
                                     <td class="fw-bold">Layanan</td>
                                     <td>:</td>

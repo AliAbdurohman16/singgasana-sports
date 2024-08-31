@@ -59,7 +59,7 @@
                                 <td>{{ $row->user->first_name }} {{ $row->user->last_name }}</td>
                                 <td>{{ date('d-m-Y', strtotime($row->date)) }}</td>
                                 <td>{{ date('H:s', strtotime($row->play_start)) }}</td>
-                                <td>{{ date('H:s', strtotime($row->play_end)) }}</td>
+                                <td>{{ empty($row->play_end) ? '' : date('H:i', strtotime($row->play_end)) }}</td>
                                 <td>{{ $row->service->name }}</td>
                                 <td>{{ $row->member }}</td>
                                 <td>{{ $row->category }}</td>
