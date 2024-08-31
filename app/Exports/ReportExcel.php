@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
+use App\Helpers\StringHelper;
 use Carbon\Carbon;
 
 class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMapping
@@ -17,7 +17,7 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
     protected $startDate;
     protected $endDate;
     protected $loginUser;
-    protected $data = true;
+    protected $data;
     protected $totalSum = 0;
 
     public function __construct($startDate, $endDate, $loginUser)
@@ -30,23 +30,25 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
 
     public function collection()
     {
-        $dailyBookings = BookingDaily::where('status', 'success')
+        $dailyBookings = BookingDaily::with('bookingDailyDetails')
+                            ->where('status_payment', 'success')
                             ->when($this->startDate, function ($query) {
-                                $query->whereDate('datetime', '>=', $this->startDate);
+                                $query->where('created_at', '>=', $this->startDate);
                             })
                             ->when($this->endDate, function ($query) {
-                                $query->whereDate('datetime', '<=', $this->endDate);
+                                $query->where('created_at', '<=', $this->endDate);
                             })
                             ->get();
 
         $this->data = $this->data->merge($dailyBookings);
 
-        $memberBookings = BookingMember::where('status', 'success')
+        $memberBookings = BookingMember::with('booking_schools')
+                            ->where('status_payment', 'success')
                             ->when($this->startDate, function ($query) {
-                                $query->whereDate('datetime', '>=', $this->startDate);
+                                $query->where('created_at', '>=', $this->startDate);
                             })
                             ->when($this->endDate, function ($query) {
-                                $query->whereDate('datetime', '<=', $this->endDate);
+                                $query->where('created_at', '<=', $this->endDate);
                             })
                             ->get();
 
@@ -62,7 +64,7 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
             ['Nama Kasir : ' . $this->loginUser],
             ['Tanggal Export : ' . Carbon::now()->locale('id')->format('d-m-Y H:i:s')],
             [],
-            ['NO', 'Cabang Olahraga', 'Tanggal Booking', 'Tipe Booking', 'Pesanan', 'Pembayaran', 'Total']
+            ['NO', 'Kode Booking', 'Cabang Olahraga', 'Tipe Booking', 'Paket', 'Member', 'Qty', 'Pembayaran', 'Subtotal', 'ppn', 'Total']
         ];
     }
 
@@ -72,24 +74,59 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
 
         $this->totalSum += $row->total;
 
-        return [
-            $no++,
-            $row->service->name ?? '',
-            date('d-m-Y H:i:s', strtotime($row->datetime)),
-            isset($row->duration) ? $row->duration : $row->package ?? '',
-            isset($row->information) ? $row->information : $row->school ?? '',
-            'Transfer BCA',
-            StringHelper::formatNumber($row->total),
-        ];
+        if ($row instanceof BookingDaily) {
+            $data = [];
+
+            foreach ($row->bookingDailyDetails as $detail) {
+                $booking_id = $detail->booking_daily_id ?? '';
+                $kategori = $detail->kategori ?? '';
+                $qty = $detail->qty ?? 1;
+                $roomy = $detail->roomy ?? '';
+
+                $data[] = [
+                    $no++,
+                    $booking_id,
+                    $row->service->name ?? '',
+                    $kategori,
+                    $roomy,
+                    $row->member ?? '',
+                    $qty,
+                    $row->payment_method,
+                    StringHelper::formatCurrency($row->subtotal),
+                    StringHelper::formatCurrency($row->ppn),
+                    StringHelper::formatCurrency($row->total),
+                ];
+            }
+
+            return $data;
+        } else {
+            $total = $row->total != 0.00 ? $row->total : $row->total_for_school;
+
+            return [
+                [
+                    $no++,
+                    $row->id ?? '',
+                    $row->service->name ?? '',
+                    $row->category ?? '',
+                    $row->package ?? '',
+                    $row->member ?? '',
+                    $row->qty ?? 1,
+                    $row->payment_method,
+                    StringHelper::formatCurrency($row->subtotal),
+                    StringHelper::formatCurrency($row->ppn),
+                    StringHelper::formatCurrency($total),
+                ]
+            ];
+        }
     }
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->mergeCells('A1:G1');
-        $sheet->mergeCells('A2:G2');
-        $sheet->mergeCells('A3:G3');
+        $sheet->mergeCells('A1:K1');
+        $sheet->mergeCells('A2:K2');
+        $sheet->mergeCells('A3:K3');
 
-        $sheet->getStyle('A1:G1')->applyFromArray([
+        $sheet->getStyle('A1:K1')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 16,
@@ -100,7 +137,7 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
             ],
         ]);
 
-        $sheet->getStyle('A2:G2')->applyFromArray([
+        $sheet->getStyle('A2:K2')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 12,
@@ -111,7 +148,7 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
             ],
         ]);
 
-        $sheet->getStyle('A3:G3')->applyFromArray([
+        $sheet->getStyle('A3:K3')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 12,
@@ -122,7 +159,7 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
             ],
         ]);
 
-        $sheet->getStyle('A5:G5')->applyFromArray([
+        $sheet->getStyle('A5:K5')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 12,
@@ -148,15 +185,19 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
         $sheet->getColumnDimension('C')->setWidth(20);
         $sheet->getColumnDimension('D')->setWidth(25);
         $sheet->getColumnDimension('E')->setWidth(30);
-        $sheet->getColumnDimension('F')->setWidth(15);
-        $sheet->getColumnDimension('G')->setWidth(15);
+        $sheet->getColumnDimension('F')->setWidth(20);
+        $sheet->getColumnDimension('G')->setWidth(10);
+        $sheet->getColumnDimension('H')->setWidth(20);
+        $sheet->getColumnDimension('I')->setWidth(20);
+        $sheet->getColumnDimension('J')->setWidth(20);
+        $sheet->getColumnDimension('K')->setWidth(20);
 
         $highestRow = $sheet->getHighestRow();
 
-        $sheet->setCellValue('F' . ($highestRow + 1), 'Total Keseluruhan');
-        $sheet->setCellValue('G' . ($highestRow + 1), StringHelper::formatNumber($this->totalSum));
+        $sheet->setCellValue('J' . ($highestRow + 1), 'Total Keseluruhan');
+        $sheet->setCellValue('K' . ($highestRow + 1), StringHelper::formatCurrency($this->totalSum));
 
-        $sheet->getStyle('F' . ($highestRow + 1) . ':G' . ($highestRow + 1))->applyFromArray([
+        $sheet->getStyle('J' . ($highestRow + 1) . ':K' . ($highestRow + 1))->applyFromArray([
             'font' => [
                 'bold' => true,
             ],
@@ -175,7 +216,7 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
             ],
         ]);
 
-        $sheet->getStyle('A6:G' . $highestRow)->applyFromArray([
+        $sheet->getStyle('A6:K' . $highestRow)->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
