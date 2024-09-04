@@ -183,17 +183,6 @@
                                                 </div>
                                                 @enderror
                                         </div>
-                                        {{-- <div class="col-md-4">
-                                            <label>Jam Buka</label>
-                                        </div>
-                                        <div class="col-md-8 form-group">
-                                            <textarea id="open_hours" class="form-control @error('open_hours') is-invalid @enderror" name="open_hours">{{ $setting->open_hours }}</textarea>
-                                            @error('open_hours')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div> --}}
                                         <div class="col-sm-12 d-flex justify-content-center">
                                             <button type="submit" class="btn btn-block btn-primary me-1 mb-1">Simpan</button>
                                         </div>

@@ -30,7 +30,6 @@ class SettingController extends Controller
             'telephone2' => 'max:15',
             'email' => 'required|email',
             'address1' => 'required',
-            'open_hours' => 'required'
         ]);
 
         $setting = Setting::find(1);
@@ -64,7 +63,6 @@ class SettingController extends Controller
             'email' => $request->email,
             'address1' => $request->address1,
             'address2' => $request->address2,
-            'open_hours' => $request->open_hours,
         ]);
 
         return redirect()->back()->with('message', 'Data berhasil diubah!');

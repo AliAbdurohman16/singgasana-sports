@@ -29,7 +29,6 @@ return new class extends Migration
             $table->string('email');
             $table->string('address1');
             $table->string('address2')->nullable();
-            $table->text('open_hours');
             $table->timestamps();
         });
     }
