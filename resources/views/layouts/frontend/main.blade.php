@@ -133,6 +133,12 @@
                         <a href="http://instagram.com/singgasanasportsandrecreation" class="instagram"><i
                                 class="bi bi-instagram"></i></a>
                     </div>
+                    <h4 class="mt-5">Jam Operasional</h4>
+                    <p class="fw-bold">Swimming Pool</p>
+                    <p>Senin : 14.00 - 21.00</p>
+                    <p class="mb-2">Selasa - Minggu : 06.00 - 21.00</p>
+                    <p class="fw-bold">Lapangan</p>
+                    <p>Senin - Minggu : 06.00 - 22.00</p>
                 </div>
 
                 <div class="col-lg-2 col-6 footer-links">

@@ -33,7 +33,7 @@
                                 <div class="row gy-4">
                                     <h4 class="text-center">Form Booking Harian</h4>
                                     <div class="alert alert-warning" role="alert">
-                                        Perhatian! Jam Pemakaian 06.00 - 16.00 (Pagi) & 16.00 - 23.00 (Malam). Silahkan
+                                        Perhatian! Jam Pemakaian hari Senin 14.00 - 21.00 (Swimming Pool), Selasa - Minggu 06.00 - 21.00 (Swimming Pool), dan Senin - Minggu 06.00 - 22.00 (Lapangan). Silahkan
                                         <b>Cek Jadwal</b> terlebih dahulu agar tidak terjadi bentrok jadwal.
                                         Klik <a href="{{ route('booking.schedule') }}" class="fw-bold"
                                             style="color:#523e02">Cek Jadwal</a> disini atau dimenu navigasi.

@@ -32,7 +32,7 @@
 
                     <div class="row gy-4">
                         <div class="col-md-3">
-                            <div class="info-box">
+                            <div class="info-box" style="height: 300px">
                                 <i class="bi bi-geo-alt"></i>
                                 <h3>Alamat Kami</h3>
                                 <p>{{ $setting->address1 }}</p>
@@ -40,24 +40,28 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="info-box">
+                            <div class="info-box" style="height: 300px">
                                 <i class="bi bi-envelope"></i>
                                 <h3>Email</h3>
                                 <p>{{ $setting->email }}</p>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="info-box">
+                            <div class="info-box" style="height: 300px">
                                 <i class="bi bi-telephone"></i>
                                 <h3>Hubungi Kami</h3>
                                 <p>Telepon 1 : {{ $setting->telephone1 }} <br>Telepon 2 : {{ $setting->telephone2 }}</p>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="info-box">
+                            <div class="info-box" style="height: 300px">
                                 <i class="bi bi-clock"></i>
-                                <h3>Jam buka</h3>
-                                <p>{{ $setting->open_hours }}</p>
+                                <h3>Jam Operasional</h3>
+                                <p class="fw-bold">Swimming Pool</p>
+                                <p>Senin : 14.00 - 21.00</p>
+                                <p class="mb-2">Selasa - Minggu : 06.00 - 21.00</p>
+                                <p class="fw-bold">Lapangan</p>
+                                <p>Senin - Minggu : 06.00 - 22.00</p>
                             </div>
                         </div>
                     </div>
