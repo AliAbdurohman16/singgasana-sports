@@ -183,7 +183,7 @@
                                                 </div>
                                                 @enderror
                                         </div>
-                                        <div class="col-md-4">
+                                        {{-- <div class="col-md-4">
                                             <label>Jam Buka</label>
                                         </div>
                                         <div class="col-md-8 form-group">
@@ -193,7 +193,7 @@
                                                     {{ $message }}
                                                 </div>
                                             @enderror
-                                        </div>
+                                        </div> --}}
                                         <div class="col-sm-12 d-flex justify-content-center">
                                             <button type="submit" class="btn btn-block btn-primary me-1 mb-1">Simpan</button>
                                         </div>
