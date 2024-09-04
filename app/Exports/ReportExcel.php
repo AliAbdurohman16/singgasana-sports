@@ -71,20 +71,22 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
     public function map($row): array
     {
         static $no = 1;
-
-        $this->totalSum += $row->total;
+        static $previousBookingId = null;
+        $total = 0;
 
         if ($row instanceof BookingDaily) {
             $data = [];
+            $rowCount = count($row->bookingDailyDetails);
+            $firstRow = true;
 
-            foreach ($row->bookingDailyDetails as $detail) {
-                $booking_id = $detail->booking_daily_id ?? '';
+            foreach ($row->bookingDailyDetails as $index => $detail) {
+                $booking_id = $firstRow ? $detail->booking_daily_id : '';
                 $kategori = $detail->kategori ?? '';
                 $qty = $detail->qty ?? 1;
                 $roomy = $detail->roomy ?? '';
 
                 $data[] = [
-                    $no++,
+                    $firstRow ? $no++ : '',
                     $booking_id,
                     $row->service->name ?? '',
                     $kategori,
@@ -92,15 +94,22 @@ class ReportExcel implements FromCollection, WithHeadings, WithStyles, WithMappi
                     $row->member ?? '',
                     $qty,
                     $row->payment_method,
-                    StringHelper::formatCurrency($row->subtotal),
-                    StringHelper::formatCurrency($row->ppn),
-                    StringHelper::formatCurrency($row->total),
+                    $firstRow ? StringHelper::formatCurrency($row->subtotal) : '',
+                    $firstRow ? StringHelper::formatCurrency($row->ppn) : '',
+                    $firstRow ? StringHelper::formatCurrency($row->total) : '',
                 ];
+
+                $firstRow = false;
             }
+
+            $total = $row->total;
+            $this->totalSum += $total;
 
             return $data;
         } else {
             $total = $row->total != 0.00 ? $row->total : $row->total_for_school;
+
+            $this->totalSum += $total;
 
             return [
                 [
