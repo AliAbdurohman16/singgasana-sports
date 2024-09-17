@@ -31,7 +31,7 @@ return new class extends Migration
             $table->decimal('subtotal', 15, 2);
             $table->decimal('ppn', 15, 2);
             $table->decimal('total', 15, 2);
-            $table->enum('payment_method', ['Cash', 'Transfer', 'QRIS', 'Kredit Card']);
+            $table->enum('payment_method', ['Cash','Debit','Qris','Transfer','Credit Card']);
             $table->string('pin')->nullable();
             $table->text('qr')->nullable();
             $table->enum('status_payment', ['pending', 'success', 'expired', 'rejected'])->nullable()->default('pending');
