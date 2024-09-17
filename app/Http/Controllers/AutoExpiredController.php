@@ -18,10 +18,7 @@ class AutoExpiredController extends Controller
         $now = Carbon::now();
 
         // Retrieve data that has expired biometrik daily
-        $expiredBiometrikDaily = BookingDaily::where('expired_biometrik', '<=', $now)
-            ->where('status_biometrik', 'pending')
-            ->orWhere('status_biometrik', 'success')
-            ->get();
+        $expiredBiometrikDaily = BookingDaily::where('expired_biometrik', '<=', $now)->get();
 
         // Status update becomes expired biometrik daily
         foreach ($expiredBiometrikDaily as $daily) {
@@ -44,10 +41,7 @@ class AutoExpiredController extends Controller
         }
 
         // Retrieve data that has expired member
-        $expiredMember = BookingMember::where('expired_biometrik', '<=', $now)
-            ->where('status_biometrik', 'pending')
-            ->orWhere('status_biometrik', 'success')
-            ->get();
+        $expiredMember = BookingMember::where('expired_biometrik', '<=', $now)->get();
 
         // Status update becomes expired member
         foreach ($expiredMember as $member) {
@@ -70,11 +64,7 @@ class AutoExpiredController extends Controller
         }
 
         // Retrieve data that has expired school
-        $expiredSchool = BookingMember::where('expired_biometrik', '<=', $now)
-            ->where('package', 'Sekolah')
-            ->where('status_biometrik', 'pending')
-            ->orWhere('status_biometrik', 'success')
-            ->get();
+        $expiredSchool = BookingMember::where('expired_biometrik', '<=', $now)->get();
 
         // Status update becomes expired school
         foreach ($expiredSchool as $school) {
