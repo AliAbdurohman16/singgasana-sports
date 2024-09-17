@@ -242,18 +242,12 @@ class BookingController extends Controller
                                     })
                                     ->count();                              
 
+            $totalExistingBookings = $existingDailyBooking + $existingMemberBooking;
+
             $serviceData = Service::find($service);
-
-            if ($service != 7) {
-
-                $totalExistingBookings = $existingDailyBooking + $existingMemberBooking;
-
-                $serviceData = Service::find($service);
-
-                if ($totalExistingBookings >= $serviceData->field_counts) {
-                    return redirect('booking/create')->with('error', 'Maaf, sudah mencapai batas maksimal booking untuk jam tersebut.');
-                }
-            }
+                            
+            if ($totalExistingBookings >= $serviceData->field_counts) {
+            return redirect('booking/create')->with('error', 'Maaf, sudah mencapai batas maksimal booking untuk jam tersebut.');
         }
 
         if (!$existingBooking) {
