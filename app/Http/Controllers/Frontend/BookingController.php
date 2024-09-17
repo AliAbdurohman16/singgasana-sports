@@ -96,7 +96,7 @@ class BookingController extends Controller
                             ? Carbon::parse($datetime)->setTime(21, 0, 0)
                             : Carbon::parse($datetime)->addHours(intval($request->duration))->min(Carbon::parse($datetime)->endOfDay());
 
-        if ($service != 1) {
+        if ($service != 1 && $service != 7) {
             $existingDailyBooking = BookingDaily::whereHas('service', function ($query) use ($service, $datetime, $expired_biometrik) {
                                     $query->where('service_id', $service)
                                             ->where(function ($query) use ($datetime, $expired_biometrik) {

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('booking_daily_details', function (Blueprint $table) {
             $table->id();
             $table->string('booking_daily_id');
-            $table->string('duration');
+            $table->string('duration')->nullable();
             $table->string('kategori');
             $table->string('roomy')->nullable();
             $table->decimal('service_price', 15, 2)->nullable();
