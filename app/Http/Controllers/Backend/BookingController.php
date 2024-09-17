@@ -247,7 +247,8 @@ class BookingController extends Controller
             $serviceData = Service::find($service);
                             
             if ($totalExistingBookings >= $serviceData->field_counts) {
-            return redirect('booking/create')->with('error', 'Maaf, sudah mencapai batas maksimal booking untuk jam tersebut.');
+                return redirect('booking/create')->with('error', 'Maaf, sudah mencapai batas maksimal booking untuk jam tersebut.');
+            }
         }
 
         if (!$existingBooking) {
