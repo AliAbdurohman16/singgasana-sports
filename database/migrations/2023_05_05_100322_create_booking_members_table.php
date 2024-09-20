@@ -14,7 +14,11 @@ return new class extends Migration {
     {
         Schema::create('booking_members', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('telephone')->nullable();
             $table->string('identity')->nullable();
             $table->unsignedBigInteger('service_id');
             $table->date('date');

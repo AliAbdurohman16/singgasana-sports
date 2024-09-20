@@ -130,7 +130,7 @@
                                         <input type="hidden" class="delete_id" value="{{ $row->id }}">
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $row->id }}</td>
-                                        <td>{{ $row->user->first_name }} {{ $row->user->last_name }}</td>
+                                        <td>{{ $row->user->first_name ?? $row->first_name}} {{ $row->user->last_name ?? $row->last_name }}</td>
                                         <td>{{ $row->service->name }}</td>
                                         <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
                                         <td>{{ $row->school }}</td>

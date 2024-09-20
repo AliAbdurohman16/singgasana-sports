@@ -35,17 +35,17 @@
                         <tr>
                             <td class="fw-bold">Nama Lengkap</td>
                             <td>:</td>
-                            <td>{{ $member->user->first_name }} {{ $member->user->last_name }}</td>
+                            <td>{{ $member->user->first_name ?? $member->first_name }} {{ $member->user->last_name ?? $member->last_name }}</td>
                         </tr>
                         <tr>
                             <td class="fw-bold">Email</td>
                             <td>:</td>
-                            <td>{{ $member->user->email }}</td>
+                            <td>{{ $member->user->email ?? $member->email }}</td>
                         </tr>
                         <tr>
                             <td class="fw-bold">No Telepon</td>
                             <td>:</td>
-                            <td>{{ $member->user->telephone }}</td>
+                            <td>{{ $member->user->telephone ?? $member->telephone }}</td>
                         </tr>
                         <tr>
                             <td class="fw-bold">Tanggal</td>

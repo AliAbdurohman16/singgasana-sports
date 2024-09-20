@@ -61,7 +61,7 @@
                                 <input type="hidden" class="delete_id" value="{{ $row->id }}">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $row->id }}</td>
-                                <td>{{ $row->user->first_name }} {{ $row->user->last_name }}</td>
+                                <td>{{ $row->user->first_name ?? $row->first_name}} {{ $row->user->last_name ?? $row->last_name }}</td>
                                 <td>{{ date('d-m-Y', strtotime($row->date)) }}</td>
                                 <td>{{ date('H:s', strtotime($row->play_start)) }}</td>
                                 <td>{{ date('H:s', strtotime($row->play_end)) }}</td>

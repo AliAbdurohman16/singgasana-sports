@@ -36,17 +36,17 @@
                             <tr>
                                 <td class="fw-bold">Nama Lengkap</td>
                                 <td>:</td>
-                                <td>{{ $row->bookingMember->user->first_name }} {{ $row->bookingMember->user->last_name }}</td>
+                                <td>{{ $row->bookingMember->user->first_name ?? $row->bookingMember->first_name }} {{ $row->bookingMember->user->last_name ?? $row->bookingMember->last_name }}</td>
                             </tr>
                             <tr>
                                 <td class="fw-bold">Email</td>
                                 <td>:</td>
-                                <td>{{ $row->bookingMember->user->email }}</td>
+                                <td>{{ $row->bookingMember->user->email ?? $row->bookingMember->email }}</td>
                             </tr>
                             <tr>
                                 <td class="fw-bold">No Telepon</td>
                                 <td>:</td>
-                                <td>{{ $row->bookingMember->user->telephone }}</td>
+                                <td>{{ $row->bookingMember->user->telephone ?? $row->bookingMember->telephone }}</td>
                             </tr>
                             <tr>
                                 <td class="fw-bold">Layanan</td>
