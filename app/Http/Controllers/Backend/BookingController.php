@@ -449,15 +449,33 @@ class BookingController extends Controller
     public function notPresent(Request $request, $id)
     {
         $school = BookingSchool::find($id);
+        $priceMember = PriceMember::where('service_id', 1)->where('member', 'Sekolah')->first();
+        $setting = Setting::find(1);
+        $member = BookingMember::find($school->booking_member_id);
 
         $not_present = $request->not_present;
         $result = $school->student_counts - $not_present;
 
+        $subtotal = $priceMember->price * $result;
+        $ppn = ($subtotal * $setting->ppn) / 100;
+        $total = $subtotal + $ppn;
+        
+        $existingTotal = BookingSchool::where('booking_member_id', $school->booking_member_id)
+                                        ->where('id', '!=', $school->id)
+                                        ->sum('total');
+        $total_for_school = $existingTotal + $total;
+        // dd($subtotal, $ppn, $total, $existingTotal, $total_for_school);
+        
         $school->update([
             'student_counts' => $result,
             'not_present' => $not_present,
             'lock' => $result,
+            'subtotal' => $subtotal,
+            'ppn' => $ppn,
+            'total' => $total,
         ]);
+
+        $member->update(['total_for_school' => $total_for_school]);
 
         return redirect()->back()->with('message', 'Siswa tidak hadir berhasil diinputkan!');
     }

@@ -117,7 +117,6 @@
                                     <th>Kode Booking</th>
                                     <th>Nama Lengkap</th>
                                     <th>Layanan</th>
-                                    <th>Tanggal Dibooking</th>
                                     <th>Sekolah</th>
                                     <th>Total</th>
                                     <th>Status Pembayaran</th>
@@ -132,7 +131,6 @@
                                         <td>{{ $row->id }}</td>
                                         <td>{{ $row->user->first_name ?? $row->first_name}} {{ $row->user->last_name ?? $row->last_name }}</td>
                                         <td>{{ $row->service->name }}</td>
-                                        <td>{{ date('d-m-Y H:i:s', strtotime($row->datetime)) }}</td>
                                         <td>{{ $row->school }}</td>
                                         <td>Rp {{ number_format($row->total_for_school, 0, ',', '.') }}</td>
                                         <td>
